@@ -6,20 +6,16 @@ import { ExperienciaPanel, SobrePanel } from '../panels/SectionPanels'
 import { contactLinks, projectRoute, services } from '../diagram/model'
 import s from './semantic.module.css'
 
-type Props = { mobile: boolean; inert: boolean; onTour: () => void }
-
 /**
- * Todo o conteúdo do quadro em HTML semântico, numa árvore só:
- *  - no mobile, é a própria interface: caixas empilhadas com setas verticais,
- *    percorrendo o mesmo modelo do canvas (gateway → cada serviço → seus dados);
- *  - no desktop, fica visualmente oculta, mas é lida por leitores de tela e
- *    pelo Google, que não entendem o canvas. Se o foco do teclado entrar nela,
- *    ela aparece como "versão em texto" (ver .textOnly no CSS).
+ * Todo o conteúdo do quadro em HTML semântico, na ordem do modelo do diagrama
+ * (gateway → cada serviço → seus dados). Fica visualmente oculta, mas é lida por
+ * leitores de tela e pelo Google, que não entendem o canvas. Se o foco do teclado
+ * entrar nela, ela aparece como "versão em texto" (ver .textOnly no CSS).
  *
  * O estudo de caso completo de cada projeto fica na URL do projeto
  * (/projetos/:slug), que renderiza o painel em HTML. Aqui vai o resumo e o link.
  */
-export function SemanticSite({ mobile, inert, onTour }: Props) {
+export function SemanticSite() {
   // A ordem das seções é a ordem dos serviços no modelo do diagrama.
   const body: Record<(typeof services)[number]['id'], ReactNode> = {
     // Sobre e experiência reaproveitam os componentes dos painéis.
@@ -61,16 +57,12 @@ export function SemanticSite({ mobile, inert, onTour }: Props) {
   }
 
   return (
-    <main className={mobile ? s.list : s.textOnly} inert={inert}>
-      {/* No celular o tour é o caminho principal: o botão fica no topo da lista. */}
-      <button className={s.tour} onClick={onTour}>
-        ▶ seguir a request
-      </button>
-      <p className={s.actor} aria-hidden="true" data-node="actor">
+    <main className={s.textOnly}>
+      <p className={s.actor} aria-hidden="true">
         visitante → GET /luiz
       </p>
 
-      <header className={`${s.box} ${s.gateway}`} data-node="gateway">
+      <header className={`${s.box} ${s.gateway}`}>
         <span className={s.tag}>gateway</span>
         <h1>{profile.name}</h1>
         <p>
@@ -82,7 +74,7 @@ export function SemanticSite({ mobile, inert, onTour }: Props) {
           ))}
         </ul>
         <p className={s.hand}>{profile.tagline}</p>
-        <a className={s.cv} href={asset(profile.cv)} download data-node="curriculo">
+        <a className={s.cv} href={asset(profile.cv)} download>
           currículo.pdf ↓
         </a>
       </header>
@@ -90,7 +82,7 @@ export function SemanticSite({ mobile, inert, onTour }: Props) {
       {services.map((svc) => (
         <section key={svc.id} aria-labelledby={`h-${svc.id}`}>
           <Arrow label={svc.route} />
-          <h2 id={`h-${svc.id}`} className={`${s.box} ${s.service}`} data-node={svc.id}>
+          <h2 id={`h-${svc.id}`} className={`${s.box} ${s.service}`}>
             <span className={s.tag}>service</span>
             {/* /projetos não tem painel: o título só nomeia a seção. */}
             {svc.id === 'projetos' ? svc.label : <Link to={svc.route}>{svc.label}</Link>}

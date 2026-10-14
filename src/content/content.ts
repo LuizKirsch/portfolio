@@ -82,10 +82,7 @@ export const profile = {
   cv: '/curriculo.pdf',
 }
 
-/**
- * Post-its à esquerda do visitante: como usar o quadro, um assunto por cor.
- * Só aparecem no canvas (no mobile não há arrastar nem zoom).
- */
+/** Post-its à esquerda do visitante: como usar o quadro, um assunto por cor. */
 export const howTo: {
   id: string
   tone: 'yellow' | 'blue' | 'green'
@@ -102,7 +99,7 @@ export const howTo: {
     id: 'como-navegar',
     tone: 'blue',
     title: 'Navegar',
-    text: 'Arraste para mover e use a roda do mouse para dar zoom. Clique numa caixa para abrir os detalhes.',
+    text: 'Arraste para mover. Para dar zoom, use a roda do mouse ou faça pinça no celular. Clique ou toque numa caixa para abrir os detalhes.',
   },
   {
     id: 'como-tour',

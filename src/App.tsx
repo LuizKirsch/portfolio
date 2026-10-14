@@ -22,8 +22,9 @@ const sections: Record<string, { title: string; body: () => ReactNode }> = {
  * A URL decide qual painel está aberto; o quadro fica montado o tempo todo.
  * Slug de projeto inexistente volta para o início.
  *
- * Desktop: canvas + versão semântica oculta, painel lateral não modal.
- * Mobile: só a versão semântica, painel em tela cheia e `inert` na lista atrás dele.
+ * O mesmo quadro em qualquer tela, com a versão semântica oculta para leitores
+ * de tela e buscadores. Desktop: painel lateral, não modal. Mobile: painel em
+ * tela cheia, e o que fica atrás dele recebe `inert`.
  */
 export default function App() {
   const { pathname } = useLocation()
@@ -55,9 +56,9 @@ export default function App() {
   }
   const touring = tourStep !== null
 
-  // Ao fechar um painel, o foco volta para o que o abriu. Fica num efeito porque
-  // o navigate aplica a URL um render depois: antes disso a lista do mobile
-  // ainda está inert e não aceita foco.
+  // Ao fechar um painel, o foco volta para o nó que o abriu. Fica num efeito
+  // porque o navigate aplica a URL um render depois: antes disso, no mobile,
+  // o quadro ainda está inert e não aceita foco.
   const returnFocus = useRef<string | null>(null)
   useEffect(() => {
     if (pathname !== '/' || !returnFocus.current) return
@@ -70,21 +71,19 @@ export default function App() {
   const section = sections[pathname]
   const panelOpen = !!(project || section)
 
-  // Origem do painel: o nó (desktop) ou o link (mobile). href$= porque no
-  // GitHub Pages o href do link tem o prefixo da base.
   const close = () => {
-    returnFocus.current = mobile
-      ? `main a[href$="${pathname}"]`
-      : `.react-flow__node[data-id="${nodeForRoute(pathname)?.id}"]`
+    returnFocus.current = `.react-flow__node[data-id="${nodeForRoute(pathname)?.id}"]`
     navigate('/')
   }
 
   return (
     <>
       <TopBar onTour={() => goToStep(0)} />
-      {/* Canvas antes da versão em texto: no desktop o Tab chega primeiro aos nós. */}
-      {!mobile && <Board tour={touring ? tour[tourStep] : undefined} />}
-      <SemanticSite mobile={mobile} inert={mobile && panelOpen} onTour={() => goToStep(0)} />
+      {/* Canvas antes da versão em texto: o Tab chega primeiro aos nós. */}
+      <div inert={mobile && panelOpen}>
+        <Board tour={touring ? tour[tourStep] : undefined} />
+        <SemanticSite />
+      </div>
       <AnimatePresence>
         {touring && (
           <Tour key="tour" step={tourStep} onStep={goToStep} onEnd={endTour} mobile={mobile} />

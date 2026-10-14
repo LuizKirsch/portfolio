@@ -25,8 +25,10 @@ export function TopBar({ onTour }: { onTour: () => void }) {
       <Link to="/" className={s.home}>
         <span className={s.method}>GET</span> /luiz
       </Link>
-      <button className={s.tour} onClick={onTour}>
-        ▶ seguir a request
+      {/* Em tela estreita o texto encurta para "tour"; o nome acessível é sempre o completo. */}
+      <button className={s.tour} onClick={onTour} aria-label="▶ seguir a request">
+        ▶ <span className={s.long}>seguir a request</span>
+        <span className={s.short}>tour</span>
       </button>
       <nav aria-label="Links principais" className={s.links}>
         <a href={profile.linkedin} target="_blank" rel="noreferrer">

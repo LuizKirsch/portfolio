@@ -62,29 +62,28 @@ test('4. o tour percorre todas as etapas e pode ser pulado', async ({ page }) =>
 })
 
 test.describe('5. mobile', () => {
-  test.use({ viewport: { width: 390, height: 844 } })
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true })
 
-  test('aparece a lista e não o canvas', async ({ page }) => {
+  test('mostra o mesmo quadro, e o painel abre em tela cheia', async ({ page }) => {
+    const node = page.locator(`.react-flow__node[data-id="project-${projects[0].slug}"]`)
     await page.goto('/')
-    await expect(page.locator('.react-flow')).toHaveCount(0)
-    await expect(page.getByRole('heading', { level: 1, name: profile.name })).toBeVisible()
-    await expect(page.getByRole('heading', { level: 2, name: 'projetos-service' })).toBeVisible()
+    await expect(page.locator('.react-flow__node-gateway')).toBeVisible()
+    await expect(page.locator('.react-flow__node[data-id="como-funciona"]')).toBeInViewport()
+    // O minimapa não cabe no celular.
+    await expect(page.locator('.react-flow__minimap')).toBeHidden()
 
-    // Projeto abre em tela cheia.
-    await page
-      .getByRole('main')
-      .getByRole('link', { name: new RegExp(projects[0].title) })
-      .click()
+    // "ver tudo" põe o quadro inteiro na tela; um toque no projeto abre o painel.
+    await page.getByRole('button', { name: 'ver tudo' }).tap()
+    await expect(node).toBeInViewport()
+    await node.tap()
     await expect(panelTitle(page)).toHaveText(projects[0].title)
     const box = await page.getByRole('dialog').boundingBox()
     expect(Math.round(box!.width)).toBeGreaterThanOrEqual(388)
 
-    // Esc fecha e o foco volta para o link que abriu o painel.
+    // Esc fecha e o foco volta para o nó que abriu o painel.
     await page.keyboard.press('Escape')
     await expect(page.getByRole('dialog')).toBeHidden()
-    await expect(
-      page.getByRole('main').getByRole('link', { name: new RegExp(projects[0].title) }),
-    ).toBeFocused()
+    await expect(node).toBeFocused()
   })
 })
 

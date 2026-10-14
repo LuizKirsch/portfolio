@@ -58,12 +58,43 @@
   cursor: pointer;
 }
 
-/* Celular: tudo continua visível, só mais compacto. */
+.tour {
+  margin-right: auto;
+  font: 13px var(--mono);
+  background: transparent;
+  color: var(--accent);
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius);
+  padding: 3px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.short {
+  display: none;
+}
+
+/* Celular: tudo continua visível, mais compacto. O gateway no quadro já faz o
+   papel do "GET /luiz", então ele sai para o botão do tour caber. */
 @media (max-width: 480px) {
   .bar {
     padding: 0 10px;
     font-size: 12px;
     gap: 8px;
+  }
+
+  .home,
+  .long {
+    display: none;
+  }
+
+  .short {
+    display: inline;
+  }
+
+  .tour {
+    font-size: 12px;
+    padding: 2px 8px;
   }
 
   .links {
@@ -78,23 +109,5 @@
   .theme {
     width: 28px;
     height: 28px;
-  }
-}
-
-/* Botão do tour: no desktop fica na barra; no mobile vai para o topo da lista. */
-.tour {
-  margin-right: auto;
-  font: 13px var(--mono);
-  background: transparent;
-  color: var(--accent);
-  border: 2px dashed var(--accent);
-  border-radius: var(--radius);
-  padding: 3px 10px;
-  cursor: pointer;
-}
-
-@media (max-width: 767px) {
-  .tour {
-    display: none;
   }
 }

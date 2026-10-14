@@ -17,6 +17,7 @@ import { edges, nodeForRoute, nodes, type ModelNode } from '../diagram/model'
 import { clusterSize, position, sides, type XY } from '../diagram/layout'
 import { PANEL_WIDTH } from '../panels/Panel'
 import { reducedMotion } from '../reducedMotion'
+import { MOBILE } from '../useMedia'
 import { TourDot } from '../tour/TourDot'
 import { nodeTypes } from './nodes'
 import type { BoardNode } from './nodes/types'
@@ -145,15 +146,23 @@ function FitAll() {
   return (
     <button
       className={s.button}
-      onClick={() => fitView({ ...FIT, duration: reducedMotion() ? 0 : 400 })}
+      onClick={() => fitView({ ...fitAll(), duration: reducedMotion() ? 0 : 400 })}
     >
       ver tudo
     </button>
   )
 }
 
-// "Ver tudo" deixa livres o canto do minimapa (direita) e o botão (embaixo).
-const FIT = { padding: { top: '24px', left: '24px', right: '240px', bottom: '72px' } } as const
+// "Ver tudo" deixa livres o minimapa (direita, só no desktop) e o botão (embaixo).
+const fitAll = () =>
+  ({
+    padding: {
+      top: '24px',
+      left: '16px',
+      right: matchMedia(MOBILE).matches ? '16px' : '240px',
+      bottom: '72px',
+    },
+  }) as const
 
 // Abertura nos post-its de como usar e no visitante, em zoom de leitura.
 // URL direta (ex.: /projetos/barnout) vai para o nó dela pelo RouteCamera.
@@ -194,7 +203,8 @@ export function Board({ tour }: { tour?: TourStep }) {
         nodeTypes={nodeTypes}
         fitView
         fitViewOptions={INITIAL}
-        minZoom={0.3}
+        // Baixo o bastante para o "ver tudo" caber num celular de 390px.
+        minZoom={0.15}
         maxZoom={2}
         // Posições vêm do layout.ts: nós não se arrastam nem se conectam.
         nodesDraggable={false}

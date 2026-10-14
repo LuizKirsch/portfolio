@@ -16,7 +16,7 @@ Antes de escrever código, eu costumo desenhar o sistema. O site usa esse desenh
 - **Painéis:** cada projeto abre um estudo de caso com diagrama, problema, decisões, papel e resultado. Cada painel tem a sua URL (`/projetos/barnout`, `/sobre` etc.).
 - **Tour "seguir a request":** um ponto percorre as setas, a câmera para em cada nó e o painel daquela parada abre. Dá para pausar, voltar e pular.
 
-Navegar é livre: arrastar, dar zoom, minimapa e "ver tudo". No celular não há canvas. O mesmo conteúdo aparece como uma lista vertical de caixas e setas, e os painéis abrem em tela cheia.
+Navegar é livre: arrastar, dar zoom, minimapa e "ver tudo". O celular usa o mesmo quadro, com pinça para zoom e toque nas caixas. Lá o minimapa some e os painéis abrem em tela cheia.
 
 ## Decisões técnicas
 
@@ -24,11 +24,11 @@ Navegar é livre: arrastar, dar zoom, minimapa e "ver tudo". No celular não há
 
 **Conteúdo tipado em um arquivo.** Todo o texto está em [`src/content/content.ts`](src/content/content.ts), com tipos (`Project`, `Experience`, `TourStep`...). Os componentes só leem dali. Um projeto novo é um objeto novo, e os testes reclamam se faltar campo.
 
-**Modelo separado do layout.** [`diagram/model.ts`](src/diagram/model.ts) diz quais nós existem e como se ligam, sem nenhuma coordenada. [`diagram/layout.ts`](src/diagram/layout.ts) diz onde cada nó fica no desktop. O mobile percorre o mesmo modelo em ordem, então os dois layouts não divergem sobre o que existe. O lado de saída de cada seta é calculado pela posição dos nós, e mover uma caixa não exige reconfigurar as setas.
+**Modelo separado do layout.** [`diagram/model.ts`](src/diagram/model.ts) diz quais nós existem e como se ligam, sem nenhuma coordenada. [`diagram/layout.ts`](src/diagram/layout.ts) diz onde cada nó fica no quadro. A versão semântica percorre o mesmo modelo em ordem, então o quadro e o HTML não divergem sobre o que existe. O lado de saída de cada seta é calculado pela posição dos nós, e mover uma caixa não exige reconfigurar as setas.
 
 **A URL é o estado.** Painel aberto é rota. Abrir `/projetos/barnout` direto centraliza o nó e abre o painel, e voltar do navegador funciona. O tour também navega: cada parada é uma rota.
 
-**Versão semântica.** O canvas não é lido por leitor de tela, pelo Google nem pela prévia do LinkedIn. Por isso o mesmo conteúdo também é renderizado em HTML semântico (cabeçalhos, listas e links). No mobile essa versão é a interface. No desktop ela fica visualmente oculta e aparece como "versão em texto" se o foco do teclado chegar nela. Os mini diagramas dos painéis também têm descrição em texto. O canvas é navegável por teclado: Tab percorre os nós, Enter abre e Esc fecha.
+**Versão semântica.** O canvas não é lido por leitor de tela, pelo Google nem pela prévia do LinkedIn. Por isso o mesmo conteúdo também é renderizado em HTML semântico (cabeçalhos, listas e links). Ela fica visualmente oculta e aparece como "versão em texto" se o foco do teclado chegar nela. Os mini diagramas dos painéis também têm descrição em texto. O canvas é navegável por teclado: Tab percorre os nós, Enter abre e Esc fecha.
 
 **CSS Modules + variáveis CSS.** O modo escuro (uma lousa) troca só os tokens do `theme.css`. O React Flow é estilizado pelas variáveis dele, ligadas aos mesmos tokens.
 
@@ -42,7 +42,7 @@ flowchart LR
   content[("content.ts<br/>conteúdo tipado")] --> model["diagram/model.ts<br/>nós e arestas"]
   model --> board["canvas/Board<br/>React Flow (desktop)"]
   layout["diagram/layout.ts<br/>posições desktop"] --> board
-  model --> semantic["semantic/SemanticSite<br/>HTML semântico (mobile e leitores de tela)"]
+  model --> semantic["semantic/SemanticSite<br/>HTML semântico (leitores de tela e Google)"]
   content --> panels["panels/*<br/>estudos de caso"]
   content --> tour["tour/*<br/>seguir a request"]
   app --> board
@@ -59,7 +59,7 @@ src/
   diagram/layout.ts      posições no desktop
   canvas/                Board (React Flow) e os nós customizados
   panels/                casca do painel, estudo de caso, mini diagramas
-  semantic/              versão em HTML semântico / lista do mobile
+  semantic/              versão em HTML semântico
   tour/                  balão, ponto animado e tempo de cada parada
 e2e/                     testes Playwright
 scripts/og-image.mjs     gera a imagem de prévia (Open Graph)
@@ -87,7 +87,7 @@ Na primeira vez, instale o navegador do Playwright: `npx playwright install chro
 ## Testes
 
 - **Unitários:** validam o `content.ts` (campos obrigatórios, slugs únicos, setas dos diagramas ligando nós que existem, nenhum `TODO` visível no texto, tour apontando para nós e painéis que existem), o encaixe entre modelo e layout, o tempo do tour e o painel de projeto.
-- **E2E:** a página carrega com o gateway; cada projeto abre o painel certo e muda a URL; `/projetos/barnout` aberto direto; o tour completo e pulado no meio; a lista no lugar do canvas no celular; e os links de currículo, LinkedIn e GitHub visíveis, com o PDF servido de verdade.
+- **E2E:** a página carrega com o gateway; cada projeto abre o painel certo e muda a URL; `/projetos/barnout` aberto direto; o tour completo e pulado no meio; o quadro no celular, com toque e painel em tela cheia; e os links de currículo, LinkedIn e GitHub visíveis, com o PDF servido de verdade.
 - O GitHub Actions roda lint, typecheck, testes unitários, build e e2e a cada PR e a cada push na `main`.
 
 ## Adicionar um projeto

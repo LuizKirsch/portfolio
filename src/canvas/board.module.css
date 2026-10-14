@@ -26,3 +26,10 @@
 .button:hover {
   border-color: var(--accent);
 }
+
+/* Celular: o minimapa ocuparia boa parte da tela. Pinça e "ver tudo" bastam. */
+@media (max-width: 767px) {
+  .board :global(.react-flow__minimap) {
+    display: none;
+  }
+}

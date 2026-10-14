@@ -19,8 +19,7 @@ type Props = {
  * - Avança sozinho no fim do tempo da parada. Pausar congela a barra e o tempo;
  *   continuar retoma de onde parou. Anterior/próximo recomeçam a parada.
  * - Com prefers-reduced-motion, não avança sozinho: o visitante usa "próximo".
- * - Desktop: quem move a câmera é o Board (recebe o nodeId atual).
- *   Mobile: não há canvas; aqui mesmo rolamos até a caixa e a destacamos.
+ * - Quem move a câmera é o Board, que recebe a parada atual.
  */
 export function Tour({ step, onStep, onEnd, mobile }: Props) {
   const reduce = useReducedMotion()
@@ -38,14 +37,6 @@ export function Tour({ step, onStep, onEnd, mobile }: Props) {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [onEnd])
-
-  useEffect(() => {
-    if (!mobile) return
-    const el = document.querySelector(`[data-node="${current.nodeId}"]`)
-    el?.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' })
-    el?.setAttribute('data-tour-active', '')
-    return () => el?.removeAttribute('data-tour-active')
-  }, [current.nodeId, mobile, reduce])
 
   return (
     <motion.div
