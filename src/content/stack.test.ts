@@ -35,6 +35,16 @@ describe('getUsages', () => {
     expect(usos(id)).toContain('projeto:oraculo')
   })
 
+  it.each([
+    ['mysql', 'experiencia:fb-junior'],
+    ['docker', 'experiencia:fb-junior'],
+    ['docker', 'projeto:barnout'],
+    ['stancl-tenancy', 'experiencia:dev'],
+    ['fastapi', 'experiencia:fb-junior'],
+  ] as const)('%s aparece em %s', (id, uso) => {
+    expect(usos(id)).toContain(uso)
+  })
+
   it('usedWith junta as tecnologias dos mesmos usos, sem a própria', () => {
     expect(usedWith('cypress')).toEqual(['selenium', 'codeceptjs'])
   })

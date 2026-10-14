@@ -240,7 +240,7 @@ export const experiences: Experience[] = [
       'Modelei o banco e criei as migrations das funcionalidades novas.',
       'Ajudei a estimar e quebrar tarefas nas cerimônias de Scrum e Kanban.',
     ],
-    stack: ['php', 'laravel', 'mysql'],
+    stack: ['php', 'laravel', 'stancl-tenancy', 'mysql'],
     contexto: 'trabalho',
   },
   {
@@ -257,7 +257,7 @@ export const experiences: Experience[] = [
       'Migrei processamentos em lote para jobs e filas. As operações demoradas passaram a rodar em segundo plano, sem travar a aplicação.',
       'Criei o Oráculo, uma prova de conceito de assistente que responde perguntas sobre PDFs de administradoras de consórcio usando RAG.',
     ],
-    stack: ['laravel', 'livewire', 'php', 'python', 'selenium'],
+    stack: ['laravel', 'livewire', 'php', 'mysql', 'python', 'fastapi', 'selenium', 'docker'],
     contexto: 'trabalho',
   },
   {
@@ -333,7 +333,7 @@ export const projects: Project[] = [
     result: [
       'A v2 entrou em produção em 07/10/2026, no primeiro dia do evento. O evento inteiro terminou sem nenhum incidente, e já no primeiro dia o time brincou que tinha acabado a emoção.',
     ],
-    stack: ['laravel', 'php', 'nextjs', 'mysql'],
+    stack: ['laravel', 'php', 'nextjs', 'mysql', 'docker'],
     // TODO: confirmar o contexto do BarNout.
     contexto: 'voluntario',
     links: [
