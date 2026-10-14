@@ -11,16 +11,29 @@ import { projects } from '../content/content'
 
 export type XY = { x: number; y: number }
 
+const PROJECT_TOP = 48
+const PROJECT_GAP = 64
+
+export const clusterSize = {
+  width: 340,
+  height: PROJECT_TOP + projects.length * PROJECT_GAP,
+}
+
+// O cluster cresce para cima a partir de uma base fixa, logo acima da fila de
+// experiência. Sobre e o post-it sobem junto, então nada se sobrepõe.
+const CLUSTER_BOTTOM = 90
+const clusterTop = CLUSTER_BOTTOM - clusterSize.height
+
 const fixed: Record<string, XY> = {
   actor: { x: -300, y: 50 },
   gateway: { x: 0, y: 0 },
   curriculo: { x: 90, y: 320 },
 
-  sobre: { x: 480, y: -260 },
-  'sobre-note': { x: 800, y: -330 },
+  sobre: { x: 480, y: clusterTop - 150 },
+  'sobre-note': { x: 800, y: clusterTop - 200 },
 
-  projetos: { x: 480, y: -60 },
-  cluster: { x: 800, y: -130 },
+  projetos: { x: 480, y: clusterTop + clusterSize.height / 2 - 30 },
+  cluster: { x: 800, y: clusterTop },
 
   experiencia: { x: 480, y: 140 },
   queue: { x: 800, y: 125 },
@@ -29,14 +42,6 @@ const fixed: Record<string, XY> = {
   linkedin: { x: 800, y: 290 },
   github: { x: 800, y: 370 },
   email: { x: 800, y: 450 },
-}
-
-const PROJECT_TOP = 48
-const PROJECT_GAP = 64
-
-export const clusterSize = {
-  width: 340,
-  height: PROJECT_TOP + projects.length * PROJECT_GAP,
 }
 
 /** Posição de um nó. Filhos do cluster recebem posição relativa ao cluster. */

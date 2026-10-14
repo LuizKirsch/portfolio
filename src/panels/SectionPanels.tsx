@@ -1,22 +1,48 @@
-import { about, experiences, profile } from '../content/content'
+import { about, education, experiences, profile } from '../content/content'
 import { contactLinks } from '../diagram/model'
 import s from './panels.module.css'
 
+// Estes componentes servem ao painel e à versão semântica (SemanticSite).
+
 export function SobrePanel() {
-  return about.map((t) => <p key={t}>{t}</p>)
+  return (
+    <>
+      {about.map((t) => (
+        <p key={t}>{t}</p>
+      ))}
+      <h3>Formação</h3>
+      <ul>
+        {education.map((e) => (
+          <li key={e.course}>
+            {e.course} · {e.school} <span className={s.period}>{e.period}</span>
+          </li>
+        ))}
+      </ul>
+    </>
+  )
 }
 
-// Mesma ordem da fila no canvas: do mais antigo para o atual.
+// No canvas a fila é cronológica; aqui o mais recente vem primeiro, como num currículo.
 export function ExperienciaPanel() {
   return (
-    <ol className={s.timeline}>
-      {experiences.map((e) => (
+    <ol className={s.timeline} reversed>
+      {[...experiences].reverse().map((e) => (
         <li key={e.id}>
           <strong>{e.title}</strong> · {e.org}
-          <span className={s.period}>{e.period}</span>
-          {e.text.map((t) => (
-            <p key={t}>{t}</p>
-          ))}
+          <span className={s.period}>
+            {e.period} · {e.place}
+          </span>
+          <p>{e.summary}</p>
+          <ul>
+            {e.highlights.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
+          <ul className={s.chips} aria-label="Stack">
+            {e.stack.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
         </li>
       ))}
     </ol>

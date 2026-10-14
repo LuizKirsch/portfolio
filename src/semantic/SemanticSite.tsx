@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
-import { about, experiences, profile, projects } from '../content/content'
+import { profile, projects } from '../content/content'
+import { ExperienciaPanel, SobrePanel } from '../panels/SectionPanels'
 import { contactLinks, projectRoute, services } from '../diagram/model'
 import s from './semantic.module.css'
 
@@ -20,11 +21,10 @@ type Props = { mobile: boolean; inert: boolean; onTour: () => void }
 export function SemanticSite({ mobile, inert, onTour }: Props) {
   // A ordem das seções é a ordem dos serviços no modelo do diagrama.
   const body: Record<(typeof services)[number]['id'], ReactNode> = {
+    // Sobre e experiência reaproveitam os componentes dos painéis: um texto só.
     sobre: (
       <div className={s.sticky}>
-        {about.map((t) => (
-          <p key={t}>{t}</p>
-        ))}
+        <SobrePanel />
       </div>
     ),
     projetos: (
@@ -42,17 +42,9 @@ export function SemanticSite({ mobile, inert, onTour }: Props) {
       </ul>
     ),
     experiencia: (
-      <ol className={`${s.box} ${s.queue}`}>
-        {experiences.map((e) => (
-          <li key={e.id}>
-            <strong>{e.title}</strong> · {e.org}
-            <span className={s.hand}>{e.period}</span>
-            {e.text.map((t) => (
-              <p key={t}>{t}</p>
-            ))}
-          </li>
-        ))}
-      </ol>
+      <div className={s.box}>
+        <ExperienciaPanel />
+      </div>
     ),
     contato: (
       <ul className={s.contacts}>

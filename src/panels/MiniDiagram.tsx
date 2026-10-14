@@ -10,7 +10,7 @@ import s from './panels.module.css'
  * As posições vêm de uma grade (col/row) definida no content.ts.
  */
 
-const COL = 180
+const COL = 220
 const ROW = 80
 
 type MiniData = ProjectDiagram['nodes'][number]
@@ -67,7 +67,7 @@ export function MiniDiagram({ diagram }: { diagram: ProjectDiagram }) {
           defaultEdges={edges}
           nodeTypes={nodeTypes}
           fitView
-          fitViewOptions={{ padding: 0.1 }}
+          fitViewOptions={{ padding: 0.1, maxZoom: 1 }}
           nodesDraggable={false}
           nodesConnectable={false}
           nodesFocusable={false}

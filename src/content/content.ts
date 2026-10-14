@@ -1,11 +1,16 @@
 /**
  * Todo o conteúdo do site mora aqui. Os componentes só leem deste arquivo.
  *
+ * Fonte: o vault do currículo (C:\Users\Wolf360\Desktop\curriculo) e o vault de
+ * análise da Agenda (github.com/LuizKirsch/agenda-eletrecista-obsidian).
+ * Mudou lá, muda aqui.
+ *
  * Para adicionar um projeto: acrescente um objeto em `projects`. O nó no canvas,
  * a aresta do cluster, a rota /projetos/:slug e o item da versão semântica
  * são derivados daqui (ver src/diagram/model.ts).
  *
- * Regra: nada inventado. O que falta está marcado com TODO.
+ * Regra: nada inventado. O que falta está marcado com TODO em comentário,
+ * e a seção correspondente simplesmente não aparece no painel.
  */
 
 export type Link = { label: string; href: string }
@@ -26,12 +31,15 @@ export type Project = {
   title: string
   summary: string
   diagrams: ProjectDiagram[]
+  // Seções do estudo de caso. Lista vazia = seção não aparece.
   problem: string[]
   decisions: string[]
   role: string[]
   result: string[]
   stack: string[]
   links: Link[]
+  /** Prints do projeto, em /public. */
+  images?: { src: string; alt: string }[]
 }
 
 export type Experience = {
@@ -40,9 +48,16 @@ export type Experience = {
   label: string
   title: string
   org: string
+  place: string
   period: string
-  text: string[]
+  /** Uma ou duas frases sobre o dia a dia no cargo. */
+  summary: string
+  /** Problemas reais em que trabalhei. Sem números e sem nomes internos. */
+  highlights: string[]
+  stack: string[]
 }
+
+export type Education = { course: string; school: string; period: string }
 
 /** Uma parada do tour. `nodeId` precisa existir em src/diagram/model.ts. */
 export type TourStep = { nodeId: string; text: string; ms: number }
@@ -51,51 +66,103 @@ export const profile = {
   name: 'Luiz Kirsch',
   role: 'Desenvolvedor Fullstack Pleno',
   company: 'Fraga & Bitello',
-  location: 'Campo Bom / São Leopoldo, RS',
-  stack: ['PHP', 'Laravel', 'Livewire', 'Next.js'],
-  tagline: 'Gosto de desenhar o sistema antes de escrever o código.',
+  location: 'Campo Bom, RS',
+  // Headline do LinkedIn (opção E, 2026-10-07): Node e React na frente, Laravel
+  // porque é a experiência profissional que sustenta o nível.
+  stack: ['Node.js', 'React', 'Laravel'],
+  tagline: 'Antes de implementar algo novo, costumo modelar os dados e documentar o fluxo.',
   github: 'https://github.com/LuizKirsch',
-  linkedin: 'https://linkedin.com/in/luiz-kirsch-177555187',
+  linkedin: 'https://linkedin.com/in/luiz-kirsch',
   email: 'luizhkirch@gmail.com',
-  // TODO: colocar o arquivo em public/curriculo.pdf
   cv: '/curriculo.pdf',
 }
 
 /** Versão curta para o post-it do canvas. O painel /sobre usa `about`. */
-export const aboutNote = 'QA em 2022, dev em 2024. Hoje no ERPK. ADS na IENH, formatura em 2027.'
+export const aboutNote =
+  'Comecei como QA no fim de 2022. Cinco meses depois fui para o desenvolvimento. Hoje sou Pleno num ERP de consórcios.'
 
+// "Sobre" do LinkedIn, versão final de 2026-10-07.
 export const about: string[] = [
-  'Sou dev fullstack na Fraga & Bitello. Trabalho no ERPK, um ERP em Laravel e Livewire para o setor de consórcios.',
-  'Comecei no fim de 2022 como QA, automatizando testes com Cypress, Selenium e CodeceptJS. Em 2024 passei a desenvolver em PHP e Laravel.',
-  'Curso Análise e Desenvolvimento de Sistemas na IENH. A formatura está prevista para 2027.',
-  'Antes de abrir o editor, rabisco o desenho do sistema.',
+  'Sou desenvolvedor Fullstack Pleno na Fraga & Bitello. Trabalho num ERP para o setor de consórcios, feito em PHP com Laravel e Livewire. Antes de implementar algo novo, costumo modelar os dados e documentar o fluxo.',
+  'Comecei em TI no fim de 2022, como QA na Testing Company, automatizando testes web e mobile com Cypress, Selenium e CodeceptJS. Cinco meses depois fui para o time de desenvolvimento, onde participei da migração de um sistema em PHP puro para Laravel com multitenancy.',
+  'Entrei na Fraga & Bitello como júnior no fim de 2024 e virei Pleno em setembro de 2026. Além do ERP, criei ferramentas internas em Python, como o Oráculo, que usa RAG para responder perguntas sobre os PDFs das administradoras.',
+  'Nos projetos pessoais tenho usado Node.js e React, como na Agenda Eletricista.',
+]
+
+export const education: Education[] = [
+  {
+    course: 'Análise e Desenvolvimento de Sistemas',
+    school: 'IENH',
+    period: 'jul/2023 – jul/2027 (previsão)',
+  },
+  { course: 'Técnico em Informática', school: 'IENH', period: '2018 – 2019' },
 ]
 
 // Ordem cronológica: é a ordem da fila no canvas.
+// Textos: "03 Experiências" do vault (formato do LinkedIn). Santander fica só no LinkedIn.
 export const experiences: Experience[] = [
   {
     id: 'qa',
     label: 'QA (2022)',
-    title: 'QA',
+    title: 'Quality Assurance',
     org: 'Testing Company',
-    period: 'fim de 2022 – 2024',
-    text: ['Automação de testes com Cypress, Selenium e CodeceptJS.'],
+    place: 'Novo Hamburgo, RS',
+    period: 'dez/2022 – abr/2023',
+    summary: 'Testes de aplicações web e mobile.',
+    highlights: [
+      'Fiz testes exploratórios em aplicações web e mobile.',
+      'Automatizei testes com Cypress, Selenium e CodeceptJS.',
+      'Depois de cinco meses, passei para o time de desenvolvimento.',
+    ],
+    stack: ['Cypress', 'Selenium', 'CodeceptJS'],
   },
   {
     id: 'dev',
-    label: 'Dev Fullstack (2024)',
+    label: 'Dev Fullstack (2023)',
     title: 'Desenvolvedor Fullstack',
     org: 'Testing Company',
-    period: '2024',
-    text: ['Transição interna de QA para desenvolvimento fullstack com PHP e Laravel.'],
+    place: 'Novo Hamburgo, RS · híbrido',
+    period: 'abr/2023 – nov/2024',
+    summary: 'Sistema multitenancy em PHP e Laravel, onde trabalhei no front-end e no back-end.',
+    highlights: [
+      'Trabalhei na refatoração de um sistema em PHP puro para Laravel com multitenancy. O objetivo era acabar com a manutenção de um ambiente separado para cada cliente.',
+      'Modelei o banco e criei as migrations das funcionalidades novas.',
+      'Ajudei a estimar e quebrar tarefas nas cerimônias de Scrum e Kanban.',
+    ],
+    stack: ['PHP', 'Laravel', 'MySQL'],
   },
   {
-    id: 'fraga',
-    label: 'Fraga & Bitello (ERPK)',
-    title: 'Desenvolvedor Fullstack Pleno',
+    id: 'fb-junior',
+    label: 'F&B Júnior (2024)',
+    title: 'Desenvolvedor de Software Júnior',
     org: 'Fraga & Bitello',
-    period: 'fim de 2024 – hoje',
-    text: ['Desenvolvimento do ERPK, ERP em Laravel, Livewire e PHP para o setor de consórcios.'],
+    place: 'São Leopoldo, RS · híbrido',
+    period: 'nov/2024 – ago/2026',
+    summary:
+      'Desenvolvimento fullstack com Laravel e Livewire num ERP para o setor de consórcios e criação de ferramentas internas em Python.',
+    highlights: [
+      'Desenvolvi automações em Python e Selenium para processos operacionais. Elas tiraram da equipe boa parte do trabalho manual da semana, e a equipe passou a só conferir os resultados.',
+      'Migrei processamentos em lote para jobs e filas. As operações demoradas passaram a rodar em segundo plano, sem travar a aplicação.',
+      'Criei o Oráculo, uma prova de conceito de assistente que responde perguntas sobre PDFs de administradoras de consórcio usando RAG.',
+    ],
+    stack: ['Laravel', 'Livewire', 'PHP', 'Python', 'Selenium'],
+  },
+  {
+    id: 'fb-pleno',
+    label: 'F&B Pleno (2026)',
+    title: 'Desenvolvedor de Software Pleno',
+    org: 'Fraga & Bitello',
+    place: 'São Leopoldo, RS · híbrido',
+    period: 'set/2026 – hoje',
+    summary:
+      'Faço parte do time que desenvolve um ERP para o setor de consórcios, com Laravel e Livewire. Além de entregar funcionalidades, investigo incidentes em produção e reorganizo módulos para que fiquem mais fáceis de manter.',
+    highlights: [
+      'O sistema estava trocando a estrutura antiga de dados de clientes por uma nova, que permitia reaproveitar cadastros. A primeira versão dessa estrutura tinha sido feita às pressas e começou a dar problema. Mapeei como ela funcionava, avaliei o que valia manter e implementei uma segunda versão, com a estrutura corrigida.',
+      'Separei o cadastro principal do cliente dos dados de cada negociação, para que uma negociação não sobrescreva a outra.',
+      'No módulo administrativo, toda a lógica ficava nos controllers e os filtros eram lentos. Organizei o código em camadas, deixei os controllers só com o fluxo de requisição e resposta e melhorei o desempenho dos filtros.',
+      'Estou implantando uma base de conhecimento no Obsidian para o time, organizada por módulo, para que a informação não fique só na cabeça de quem trabalhou em cada parte.',
+    ],
+    stack: ['Laravel', 'Livewire', 'PHP', 'MySQL'],
   },
 ]
 
@@ -104,13 +171,13 @@ export const projects: Project[] = [
     slug: 'barnout',
     title: 'BarNout',
     summary:
-      'Gamificação para o BAR, um evento gratuito de IA: desafios e perguntas durante as palestras e pontos por cada amizade feita no evento.',
+      'App de gamificação do Bar Congress, evento universitário. Os participantes completam desafios das trilhas, como achar QR codes espalhados pela Feevale ou tirar uma foto criativa, ganham pontos e sobem no ranking.',
     diagrams: [
       {
-        caption: 'v1: monolito',
+        caption: 'v1 (2024 e 2025): monolito',
         nodes: [
-          { id: 'users', label: 'admin + usuários', col: 0, row: 0 },
-          { id: 'mono', label: 'Laravel 11 (tudo)', col: 0, row: 1 },
+          { id: 'users', label: 'admin + participantes', col: 0, row: 0 },
+          { id: 'mono', label: 'Laravel (tudo)', col: 0, row: 1 },
           { id: 'db', label: 'MySQL', col: 0, row: 2, kind: 'database' },
         ],
         edges: [
@@ -119,49 +186,60 @@ export const projects: Project[] = [
         ],
       },
       {
-        caption: 'v2: API + front separado',
+        caption: 'v2 (2026): API + front separado',
         nodes: [
-          { id: 'user', label: 'usuários', col: 0, row: 0 },
+          { id: 'user', label: 'participantes', col: 0, row: 0 },
           { id: 'admin', label: 'admin', col: 1, row: 0 },
           { id: 'next', label: 'front Next.js', col: 0, row: 1 },
-          { id: 'panel', label: 'painel admin', col: 1, row: 1 },
-          { id: 'api', label: 'API Laravel', col: 0, row: 2 },
-          { id: 'db', label: 'MySQL', col: 0, row: 3, kind: 'database' },
+          { id: 'api', label: 'Laravel: API + painel admin', col: 1, row: 2 },
+          { id: 'db', label: 'MySQL', col: 1, row: 3, kind: 'database' },
         ],
         edges: [
           { from: 'user', to: 'next' },
-          { from: 'admin', to: 'panel' },
-          { from: 'next', to: 'api', label: 'HTTP' },
+          { from: 'next', to: 'api', label: 'API' },
+          { from: 'admin', to: 'api' },
           { from: 'api', to: 'db' },
-          // O painel admin vive no mesmo app Laravel da API.
-          { from: 'panel', to: 'db' },
         ],
       },
     ],
     problem: [
-      'A v1 era um monolito em Laravel 11 com MySQL, com a visão do admin e a do usuário no mesmo app.',
-      'Ficou dois anos em uso e teve vários problemas em produção.',
+      'A v1 era um monolito em Laravel, com o painel administrativo e a parte dos participantes no mesmo projeto. Rodou nas edições de 2024 e 2025 e deu bastante problema.',
+      'Nos dias do evento, boa parte do meu trabalho era investigar e corrigir bugs em produção com o app em uso. Em 2025, depois do primeiro dia, comecei a corrigir bugs num bar com o time, continuei em casa até as 4h e depois fui para o evento.',
     ],
     decisions: [
-      'Na v2, o Laravel ficou com as APIs e o painel admin. Os usuários finais passaram a usar um front em Next.js.',
-      'O pipeline passou a rodar no GitHub Actions.',
-      'A v2 não ficou pronta para o evento de 2025, e a v1 rodou mais uma edição.',
-      'TODO: trade-offs da separação (o que ficou mais caro ou mais difícil com dois apps).',
+      'Separamos o sistema em duas partes: um código em Laravel com as APIs e o painel administrativo, e um front em Next.js para os participantes.',
+      'O objetivo era ter um front mais fácil de mudar e separar responsabilidades. Os serviços que vão entrar no futuro só precisam ser consumidos pelo front.',
+      'A v2 começou a ser feita em 2025, mas não ficou pronta a tempo, e a v1 rodou mais uma edição.',
+      // TODO: trade-offs da separação (o que ficou mais caro ou mais difícil com dois apps).
     ],
     role: [
-      'Na v1, trabalhei como desenvolvedor e corrigi bugs em produção.',
-      'Na v2, organizei as tasks, revisei os PRs, conduzi as reuniões da equipe e desenvolvi o front em Next.js.',
+      'Na v1, atuei principalmente como desenvolvedor.',
+      'Na v2, além de desenvolver, organizei as tasks, revisei os PRs e conduzi as reuniões de um time de 7 pessoas entre dev, UX, QA e infra.',
     ],
-    result: ['A v2 entrou em produção em 2026. O evento terminou sem nenhum bug ou incidente.'],
-    stack: ['Laravel', 'PHP', 'Next.js', 'MySQL', 'GitHub Actions'],
-    // TODO: links do BarNout (repositório, site do evento)
-    links: [],
+    result: [
+      'A v2 entrou em produção em 07/10/2026, no primeiro dia do evento. O evento inteiro terminou sem nenhum incidente, e já no primeiro dia o time brincou que tinha acabado a emoção.',
+    ],
+    stack: ['Laravel', 'PHP', 'Next.js', 'MySQL'],
+    links: [
+      { label: 'barnout.barcongress.com.br', href: 'https://barnout.barcongress.com.br/' },
+      { label: 'Bar Congress', href: 'https://barcongress.com.br/' },
+    ],
+    images: [
+      {
+        src: '/projetos/barnout/trilhas.jpg',
+        alt: 'Tela de trilhas do BarNout com os desafios e os pontos de cada um',
+      },
+      {
+        src: '/projetos/barnout/ranking.jpg',
+        alt: 'Tela de ranking do BarNout com o pódio; nomes borrados',
+      },
+    ],
   },
   {
     slug: 'agenda',
-    title: 'Agenda para eletricista',
+    title: 'Agenda Eletricista',
     summary:
-      'MVP para o Edson, um eletricista da minha família, guardar o histórico de serviços de cada imóvel.',
+      'Agenda e ordens de serviço para o Edson, eletricista autônomo da minha família, e a secretária dele. Projeto acadêmico do curso de ADS.',
     diagrams: [
       {
         caption: 'hipótese inicial',
@@ -173,38 +251,123 @@ export const projects: Project[] = [
       },
       {
         caption: 'modelagem final',
-        // TODO: confirmar a cardinalidade dos relacionamentos (ex.: 1:N) para rotular as arestas
         nodes: [
           { id: 'cliente', label: 'Cliente', col: 0, row: 0 },
-          { id: 'imovel', label: 'Endereço / Imóvel', col: 0, row: 1 },
-          { id: 'servico', label: 'Serviço', col: 0, row: 2 },
-          { id: 'agendamento', label: 'Agendamento', col: 1, row: 2 },
+          { id: 'endereco', label: 'Endereço (imóvel)', col: 0, row: 1 },
+          { id: 'obs', label: 'Observação datada', col: 0, row: 2 },
+          { id: 'os', label: 'Ordem de Serviço', col: 1, row: 1 },
+          { id: 'atividade', label: 'Atividade agendada', col: 1, row: 2 },
         ],
         edges: [
-          { from: 'cliente', to: 'imovel' },
-          { from: 'imovel', to: 'servico' },
-          { from: 'agendamento', to: 'servico', label: 'registra' },
+          { from: 'cliente', to: 'endereco', label: '1:N' },
+          { from: 'endereco', to: 'obs', label: '1:N' },
+          { from: 'cliente', to: 'os', label: '1:N' },
+          { from: 'endereco', to: 'os', label: 'opcional' },
+          { from: 'os', to: 'atividade', label: '1:N' },
         ],
       },
     ],
     problem: [
       'A hipótese inicial era que o Edson precisava organizar os horários.',
-      'Na elicitação de requisitos, a conversa mostrou outra dor: faltava histórico dos serviços e dados de cada imóvel.',
+      'Na elicitação de requisitos, a conversa mostrou outra dor: agenda, clientes e orçamentos ficavam no papel e na memória. Para achar o histórico de um serviço, ele relia conversas antigas de WhatsApp.',
     ],
     decisions: [
-      'O endereço virou uma entidade própria, com os dados do imóvel.',
-      'A agenda passou a ser o meio de registrar os serviços.',
-      'TODO: trade-offs dessa modelagem.',
+      'O endereço virou uma entidade própria, com observações datadas. O eletricista volta ao imóvel, não à pessoa, então o histórico fica no endereço.',
+      'A agenda passou a ser o meio de registrar os serviços: cada ordem de serviço agrupa atividades com data, horário e status próprios, e o sistema avisa quando dois horários batem.',
+      'Monolito: o React é servido pelo próprio Express, com uma API e um banco MySQL numa VPS. Para cinco módulos, dois perfis e pouco acesso simultâneo, serviços separados só trariam complexidade.',
+      'Uso só pelo navegador, sem instalar nada. O Edson já tinha abandonado ferramentas anteriores por serem complicadas demais.',
     ],
     role: [
-      'Fiz a elicitação de requisitos com o Edson e a modelagem.',
-      'TODO: o que mais você fez no MVP (desenvolvimento, deploy).',
+      'Fiz a elicitação de requisitos com o Edson, a modelagem e a documentação: requisitos, regras de negócio, decisões, diagramas e uma análise de LGPD, tudo num vault do Obsidian.',
+      'Desenvolvi o sistema.',
     ],
-    result: ['TODO: o MVP está em uso? O que mudou para o Edson?'],
-    // TODO: stack da Agenda
-    stack: [],
-    // TODO: links da Agenda
-    links: [],
+    result: [
+      'Agenda e atividades estão completas. Ordens de serviço, clientes e usuários estão implementados, com ajustes pendentes. O orçamento fica para a segunda entrega.',
+      // TODO: o Edson já usa o sistema? O que mudou no dia a dia dele?
+    ],
+    stack: ['React', 'Vite', 'Node.js', 'Express', 'Sequelize', 'MySQL'],
+    links: [
+      { label: 'Código', href: 'https://github.com/LuizKirsch/agenda-eletrecista' },
+      {
+        label: 'Análise no Obsidian',
+        href: 'https://github.com/LuizKirsch/agenda-eletrecista-obsidian',
+      },
+    ],
+  },
+  {
+    slug: 'oraculo',
+    title: 'Oráculo',
+    summary:
+      'Prova de conceito de um assistente que responde perguntas sobre documentos internos, PDFs e imagens com OCR, usando RAG.',
+    diagrams: [
+      {
+        caption: 'RAG',
+        nodes: [
+          { id: 'docs', label: 'PDFs + imagens (OCR)', col: 0, row: 0 },
+          { id: 'user', label: 'pergunta', col: 1, row: 0 },
+          { id: 'chroma', label: 'ChromaDB', col: 0, row: 1, kind: 'database' },
+          { id: 'api', label: 'FastAPI + LangChain', col: 1, row: 1 },
+          { id: 'llm', label: 'OpenAI', col: 1, row: 2 },
+        ],
+        edges: [
+          { from: 'docs', to: 'chroma', label: 'indexa' },
+          { from: 'user', to: 'api' },
+          { from: 'api', to: 'chroma', label: 'busca' },
+          { from: 'api', to: 'llm' },
+        ],
+      },
+    ],
+    problem: [
+      'Criei o Oráculo na Fraga & Bitello para consultar em linguagem natural os PDFs das administradoras de consórcio.',
+      // TODO: qual era a dor antes (como a informação era procurada)?
+    ],
+    decisions: [
+      'Busca filtrada por categoria de documento.',
+      'Persona configurável para as respostas.',
+      'OCR para que imagens também entrem na base, além dos PDFs.',
+      // TODO: trade-offs (por que RAG e ChromaDB, o que ficou de fora da POC).
+    ],
+    role: ['Concebi e desenvolvi a prova de conceito.'],
+    // TODO: resultado da POC (foi usada? virou ferramenta?).
+    result: [],
+    stack: ['Python', 'FastAPI', 'LangChain', 'ChromaDB', 'OpenAI API', 'Docker', 'Cloud Run'],
+    links: [{ label: 'Código', href: 'https://github.com/LuizKirsch/oraculo' }],
+  },
+  {
+    slug: 'tenancy-laravel',
+    title: 'Tenancy Laravel',
+    summary:
+      'Aplicação multi-tenant com um banco de dados isolado por tenant, identificado pelo subdomínio e criado automaticamente quando o tenant é cadastrado.',
+    diagrams: [
+      {
+        caption: 'um banco por tenant',
+        nodes: [
+          { id: 'a', label: 'a.dominio', col: 0, row: 0 },
+          { id: 'b', label: 'b.dominio', col: 1, row: 0 },
+          { id: 'app', label: 'Laravel + stancl/tenancy', col: 0, row: 1 },
+          { id: 'dba', label: 'banco do tenant A', col: 0, row: 2, kind: 'database' },
+          { id: 'dbb', label: 'banco do tenant B', col: 1, row: 2, kind: 'database' },
+        ],
+        edges: [
+          { from: 'a', to: 'app' },
+          { from: 'b', to: 'app' },
+          { from: 'app', to: 'dba' },
+          { from: 'app', to: 'dbb' },
+        ],
+      },
+    ],
+    // TODO: o que motivou o projeto.
+    problem: [],
+    decisions: [
+      'Um banco de dados por tenant, em vez de um banco compartilhado.',
+      'O tenant é identificado pelo subdomínio da requisição.',
+      'O banco do tenant é provisionado automaticamente na criação.',
+      // TODO: por que banco isolado e não banco compartilhado?
+    ],
+    role: ['Projeto pessoal.'],
+    result: [],
+    stack: ['Laravel', 'stancl/tenancy', 'Livewire', 'MySQL'],
+    links: [{ label: 'Código', href: 'https://github.com/LuizKirsch/tenancy-laravel' }],
   },
 ]
 
@@ -223,7 +386,7 @@ export const tour: TourStep[] = [
   },
   {
     nodeId: 'experiencia',
-    text: 'experiencia-service: a fila de QA até a Fraga & Bitello.',
+    text: 'experiencia-service: a fila da carreira, de QA em 2022 a Pleno em 2026.',
     ms: 5000,
   },
   { nodeId: 'contato', text: 'contato-service: LinkedIn, GitHub e e-mail.', ms: 5000 },

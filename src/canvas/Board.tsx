@@ -208,7 +208,7 @@ export function Board({ tourNodeId }: { tourNodeId?: string }) {
           <FitAll />
         </Panel>
         {hint && (
-          <Panel position="top-center" className={s.hint}>
+          <Panel position="top-left" className={s.hint}>
             arrasta, dá zoom, clica nas caixas
           </Panel>
         )}

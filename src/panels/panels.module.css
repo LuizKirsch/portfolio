@@ -76,7 +76,7 @@
 
 .diagrams {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: 1fr;
   gap: 12px;
 }
 
@@ -145,4 +145,19 @@
 
 .contacts {
   font-size: 16px;
+}
+
+/* Prints do projeto: lado a lado, com a borda do quadro. */
+.shots {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+.shots img {
+  height: 320px;
+  width: auto;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
 }

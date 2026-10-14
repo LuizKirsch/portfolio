@@ -1,11 +1,12 @@
+import type { ReactNode } from 'react'
 import type { Project } from '../content/content'
 import { MiniDiagram } from './MiniDiagram'
 import s from './panels.module.css'
 
 /**
- * Renderiza qualquer Project, sempre na mesma ordem: resumo, diagrama, problema,
- * decisões, papel, resultado, stack e links. O título fica no Panel.
- * Seções sem conteúdo (stack ou links ainda em TODO) não aparecem.
+ * Renderiza qualquer Project, sempre na mesma ordem: resumo, diagrama, prints,
+ * problema, decisões, papel, resultado, stack e links. O título fica no Panel.
+ * Seção sem conteúdo (ainda em TODO no content.ts) não aparece.
  */
 export function ProjectPanel({ project: p }: { project: Project }) {
   return (
@@ -18,55 +19,61 @@ export function ProjectPanel({ project: p }: { project: Project }) {
         ))}
       </div>
 
-      <h3>O problema</h3>
-      {p.problem.map((t) => (
-        <p key={t}>{t}</p>
-      ))}
+      {p.images && (
+        <div className={s.shots}>
+          {p.images.map((img) => (
+            <img key={img.src} src={img.src} alt={img.alt} loading="lazy" />
+          ))}
+        </div>
+      )}
 
-      <h3>Decisões e trade-offs</h3>
-      <ul>
-        {p.decisions.map((t) => (
-          <li key={t}>{t}</li>
-        ))}
-      </ul>
+      <Section title="O problema" items={p.problem} />
+      <Section title="Decisões e trade-offs" items={p.decisions} list />
+      <Section title="Meu papel" items={p.role} list />
+      <Section title="Resultado" items={p.result} />
 
-      <h3>Meu papel</h3>
-      <ul>
-        {p.role.map((t) => (
-          <li key={t}>{t}</li>
-        ))}
-      </ul>
+      <Section title="Stack" items={p.stack}>
+        <ul className={s.chips}>
+          {p.stack.map((t) => (
+            <li key={t}>{t}</li>
+          ))}
+        </ul>
+      </Section>
 
-      <h3>Resultado</h3>
-      {p.result.map((t) => (
-        <p key={t}>{t}</p>
-      ))}
+      <Section title="Links" items={p.links}>
+        <ul>
+          {p.links.map((l) => (
+            <li key={l.href}>
+              <a href={l.href} target="_blank" rel="noreferrer">
+                {l.label} ↗
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </>
+  )
+}
 
-      {p.stack.length > 0 && (
-        <>
-          <h3>Stack</h3>
-          <ul className={s.chips}>
-            {p.stack.map((t) => (
+type SectionProps = { title: string; items: unknown[]; list?: boolean; children?: ReactNode }
+
+// Título + parágrafos (ou lista). Some quando não há itens.
+function Section({ title, items, list, children }: SectionProps) {
+  if (items.length === 0) return null
+  const texts = items as string[]
+  return (
+    <>
+      <h3>{title}</h3>
+      {children ??
+        (list ? (
+          <ul>
+            {texts.map((t) => (
               <li key={t}>{t}</li>
             ))}
           </ul>
-        </>
-      )}
-
-      {p.links.length > 0 && (
-        <>
-          <h3>Links</h3>
-          <ul>
-            {p.links.map((l) => (
-              <li key={l.href}>
-                <a href={l.href} target="_blank" rel="noreferrer">
-                  {l.label} ↗
-                </a>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+        ) : (
+          texts.map((t) => <p key={t}>{t}</p>)
+        ))}
     </>
   )
 }
