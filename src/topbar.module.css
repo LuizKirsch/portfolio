@@ -80,3 +80,21 @@
     height: 28px;
   }
 }
+
+/* Botão do tour: no desktop fica na barra; no mobile vai para o topo da lista. */
+.tour {
+  margin-right: auto;
+  font: 13px var(--mono);
+  background: transparent;
+  color: var(--accent);
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius);
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .tour {
+    display: none;
+  }
+}

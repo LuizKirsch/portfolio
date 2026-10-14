@@ -9,7 +9,7 @@ type Theme = 'light' | 'dark'
  * Barra fixa fora do canvas. LinkedIn, GitHub e currículo ficam sempre à vista,
  * sem depender de achar o nó certo no quadro.
  */
-export function TopBar() {
+export function TopBar({ onTour }: { onTour: () => void }) {
   // O index.html já aplicou o tema antes do React; aqui só lemos e alternamos.
   const [theme, setTheme] = useState(() => document.documentElement.dataset.theme as Theme)
   const toggle = () => {
@@ -24,6 +24,9 @@ export function TopBar() {
       <Link to="/" className={s.home}>
         <span className={s.method}>GET</span> /luiz
       </Link>
+      <button className={s.tour} onClick={onTour}>
+        ▶ seguir a request
+      </button>
       <nav aria-label="Links principais" className={s.links}>
         <a href={profile.linkedin} target="_blank" rel="noreferrer">
           LinkedIn

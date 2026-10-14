@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import {
   Background,
@@ -16,6 +16,7 @@ import { edges, nodeForRoute, nodes, type ModelNode } from '../diagram/model'
 import { clusterSize, position, sides, type XY } from '../diagram/layout'
 import { PANEL_WIDTH } from '../panels/Panel'
 import { reducedMotion } from '../reducedMotion'
+import { TourDot } from '../tour/TourDot'
 import { nodeTypes } from './nodes'
 import type { BoardNode } from './nodes/types'
 import s from './board.module.css'
@@ -54,43 +55,86 @@ const rfEdges: Edge[] = edges.map((e) => {
     sourceHandle: `s-${from}`,
     targetHandle: `t-${to}`,
     markerEnd: { type: MarkerType.ArrowClosed, width: 18, height: 18, color: 'var(--ink)' },
+    // Setas são decorativas para leitores de tela: a versão semântica já diz o que liga em quê.
+    domAttributes: { 'aria-hidden': true },
   }
 })
 
 const hasPanel = (path: string) => path !== '/' && path !== '/projetos'
 
 /**
+ * Marca um nó como selecionado e leva a câmera até ele. `offset` (em px de
+ * tela) desloca o nó para longe do que estiver por cima: o painel à direita
+ * ou o balão do tour embaixo. Sem id, só limpa a seleção.
+ */
+function useFocusNode() {
+  const { setNodes, setCenter, getInternalNode } = useReactFlow<BoardNode>()
+  return useCallback(
+    (id: string | undefined, offset = { x: 0, y: 0 }) => {
+      // Só os nós cuja seleção muda são recriados: recriar um nó faz o React
+      // Flow medi-lo de novo, o que mudaria `useNodesInitialized`.
+      setNodes((ns) =>
+        ns.map((n) => (!!n.selected === (n.id === id) ? n : { ...n, selected: !n.selected })),
+      )
+      const node = id && getInternalNode(id)
+      if (!node) return
+      const zoom = 1.1
+      const { x, y } = node.internals.positionAbsolute
+      const cx = x + (node.measured.width ?? 0) / 2 + offset.x / zoom
+      const cy = y + (node.measured.height ?? 0) / 2 + offset.y / zoom
+      setCenter(cx, cy, { zoom, duration: reducedMotion() ? 0 : 600 })
+    },
+    [setNodes, setCenter, getInternalNode],
+  )
+}
+
+/**
  * A URL é o estado: quando ela muda (clique, Enter, link direto, voltar do
- * navegador), a câmera vai até o nó da rota e o marca como selecionado.
- * Se um painel abre, o centro é deslocado para o nó não ficar atrás dele.
+ * navegador), a câmera vai até o nó da rota. Roda uma vez por rota, senão a
+ * re-medição causada pela seleção dispararia o efeito em loop.
  */
 function RouteCamera() {
   const { pathname } = useLocation()
   const ready = useNodesInitialized()
-  const { setNodes, setCenter, getInternalNode } = useReactFlow<BoardNode>()
+  const focus = useFocusNode()
   const handled = useRef<string>(null)
 
   useEffect(() => {
-    // Recriar um nó faz o React Flow medi-lo de novo, o que muda `ready` e
-    // dispararia este efeito em loop. Por isso: uma vez por rota, e só os nós
-    // cuja seleção muda são recriados.
     if (!ready || handled.current === pathname) return
     handled.current = pathname
     const target = pathname === '/' ? undefined : nodeForRoute(pathname)
-    setNodes((ns) =>
-      ns.map((n) => (!!n.selected === (n.id === target?.id) ? n : { ...n, selected: !n.selected })),
-    )
-    const node = target && getInternalNode(target.id)
-    if (!node) return
+    focus(target?.id, { x: hasPanel(pathname) ? PANEL_WIDTH / 2 : 0, y: 0 })
+  }, [pathname, ready, focus])
 
-    const zoom = 1.1
-    const { x, y } = node.internals.positionAbsolute
-    const cx = x + (node.measured.width ?? 0) / 2
-    const cy = y + (node.measured.height ?? 0) / 2
-    const panelOffset = hasPanel(pathname) ? PANEL_WIDTH / 2 / zoom : 0
-    setCenter(cx + panelOffset, cy, { zoom, duration: reducedMotion() ? 0 : 500 })
-  }, [pathname, ready, setNodes, setCenter, getInternalNode])
+  return null
+}
 
+// Altura aproximada do balão do tour: o nó sobe esse tanto para não ficar atrás dele.
+const TOUR_CARD_OFFSET = 90
+
+/**
+ * Câmera do tour: só existe enquanto o tour roda. A cada parada, foca o nó e
+ * pinta de azul a seta que chega nele (o trecho da request que acabou de andar).
+ * Ao desmontar, limpa seleção e destaque.
+ */
+function TourCamera({ nodeId }: { nodeId: string }) {
+  const ready = useNodesInitialized()
+  const focus = useFocusNode()
+  const { setEdges } = useReactFlow()
+
+  useEffect(() => {
+    if (!ready) return
+    focus(nodeId, { x: 0, y: TOUR_CARD_OFFSET })
+    setEdges((es) => es.map((e) => ({ ...e, className: e.target === nodeId ? 'tour' : '' })))
+  }, [nodeId, ready, focus, setEdges])
+
+  useEffect(
+    () => () => {
+      focus(undefined)
+      setEdges((es) => es.map((e) => ({ ...e, className: '' })))
+    },
+    [focus, setEdges],
+  )
   return null
 }
 
@@ -105,7 +149,8 @@ function FitAll() {
 
 const HINT_KEY = 'hint-seen'
 
-export function Board() {
+/** `tourNodeId`: parada atual do tour, quando ele está rodando. */
+export function Board({ tourNodeId }: { tourNodeId?: string }) {
   const navigate = useNavigate()
   const [hint, setHint] = useState(() => !localStorage.getItem(HINT_KEY))
   const dismissHint = () => {
@@ -150,6 +195,12 @@ export function Board() {
         onMoveStart={(event) => event && dismissHint()}
       >
         <RouteCamera />
+        {tourNodeId && (
+          <>
+            <TourCamera nodeId={tourNodeId} />
+            <TourDot nodeId={tourNodeId} />
+          </>
+        )}
         <Background variant={BackgroundVariant.Dots} gap={20} size={1.5} />
         <MiniMap pannable zoomable />
         <Controls showInteractive={false} showFitView={false} />

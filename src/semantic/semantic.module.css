@@ -1,6 +1,9 @@
 /* Desktop: oculto na tela, presente para leitores de tela e buscadores. */
 .textOnly {
   position: absolute;
+  /* Sem top/left ficaria depois do canvas (100dvh) e criaria rolagem na página. */
+  top: 0;
+  left: 0;
   width: 1px;
   height: 1px;
   overflow: hidden;
@@ -217,4 +220,16 @@
   font-size: 21px;
   padding: 8px 14px;
   box-shadow: 2px 3px 0 rgb(0 0 0 / 0.18);
+}
+
+.tour {
+  align-self: center;
+  margin-bottom: 16px;
+  font: 14px var(--mono);
+  background: var(--paper);
+  color: var(--accent);
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  cursor: pointer;
 }

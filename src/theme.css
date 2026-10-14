@@ -63,3 +63,14 @@ body {
   font-family: var(--hand);
   font-size: 18px;
 }
+
+/* Tour: a seta que a request acabou de percorrer (canvas) e a caixa da parada (mobile). */
+.react-flow__edge.tour .react-flow__edge-path {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+[data-tour-active] {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}

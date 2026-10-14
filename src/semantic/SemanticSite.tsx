@@ -4,7 +4,7 @@ import { about, experiences, profile, projects } from '../content/content'
 import { contactLinks, projectRoute, services } from '../diagram/model'
 import s from './semantic.module.css'
 
-type Props = { mobile: boolean; inert: boolean }
+type Props = { mobile: boolean; inert: boolean; onTour: () => void }
 
 /**
  * Todo o conteúdo do quadro em HTML semântico, numa árvore só:
@@ -17,7 +17,7 @@ type Props = { mobile: boolean; inert: boolean }
  * O estudo de caso completo de cada projeto fica na URL do projeto
  * (/projetos/:slug), que renderiza o painel em HTML. Aqui vai o resumo e o link.
  */
-export function SemanticSite({ mobile, inert }: Props) {
+export function SemanticSite({ mobile, inert, onTour }: Props) {
   // A ordem das seções é a ordem dos serviços no modelo do diagrama.
   const body: Record<(typeof services)[number]['id'], ReactNode> = {
     sobre: (
@@ -69,11 +69,15 @@ export function SemanticSite({ mobile, inert }: Props) {
 
   return (
     <main className={mobile ? s.list : s.textOnly} inert={inert}>
-      <p className={s.actor} aria-hidden="true">
+      {/* No celular o tour é o caminho principal: o botão fica no topo da lista. */}
+      <button className={s.tour} onClick={onTour}>
+        ▶ seguir a request
+      </button>
+      <p className={s.actor} aria-hidden="true" data-node="actor">
         visitante → GET /luiz
       </p>
 
-      <header className={`${s.box} ${s.gateway}`}>
+      <header className={`${s.box} ${s.gateway}`} data-node="gateway">
         <span className={s.tag}>gateway</span>
         <h1>{profile.name}</h1>
         <p>
@@ -85,7 +89,7 @@ export function SemanticSite({ mobile, inert }: Props) {
           ))}
         </ul>
         <p className={s.hand}>{profile.tagline}</p>
-        <a className={s.cv} href={profile.cv} download>
+        <a className={s.cv} href={profile.cv} download data-node="curriculo">
           currículo.pdf ↓
         </a>
       </header>
@@ -93,7 +97,7 @@ export function SemanticSite({ mobile, inert }: Props) {
       {services.map((svc) => (
         <section key={svc.id} aria-labelledby={`h-${svc.id}`}>
           <Arrow label={svc.route} />
-          <h2 id={`h-${svc.id}`} className={`${s.box} ${s.service}`}>
+          <h2 id={`h-${svc.id}`} className={`${s.box} ${s.service}`} data-node={svc.id}>
             <span className={s.tag}>service</span>
             {/* /projetos não tem painel: o título só nomeia a seção. */}
             {svc.id === 'projetos' ? svc.label : <Link to={svc.route}>{svc.label}</Link>}

@@ -1,0 +1,91 @@
+/* Balão de anotação preso embaixo da tela, com o rabicho apontando para o nó. */
+.card {
+  position: fixed;
+  z-index: 25;
+  left: 50%;
+  bottom: 20px;
+  translate: -50% 0;
+  width: min(520px, calc(100vw - 24px));
+  padding: 14px 16px 10px;
+  background: var(--paper);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  box-shadow: 3px 3px 0 var(--accent);
+  outline: none;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  translate: -50% 0;
+  border: 10px solid transparent;
+  border-bottom: 12px solid var(--accent);
+  border-top: 0;
+}
+
+.text {
+  margin: 0 0 10px;
+  font-family: var(--hand);
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.progress {
+  height: 3px;
+  margin-bottom: 10px;
+  background: var(--accent);
+  transform-origin: left;
+  animation: drain linear forwards;
+}
+
+@keyframes drain {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.controls button {
+  font: 12px var(--mono);
+  padding: 4px 8px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.controls button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.count {
+  margin-right: auto;
+}
+
+.skip {
+  border-style: dashed !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress {
+    display: none;
+  }
+}
