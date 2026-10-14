@@ -1,21 +1,27 @@
-import { BaseEdge, EdgeLabelRenderer, getBezierPath, type EdgeProps } from '@xyflow/react'
+import { BaseEdge, EdgeLabelRenderer, getSmoothStepPath, type EdgeProps } from '@xyflow/react'
 import s from './board.module.css'
 
+// Distância do tronco vertical até a saída do gateway.
+const TRUNK = 30
+
 /**
- * Seta com o rótulo no fim, logo antes da ponta. Usada do gateway até os
- * serviços: as quatro saem do mesmo ponto, e com o rótulo no meio da curva
- * eles se amontoavam onde as linhas se cruzam. Perto do serviço a curva já
- * está na horizontal e cada rótulo fica sozinho.
+ * Seta do gateway até um serviço, em ângulo reto: sai do gateway, segue por um
+ * tronco vertical comum logo à direita dele e chega ao serviço por um trecho
+ * horizontal longo. O rótulo (/sobre, /projetos...) fica em cima desse trecho
+ * final, onde nenhuma outra linha passa. Com curvas, as setas que chegavam
+ * de cima passavam por baixo dos rótulos.
  */
 export function EndLabelEdge(props: EdgeProps) {
   const { id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition } = props
-  const [path] = getBezierPath({
+  const [path] = getSmoothStepPath({
     sourceX,
     sourceY,
     targetX,
     targetY,
     sourcePosition,
     targetPosition,
+    centerX: sourceX + TRUNK,
+    borderRadius: 12,
   })
 
   return (
@@ -25,9 +31,9 @@ export function EndLabelEdge(props: EdgeProps) {
         <EdgeLabelRenderer>
           <div
             className={s.endLabel}
-            // Acima da linha, terminando um pouco antes da ponta da seta.
+            // Acima do trecho final, terminando um pouco antes da ponta da seta.
             style={{
-              transform: `translate(-100%, -100%) translate(${targetX - 14}px, ${targetY - 6}px)`,
+              transform: `translate(-100%, -100%) translate(${targetX - 14}px, ${targetY - 4}px)`,
             }}
           >
             {props.label}
