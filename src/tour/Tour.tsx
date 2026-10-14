@@ -16,7 +16,8 @@ type Props = {
  * cada um de timing.ts (fixo ou proporcional ao texto do painel que a parada abre).
  * Quem abre o painel é o App, ao trocar de parada; aqui só se controla a passagem.
  *
- * - Avança sozinho a cada `ms`. Pausar e voltar reiniciam a contagem da parada.
+ * - Avança sozinho no fim do tempo da parada. Pausar congela a barra e o tempo;
+ *   continuar retoma de onde parou. Anterior/próximo recomeçam a parada.
  * - Com prefers-reduced-motion, não avança sozinho: o visitante usa "próximo".
  * - Desktop: quem move a câmera é o Board (recebe o nodeId atual).
  *   Mobile: não há canvas; aqui mesmo rolamos até a caixa e a destacamos.
@@ -31,12 +32,6 @@ export function Tour({ step, onStep, onEnd, mobile }: Props) {
   const next = () => (last ? onEnd() : onStep(step + 1))
 
   useEffect(() => card.current?.focus(), [])
-
-  useEffect(() => {
-    if (paused) return
-    const t = setTimeout(() => (last ? onEnd() : onStep(step + 1)), ms)
-    return () => clearTimeout(t)
-  }, [step, paused, last, ms, onEnd, onStep])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onEnd()
@@ -68,10 +63,15 @@ export function Tour({ step, onStep, onEnd, mobile }: Props) {
       <p className={s.text} aria-live="polite">
         {current.text}
       </p>
-      {/* Barra de tempo da parada. A key reinicia a animação a cada passo ou retomada. */}
-      {!paused && (
-        <div key={`${step}`} className={s.progress} style={{ animationDuration: `${ms}ms` }} />
-      )}
+      {/* A barra é o relógio da parada: quando a animação termina, o tour avança.
+          Pausar congela a animação onde está e continuar retoma dali; o navegador
+          também a congela com a aba em segundo plano. A key recomeça a cada parada. */}
+      <div
+        key={step}
+        className={s.progress}
+        style={{ animationDuration: `${ms}ms`, animationPlayState: paused ? 'paused' : 'running' }}
+        onAnimationEnd={next}
+      />
       <div className={s.controls}>
         <span className={s.count}>
           {step + 1}/{tour.length}

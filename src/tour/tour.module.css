@@ -84,9 +84,11 @@
   border-style: dashed !important;
 }
 
+/* Movimento reduzido: a barra some da tela, mas a animação continua contando o
+   tempo (é ela que avança o tour). Com display: none o tour nunca andaria. */
 @media (prefers-reduced-motion: reduce) {
   .progress {
-    display: none;
+    visibility: hidden;
   }
 }
 
