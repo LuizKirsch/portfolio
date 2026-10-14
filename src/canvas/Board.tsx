@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { useCallback, useEffect, useRef, type KeyboardEvent } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import {
   Background,
@@ -154,19 +154,17 @@ function FitAll() {
   )
 }
 
-// "Ver tudo" deixa livres a dica (em cima), o minimapa (direita) e o botão (embaixo).
-const FIT = { padding: { top: '84px', left: '24px', right: '240px', bottom: '72px' } } as const
+// "Ver tudo" deixa livres o canto do minimapa (direita) e o botão (embaixo).
+const FIT = { padding: { top: '24px', left: '24px', right: '240px', bottom: '72px' } } as const
 
-/** `tour`: parada atual do tour, quando ele está rodando. */
+/**
+ * `tour`: parada atual do tour, quando ele está rodando.
+ * Como usar o quadro está explicado no post-it "como funciona", que é um nó do modelo.
+ */
 export function Board({ tour }: { tour?: TourStep }) {
   const navigate = useNavigate()
-  // Dica de navegação: aparece em toda visita e some na primeira interação
-  // (arrastar, dar zoom, clicar ou Enter num nó).
-  const [hint, setHint] = useState(true)
-  const dismissHint = () => setHint(false)
 
   const open = (n: ModelNode) => {
-    dismissHint()
     if (n.route) navigate(n.route)
   }
 
@@ -198,8 +196,6 @@ export function Board({ tour }: { tour?: TourStep }) {
         edgesFocusable={false}
         onNodeClick={(_, n) => open(n.data)}
         onKeyDown={onKeyDown}
-        // `event` só existe quando o movimento veio do usuário, não do fitView.
-        onMoveStart={(event) => event && dismissHint()}
       >
         <RouteCamera touring={!!tour} />
         {tour && (
@@ -214,16 +210,6 @@ export function Board({ tour }: { tour?: TourStep }) {
         <Panel position="bottom-center">
           <FitAll />
         </Panel>
-        {/* Durante o tour o balão já guia o visitante: a dica sai do caminho. */}
-        {hint && !tour && (
-          // O Panel do React Flow já usa transform para centralizar: o estilo vai num filho.
-          <Panel position="top-center">
-            <p className={s.hint}>
-              <span aria-hidden="true">✋</span> arrasta · <span aria-hidden="true">🔍</span> dá
-              zoom · <span aria-hidden="true">👆</span> clica nas caixas
-            </p>
-          </Panel>
-        )}
       </ReactFlow>
     </div>
   )

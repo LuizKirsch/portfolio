@@ -7,7 +7,7 @@
  *
  * Tudo é derivado de content.ts: um projeto novo vira nó e aresta sozinho.
  */
-import { experiences, profile, projects } from '../content/content'
+import { aboutNote, experiences, howTo, profile, projects } from '../content/content'
 
 export type NodeKind =
   'actor' | 'gateway' | 'service' | 'cluster' | 'project' | 'queue' | 'sticky' | 'database'
@@ -24,6 +24,8 @@ export type ModelNode = {
   parentId?: string
   /** Cor do post-it. */
   tone?: 'yellow' | 'blue'
+  /** Texto do post-it (um parágrafo por item). */
+  text?: string[]
 }
 
 export type ModelEdge = { id: string; source: string; target: string; label?: string }
@@ -45,11 +47,20 @@ export const contactLinks = [
 export const projectRoute = (slug: string) => `/projetos/${slug}`
 
 export const nodes: ModelNode[] = [
+  // Anotação solta ao lado do visitante, sem setas: explica como usar o quadro.
+  { id: 'como-usar', kind: 'sticky', label: 'como funciona', tone: 'yellow', text: howTo },
   { id: 'actor', kind: 'actor', label: 'visitante' },
   { id: 'gateway', kind: 'gateway', label: profile.name, route: '/' },
   { id: 'curriculo', kind: 'database', label: 'currículo', href: profile.cv },
   ...services.map((s): ModelNode => ({ ...s, kind: 'service' })),
-  { id: 'sobre-note', kind: 'sticky', label: 'sobre mim', route: '/sobre', tone: 'yellow' },
+  {
+    id: 'sobre-note',
+    kind: 'sticky',
+    label: 'sobre mim',
+    route: '/sobre',
+    tone: 'yellow',
+    text: [aboutNote],
+  },
   // /projetos não tem painel próprio: clicar no cluster só centraliza a câmera nele.
   { id: 'cluster', kind: 'cluster', label: 'cluster: projetos', route: '/projetos' },
   ...projects.map((p): ModelNode => ({

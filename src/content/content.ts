@@ -84,6 +84,14 @@ export const profile = {
   cv: '/curriculo.pdf',
 }
 
+/** Post-it à esquerda do visitante: como usar o quadro. Só aparece no canvas. */
+export const howTo: string[] = [
+  'Como funciona este quadro:',
+  'Ele é um diagrama de system design. Você é o visitante fazendo GET /luiz.',
+  'Arraste para mover e use a roda do mouse para dar zoom. Clique numa caixa para abrir os detalhes.',
+  'Prefere ser guiado? Clique em ▶ seguir a request, lá em cima. A request passa por cada serviço e abre os painéis, um de cada vez. Dá para pausar, voltar ou pular.',
+]
+
 /** Versão curta para o post-it do canvas. O painel /sobre usa `about`. */
 export const aboutNote =
   'Comecei como QA no fim de 2022. Cinco meses depois fui para o desenvolvimento. Hoje sou Pleno num ERP de consórcios.'

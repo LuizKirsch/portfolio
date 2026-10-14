@@ -26,38 +26,3 @@
 .button:hover {
   border-color: var(--accent);
 }
-
-/* Dica de navegação: anotação azul em destaque no topo do quadro. */
-.hint {
-  font-family: var(--hand);
-  font-size: 26px;
-  line-height: 1.2;
-  color: var(--accent);
-  background: var(--paper);
-  border: 2px dashed var(--accent);
-  border-radius: 10px;
-  box-shadow: 3px 3px 0 var(--accent);
-  padding: 6px 18px;
-  white-space: nowrap;
-  margin: 0;
-  pointer-events: none;
-  animation: nudge 1.6s ease-in-out 2;
-}
-
-/* Um balanço curto ao aparecer, para o olho achar a dica. */
-@keyframes nudge {
-  0%,
-  100% {
-    transform: rotate(-1.5deg) translateY(0);
-  }
-  50% {
-    transform: rotate(-1.5deg) translateY(-6px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hint {
-    animation: none;
-    transform: rotate(-1.5deg);
-  }
-}

@@ -141,6 +141,28 @@
   transform: rotate(-2deg);
 }
 
+.yellow p {
+  margin: 0;
+}
+
+.yellow p + p {
+  margin-top: 8px;
+}
+
+/* Post-it de instruções: mais largo, inclinado para o outro lado. */
+.wide {
+  width: 360px;
+  padding: 16px 18px;
+  font-size: 25px;
+  transform: rotate(1.5deg);
+}
+
+.noteTitle {
+  font-size: 30px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .blue {
   min-width: 130px;
   background: var(--sticky-blue);
