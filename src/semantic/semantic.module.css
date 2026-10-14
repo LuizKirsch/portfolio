@@ -1,0 +1,220 @@
+/* Desktop: oculto na tela, presente para leitores de tela e buscadores. */
+.textOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Se o foco do teclado entrar aqui, a versão em texto aparece: nenhum foco
+   pode cair num elemento invisível. */
+.textOnly:focus-within {
+  position: fixed;
+  z-index: 15;
+  top: var(--bar-h);
+  left: 0;
+  bottom: 0;
+  width: min(420px, 100vw);
+  height: auto;
+  overflow-y: auto;
+  clip-path: none;
+  white-space: normal;
+  padding: 20px;
+  background: var(--paper);
+  border-right: 2px solid var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Lista vertical do mobile: o mesmo quadro, empilhado. */
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: calc(var(--bar-h) + 20px) 16px 48px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.list section {
+  display: flex;
+  flex-direction: column;
+}
+
+.list a {
+  color: inherit;
+}
+
+.hand {
+  display: block;
+  font-family: var(--hand);
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.actor {
+  margin: 0 0 12px;
+  text-align: center;
+  font-family: var(--hand);
+  font-size: 22px;
+}
+
+.box {
+  position: relative;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+}
+
+.tag {
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  padding: 0 6px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.gateway h1 {
+  margin: 4px 0;
+  font-size: 22px;
+}
+
+.gateway p {
+  margin: 0 0 10px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+}
+
+.chips li {
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+.cv {
+  display: inline-block;
+  margin-top: 4px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 3px 10px;
+  text-decoration: none;
+}
+
+.service {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Linha vertical + ponta de seta; o rótulo da rota fica ao lado, à mão. */
+.arrow {
+  position: relative;
+  align-self: center;
+  width: 2px;
+  height: 44px;
+  margin: 6px 0 10px;
+  background: var(--ink);
+}
+
+.arrow::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: -5px;
+  border: 6px solid transparent;
+  border-top: 8px solid var(--ink);
+  border-bottom: 0;
+}
+
+.arrow .hand {
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  white-space: nowrap;
+}
+
+.sticky {
+  background: var(--sticky-yellow);
+  color: #1f1f1f;
+  font-family: var(--hand);
+  font-size: 20px;
+  line-height: 1.2;
+  padding: 10px 16px;
+  transform: rotate(-1deg);
+  box-shadow: 2px 3px 0 rgb(0 0 0 / 0.18);
+}
+
+.sticky p {
+  margin: 6px 0;
+}
+
+.cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 14px;
+  list-style: none;
+  border: 2px dashed var(--ink);
+  border-radius: 12px;
+}
+
+.cluster h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+}
+
+.cluster p {
+  margin: 0;
+}
+
+.queue {
+  margin: 0;
+  padding-left: 36px;
+}
+
+.queue li + li {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 2px solid var(--ink);
+}
+
+.queue p {
+  margin: 2px 0 0;
+}
+
+.contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.blue {
+  background: var(--sticky-blue);
+  color: #1f1f1f;
+  font-family: var(--hand);
+  font-size: 21px;
+  padding: 8px 14px;
+  box-shadow: 2px 3px 0 rgb(0 0 0 / 0.18);
+}

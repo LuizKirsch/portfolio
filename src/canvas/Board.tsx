@@ -131,7 +131,7 @@ export function Board() {
   }
 
   return (
-    <div className={s.board}>
+    <div className={s.board} role="region" aria-label="Quadro interativo">
       <ReactFlow
         // Não-controlado: o React Flow guarda as medidas dos nós (o minimapa depende delas).
         defaultNodes={rfNodes}

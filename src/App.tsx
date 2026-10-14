@@ -8,6 +8,8 @@ import { nodeForRoute } from './diagram/model'
 import { Panel } from './panels/Panel'
 import { ProjectPanel } from './panels/ProjectPanel'
 import { ContatoPanel, ExperienciaPanel, SobrePanel } from './panels/SectionPanels'
+import { SemanticSite } from './semantic/SemanticSite'
+import { MOBILE, useMedia } from './useMedia'
 
 const sections: Record<string, { title: string; body: () => ReactNode }> = {
   '/sobre': { title: 'sobre-service', body: SobrePanel },
@@ -16,31 +18,40 @@ const sections: Record<string, { title: string; body: () => ReactNode }> = {
 }
 
 /**
- * A URL decide o painel aberto. O Board fica sempre montado; só o painel
+ * A URL decide o painel aberto. O quadro fica sempre montado; só o painel
  * entra e sai. Slug de projeto inexistente volta para o início.
+ *
+ * Desktop: canvas + versão semântica oculta (sr-only). Painel lateral, não modal.
+ * Mobile: sem canvas; a versão semântica é a interface. Painel em tela cheia,
+ * modal: `inert` tira a lista de trás do foco e dos leitores de tela.
  */
 export default function App() {
   const { pathname } = useLocation()
   const { slug } = useParams()
   const navigate = useNavigate()
+  const mobile = useMedia(MOBILE)
 
   const project = slug ? projects.find((p) => p.slug === slug) : undefined
   if (slug && !project) return <Navigate to="/" replace />
   const section = sections[pathname]
+  const panelOpen = !!(project || section)
 
-  // Ao fechar, o foco volta para o nó que abriu o painel (teclado não se perde).
+  // Ao fechar, o foco volta para o que abriu o painel: o nó no canvas ou o
+  // link na lista do mobile. Assim quem navega por teclado não se perde.
   const close = () => {
-    const id = nodeForRoute(pathname)?.id
+    const origin = mobile
+      ? `main a[href="${pathname}"]`
+      : `.react-flow__node[data-id="${nodeForRoute(pathname)?.id}"]`
     navigate('/')
-    requestAnimationFrame(() =>
-      document.querySelector<HTMLElement>(`.react-flow__node[data-id="${id}"]`)?.focus(),
-    )
+    requestAnimationFrame(() => document.querySelector<HTMLElement>(origin)?.focus())
   }
 
   return (
     <>
       <TopBar />
-      <Board />
+      {/* Canvas antes da versão em texto: no desktop o Tab chega primeiro aos nós. */}
+      {!mobile && <Board />}
+      <SemanticSite mobile={mobile} inert={mobile && panelOpen} />
       <AnimatePresence>
         {project && (
           <Panel key={pathname} title={project.title} onClose={close}>

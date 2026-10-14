@@ -58,9 +58,25 @@
   cursor: pointer;
 }
 
+/* Celular: tudo continua visível, só mais compacto. */
 @media (max-width: 480px) {
-  .links {
-    gap: 10px;
+  .bar {
+    padding: 0 10px;
     font-size: 12px;
+    gap: 8px;
+  }
+
+  .links {
+    gap: 8px;
+  }
+
+  .cv {
+    padding: 2px 6px;
+    box-shadow: none;
+  }
+
+  .theme {
+    width: 28px;
+    height: 28px;
   }
 }
