@@ -25,7 +25,7 @@ const CLUSTER_BOTTOM = 90
 const clusterTop = CLUSTER_BOTTOM - clusterSize.height
 
 const fixed: Record<string, XY> = {
-  'como-usar': { x: -730, y: -90 },
+  'como-usar': { x: -880, y: -230 },
   actor: { x: -300, y: 50 },
   gateway: { x: 0, y: 0 },
   curriculo: { x: 90, y: 320 },

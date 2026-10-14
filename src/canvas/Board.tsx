@@ -157,6 +157,11 @@ function FitAll() {
 // "Ver tudo" deixa livres o canto do minimapa (direita) e o botão (embaixo).
 const FIT = { padding: { top: '24px', left: '24px', right: '240px', bottom: '72px' } } as const
 
+// Ao entrar, a câmera abre no post-it "como funciona" e no visitante: primeiro
+// se lê como usar, depois se explora. Zoom de leitura, sem ampliar demais.
+// URL direta (ex.: /projetos/barnout) ainda vai para o nó dela (RouteCamera).
+const INITIAL = { nodes: [{ id: 'como-usar' }, { id: 'actor' }], maxZoom: 1, padding: 0.15 }
+
 /**
  * `tour`: parada atual do tour, quando ele está rodando.
  * Como usar o quadro está explicado no post-it "como funciona", que é um nó do modelo.
@@ -187,7 +192,7 @@ export function Board({ tour }: { tour?: TourStep }) {
         defaultEdges={rfEdges}
         nodeTypes={nodeTypes}
         fitView
-        fitViewOptions={FIT}
+        fitViewOptions={INITIAL}
         minZoom={0.3}
         maxZoom={2}
         // O layout.ts é a fonte da verdade: nós não se arrastam nem se conectam.
