@@ -245,6 +245,21 @@
     box-shadow 0.08s;
 }
 
+/* Hover levanta o post-it e empurra a seta, sem a borda azul do selecionado
+   (o azul do tema escuro some no amarelo). */
+.response.yellow:hover {
+  transform: rotate(-2deg) translateY(-2px);
+  box-shadow: 3px 5px 0 rgb(0 0 0 / 0.22);
+}
+
+.response .corner {
+  transition: transform 0.15s;
+}
+
+.response:hover .corner {
+  transform: translateX(4px);
+}
+
 .response.yellow:active {
   transform: rotate(-2deg) scale(0.97);
   box-shadow: 1px 1px 0 rgb(0 0 0 / 0.18);
