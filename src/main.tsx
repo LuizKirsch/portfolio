@@ -4,6 +4,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import '@fontsource/jetbrains-mono/400.css'
 import '@fontsource/jetbrains-mono/700.css'
 import '@fontsource/caveat/500.css'
+// O CSS do React Flow vem antes: theme.css sobrescreve as variáveis dele.
+import '@xyflow/react/dist/style.css'
 import './theme.css'
 import App from './App'
 

@@ -3,34 +3,6 @@
   height: 100dvh;
 }
 
-/* Tema do React Flow pelas variáveis dele, ligadas aos tokens do quadro. */
-.board :global(.react-flow) {
-  --xy-background-color-default: var(--bg);
-  --xy-background-pattern-dots-color-default: var(--dot);
-  --xy-edge-stroke-default: var(--ink);
-  --xy-edge-stroke-width-default: 2;
-  --xy-edge-label-background-color-default: var(--bg);
-  --xy-edge-label-color-default: var(--ink);
-  --xy-minimap-background-color-default: var(--paper);
-  --xy-minimap-node-background-color-default: color-mix(in srgb, var(--ink) 30%, transparent);
-  --xy-minimap-mask-background-color-default: rgb(0 0 0 / 0.08);
-  --xy-controls-button-background-color-default: var(--paper);
-  --xy-controls-button-color-default: var(--ink);
-  --xy-controls-button-border-color-default: var(--ink);
-  --xy-node-background-color-default: transparent;
-}
-
-/* Rótulos das setas em letra de mão, como anotação no quadro. */
-.board :global(.react-flow__edge-text) {
-  font-family: var(--hand);
-  font-size: 18px;
-}
-
-.board :global(.react-flow__arrowhead polyline) {
-  stroke: var(--ink);
-  fill: var(--ink);
-}
-
 .board :global(.react-flow__minimap),
 .board :global(.react-flow__controls) {
   border: 2px solid var(--ink);

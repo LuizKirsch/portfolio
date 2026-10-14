@@ -46,3 +46,15 @@ export function position(id: string): XY {
   if (i >= 0) return { x: 20, y: PROJECT_TOP + i * PROJECT_GAP }
   throw new Error(`layout: nó sem posição: ${id}`)
 }
+
+/**
+ * Lado de saída/entrada de uma seta: horizontal se a distância em x domina,
+ * vertical caso contrário. Usado pelo canvas e pelos mini diagramas dos painéis.
+ */
+// ponytail: compara cantos superiores, não centros; basta para layouts espaçados.
+export function sides(a: XY, b: XY): [string, string] {
+  const dx = b.x - a.x
+  const dy = b.y - a.y
+  if (Math.abs(dx) >= Math.abs(dy)) return dx > 0 ? ['r', 'l'] : ['l', 'r']
+  return dy > 0 ? ['b', 't'] : ['t', 'b']
+}
