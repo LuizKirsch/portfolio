@@ -33,3 +33,21 @@
     display: none;
   }
 }
+
+/* Rótulo no fim da seta (EndLabelEdge): letra de mão, igual aos rótulos do meio. */
+.endLabel {
+  position: absolute;
+  pointer-events: none;
+  font-family: var(--hand);
+  font-size: 18px;
+  line-height: 1;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* Toque: o quadro inteiro é área de arrastar e de pinça. Sem isso, um arrasto que
+   começa em cima de um nó vira gesto de rolagem do navegador e o React Flow
+   recebe um cancelamento. touch-action vale para todos os filhos. */
+.board :global(.react-flow) {
+  touch-action: none;
+}

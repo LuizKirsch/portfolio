@@ -19,6 +19,7 @@ import { PANEL_WIDTH } from '../panels/Panel'
 import { reducedMotion } from '../reducedMotion'
 import { MOBILE } from '../useMedia'
 import { TourDot } from '../tour/TourDot'
+import { EndLabelEdge } from './EndLabelEdge'
 import { nodeTypes } from './nodes'
 import type { BoardNode } from './nodes/types'
 import s from './board.module.css'
@@ -49,10 +50,14 @@ const rfNodes: BoardNode[] = nodes.map((n) => ({
   ariaLabel: n.route ? `${n.label}, abre ${n.route}` : n.label,
 }))
 
+// Setas do gateway até os serviços levam o rótulo no fim (ver EndLabelEdge).
+const edgeTypes = { endLabel: EndLabelEdge }
+
 const rfEdges: Edge[] = edges.map((e) => {
   const [from, to] = sides(absolute(byId.get(e.source)!), absolute(byId.get(e.target)!))
   return {
     ...e,
+    type: e.source === 'gateway' && byId.get(e.target)?.kind === 'service' ? 'endLabel' : undefined,
     sourceHandle: `s-${from}`,
     targetHandle: `t-${to}`,
     markerEnd: { type: MarkerType.ArrowClosed, width: 18, height: 18, color: 'var(--ink)' },
@@ -201,6 +206,7 @@ export function Board({ tour }: { tour?: TourStep }) {
         defaultNodes={rfNodes}
         defaultEdges={rfEdges}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         fitView
         fitViewOptions={INITIAL}
         // Baixo o bastante para o "ver tudo" caber num celular de 390px.
