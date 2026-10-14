@@ -1,0 +1,25 @@
+/* Tokens do quadro. O modo escuro (blackboard) só troca estes valores. */
+:root {
+  --bg: #f7f5f0;
+  --dot: #d6d2c8;
+  --ink: #1f1f1f;
+  --paper: #ffffff;
+  --accent: #2563eb;
+  --sticky-yellow: #fde68a;
+  --sticky-blue: #bfdbfe;
+  --shadow: 3px 3px 0 var(--ink);
+  --radius: 6px;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --hand: 'Caveat', cursive;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg) radial-gradient(var(--dot) 1px, transparent 1px) 0 0 / 20px 20px;
+  color: var(--ink);
+  font-family: var(--mono);
+}
