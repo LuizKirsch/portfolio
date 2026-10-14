@@ -1,0 +1,48 @@
+/**
+ * Layout desktop: onde cada nó do modelo (model.ts) fica no canvas.
+ *
+ * Coordenadas em px, canto superior esquerdo do nó. A leitura é da esquerda
+ * para a direita, como uma request: visitante → gateway → serviços → dados.
+ *
+ * Projetos são calculados pelo índice dentro do cluster, então adicionar um
+ * projeto em content.ts não exige mexer aqui: o cluster cresce sozinho.
+ */
+import { projects } from '../content/content'
+
+export type XY = { x: number; y: number }
+
+const fixed: Record<string, XY> = {
+  actor: { x: -300, y: 50 },
+  gateway: { x: 0, y: 0 },
+  curriculo: { x: 90, y: 320 },
+
+  sobre: { x: 480, y: -260 },
+  'sobre-note': { x: 800, y: -330 },
+
+  projetos: { x: 480, y: -60 },
+  cluster: { x: 800, y: -130 },
+
+  experiencia: { x: 480, y: 140 },
+  queue: { x: 800, y: 125 },
+
+  contato: { x: 480, y: 340 },
+  linkedin: { x: 800, y: 290 },
+  github: { x: 800, y: 370 },
+  email: { x: 800, y: 450 },
+}
+
+const PROJECT_TOP = 48
+const PROJECT_GAP = 64
+
+export const clusterSize = {
+  width: 340,
+  height: PROJECT_TOP + projects.length * PROJECT_GAP,
+}
+
+/** Posição de um nó. Filhos do cluster recebem posição relativa ao cluster. */
+export function position(id: string): XY {
+  if (fixed[id]) return fixed[id]
+  const i = projects.findIndex((p) => `project-${p.slug}` === id)
+  if (i >= 0) return { x: 20, y: PROJECT_TOP + i * PROJECT_GAP }
+  throw new Error(`layout: nó sem posição: ${id}`)
+}

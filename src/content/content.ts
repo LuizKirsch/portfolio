@@ -61,6 +61,9 @@ export const profile = {
   cv: '/curriculo.pdf',
 }
 
+/** Versão curta para o post-it do canvas. O painel /sobre usa `about`. */
+export const aboutNote = 'QA em 2022, dev em 2024. Hoje no ERPK. ADS na IENH, formatura em 2027.'
+
 export const about: string[] = [
   'Sou dev fullstack na Fraga & Bitello. Trabalho no ERPK, um ERP em Laravel e Livewire para o setor de consórcios.',
   'Comecei no fim de 2022 como QA, automatizando testes com Cypress, Selenium e CodeceptJS. Em 2024 passei a desenvolver em PHP e Laravel.',
