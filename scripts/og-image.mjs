@@ -13,15 +13,13 @@ try {
     colorScheme: 'light',
     reducedMotion: 'reduce',
   })
-  // Sem a dica de primeira visita na imagem.
-  await page.addInitScript(() => localStorage.setItem('hint-seen', '1'))
   await page.goto(`http://localhost:${port}/`)
   await page.waitForSelector('.react-flow__node-gateway')
   await page.evaluate(() => document.fonts.ready)
-  // Minimapa, zoom e "ver tudo" são interface, não fazem parte do desenho.
+  // Minimapa, zoom, "ver tudo" e a dica são interface, não fazem parte do desenho.
   await page.addStyleTag({
     content:
-      '.react-flow__minimap, .react-flow__controls, .react-flow__panel.bottom.center { display: none }',
+      '.react-flow__minimap, .react-flow__controls, .react-flow__panel.center { display: none }',
   })
   await page.screenshot({ path: 'public/og-image.png' })
   console.log('public/og-image.png gerado')

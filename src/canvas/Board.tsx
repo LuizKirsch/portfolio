@@ -154,20 +154,16 @@ function FitAll() {
   )
 }
 
-// "Ver tudo" deixa livres o canto do minimapa (direita) e o botão (embaixo).
-const FIT = { padding: { top: '24px', left: '24px', right: '240px', bottom: '72px' } } as const
-
-const HINT_KEY = 'hint-seen'
+// "Ver tudo" deixa livres a dica (em cima), o minimapa (direita) e o botão (embaixo).
+const FIT = { padding: { top: '84px', left: '24px', right: '240px', bottom: '72px' } } as const
 
 /** `tour`: parada atual do tour, quando ele está rodando. */
 export function Board({ tour }: { tour?: TourStep }) {
   const navigate = useNavigate()
-  const [hint, setHint] = useState(() => !localStorage.getItem(HINT_KEY))
-  const dismissHint = () => {
-    if (!hint) return
-    localStorage.setItem(HINT_KEY, '1')
-    setHint(false)
-  }
+  // Dica de navegação: aparece em toda visita e some na primeira interação
+  // (arrastar, dar zoom, clicar ou Enter num nó).
+  const [hint, setHint] = useState(true)
+  const dismissHint = () => setHint(false)
 
   const open = (n: ModelNode) => {
     dismissHint()
@@ -218,9 +214,14 @@ export function Board({ tour }: { tour?: TourStep }) {
         <Panel position="bottom-center">
           <FitAll />
         </Panel>
-        {hint && (
-          <Panel position="top-left" className={s.hint}>
-            arrasta, dá zoom, clica nas caixas
+        {/* Durante o tour o balão já guia o visitante: a dica sai do caminho. */}
+        {hint && !tour && (
+          // O Panel do React Flow já usa transform para centralizar: o estilo vai num filho.
+          <Panel position="top-center">
+            <p className={s.hint}>
+              <span aria-hidden="true">✋</span> arrasta · <span aria-hidden="true">🔍</span> dá
+              zoom · <span aria-hidden="true">👆</span> clica nas caixas
+            </p>
           </Panel>
         )}
       </ReactFlow>
