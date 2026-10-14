@@ -23,7 +23,7 @@ export type ModelNode = {
   /** Nó que contém este (projetos ficam dentro do cluster). */
   parentId?: string
   /** Cor do post-it. */
-  tone?: 'yellow' | 'blue'
+  tone?: 'yellow' | 'blue' | 'green'
   /** Texto do post-it (um parágrafo por item). */
   text?: string[]
 }
@@ -47,8 +47,14 @@ export const contactLinks = [
 export const projectRoute = (slug: string) => `/projetos/${slug}`
 
 export const nodes: ModelNode[] = [
-  // Anotação solta ao lado do visitante, sem setas: explica como usar o quadro.
-  { id: 'como-usar', kind: 'sticky', label: 'como funciona', tone: 'yellow', text: howTo },
+  // Anotações soltas ao lado do visitante, sem setas: explicam como usar o quadro.
+  ...howTo.map((h): ModelNode => ({
+    id: h.id,
+    kind: 'sticky',
+    label: h.title,
+    tone: h.tone,
+    text: [h.title, h.text],
+  })),
   { id: 'actor', kind: 'actor', label: 'visitante' },
   { id: 'gateway', kind: 'gateway', label: profile.name, route: '/' },
   { id: 'curriculo', kind: 'database', label: 'currículo', href: profile.cv },

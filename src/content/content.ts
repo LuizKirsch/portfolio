@@ -84,12 +84,34 @@ export const profile = {
   cv: '/curriculo.pdf',
 }
 
-/** Post-it à esquerda do visitante: como usar o quadro. Só aparece no canvas. */
-export const howTo: string[] = [
-  'Como funciona este quadro:',
-  'Ele é um diagrama de system design. Você é o visitante fazendo GET /luiz.',
-  'Arraste para mover e use a roda do mouse para dar zoom. Clique numa caixa para abrir os detalhes.',
-  'Prefere ser guiado? Clique em ▶ seguir a request, lá em cima. A request passa por cada serviço e abre os painéis, um de cada vez. Dá para pausar, voltar ou pular.',
+/**
+ * Post-its à esquerda do visitante: como usar o quadro, um assunto por cor.
+ * Só aparecem no canvas (no mobile não há arrastar nem zoom).
+ */
+export const howTo: {
+  id: string
+  tone: 'yellow' | 'blue' | 'green'
+  title: string
+  text: string
+}[] = [
+  {
+    id: 'como-funciona',
+    tone: 'yellow',
+    title: 'Como funciona',
+    text: 'Este quadro é um diagrama de system design. Você é o visitante fazendo GET /luiz.',
+  },
+  {
+    id: 'como-navegar',
+    tone: 'blue',
+    title: 'Navegar',
+    text: 'Arraste para mover e use a roda do mouse para dar zoom. Clique numa caixa para abrir os detalhes.',
+  },
+  {
+    id: 'como-tour',
+    tone: 'green',
+    title: 'Prefere ser guiado?',
+    text: 'Clique em ▶ seguir a request, lá em cima. A request passa por cada serviço e abre os painéis, um de cada vez. Dá para pausar, voltar ou pular.',
+  },
 ]
 
 /** Versão curta para o post-it do canvas. O painel /sobre usa `about`. */

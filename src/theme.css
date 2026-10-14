@@ -7,6 +7,7 @@
   --accent: #2563eb;
   --sticky-yellow: #fde68a;
   --sticky-blue: #bfdbfe;
+  --sticky-green: #bbf7d0;
   --shadow: 3px 3px 0 var(--ink);
   --radius: 6px;
   --mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -24,6 +25,7 @@
   --accent: #7fb0ff;
   --sticky-yellow: #e8d27a;
   --sticky-blue: #a9c9ec;
+  --sticky-green: #a3d9b1;
   --shadow: 3px 3px 0 rgb(0 0 0 / 0.45);
   color-scheme: dark;
 }

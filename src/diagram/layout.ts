@@ -25,7 +25,10 @@ const CLUSTER_BOTTOM = 90
 const clusterTop = CLUSTER_BOTTOM - clusterSize.height
 
 const fixed: Record<string, XY> = {
-  'como-usar': { x: -880, y: -230 },
+  // Post-its de como usar: coluna à esquerda do visitante, levemente desencontrados.
+  'como-funciona': { x: -820, y: -330 },
+  'como-navegar': { x: -860, y: -140 },
+  'como-tour': { x: -810, y: 60 },
   actor: { x: -300, y: 50 },
   gateway: { x: 0, y: 0 },
   curriculo: { x: 90, y: 320 },

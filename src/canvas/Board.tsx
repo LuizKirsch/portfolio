@@ -12,7 +12,7 @@ import {
   useReactFlow,
   type Edge,
 } from '@xyflow/react'
-import type { TourStep } from '../content/content'
+import { howTo, type TourStep } from '../content/content'
 import { edges, nodeForRoute, nodes, type ModelNode } from '../diagram/model'
 import { clusterSize, position, sides, type XY } from '../diagram/layout'
 import { PANEL_WIDTH } from '../panels/Panel'
@@ -157,14 +157,18 @@ function FitAll() {
 // "Ver tudo" deixa livres o canto do minimapa (direita) e o botão (embaixo).
 const FIT = { padding: { top: '24px', left: '24px', right: '240px', bottom: '72px' } } as const
 
-// Ao entrar, a câmera abre no post-it "como funciona" e no visitante: primeiro
+// Ao entrar, a câmera abre nos post-its de como usar e no visitante: primeiro
 // se lê como usar, depois se explora. Zoom de leitura, sem ampliar demais.
 // URL direta (ex.: /projetos/barnout) ainda vai para o nó dela (RouteCamera).
-const INITIAL = { nodes: [{ id: 'como-usar' }, { id: 'actor' }], maxZoom: 1, padding: 0.15 }
+const INITIAL = {
+  nodes: [...howTo.map((h) => ({ id: h.id })), { id: 'actor' }],
+  maxZoom: 1,
+  padding: 0.15,
+}
 
 /**
  * `tour`: parada atual do tour, quando ele está rodando.
- * Como usar o quadro está explicado no post-it "como funciona", que é um nó do modelo.
+ * Como usar o quadro está explicado nos post-its de como usar, que são nós do modelo.
  */
 export function Board({ tour }: { tour?: TourStep }) {
   const navigate = useNavigate()

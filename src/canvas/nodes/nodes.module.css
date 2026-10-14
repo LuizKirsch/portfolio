@@ -135,38 +135,51 @@
   color: inherit;
 }
 
+/* Cor do post-it. Cada cor tem uma inclinação própria, para notas vizinhas
+   não ficarem alinhadas demais, como papéis colados à mão. */
 .yellow {
-  width: 220px;
   background: var(--sticky-yellow);
   transform: rotate(-2deg);
 }
 
-.yellow p {
+.blue {
+  background: var(--sticky-blue);
+  transform: rotate(1.5deg);
+}
+
+.green {
+  background: var(--sticky-green);
+  transform: rotate(-1deg);
+}
+
+/* Formato: link de contato (pequeno) ou anotação (texto). */
+.link {
+  min-width: 130px;
+}
+
+.note {
+  width: 220px;
+}
+
+.note p {
   margin: 0;
 }
 
-.yellow p + p {
-  margin-top: 8px;
+.note p + p {
+  margin-top: 6px;
 }
 
-/* Post-it de instruções: mais largo, inclinado para o outro lado. */
+/* Post-its de como usar: maiores, para ler na abertura. */
 .wide {
-  width: 360px;
-  padding: 16px 18px;
-  font-size: 25px;
-  transform: rotate(1.5deg);
+  width: 340px;
+  padding: 14px 18px;
+  font-size: 24px;
 }
 
 .noteTitle {
   font-size: 30px;
   text-decoration: underline;
   text-underline-offset: 4px;
-}
-
-.blue {
-  min-width: 130px;
-  background: var(--sticky-blue);
-  transform: rotate(1.5deg);
 }
 
 .database {
