@@ -103,7 +103,7 @@ export const education: Education[] = [
 export const experiences: Experience[] = [
   {
     id: 'qa',
-    label: 'QA (2022)',
+    label: 'QA',
     title: 'Quality Assurance',
     org: 'Testing Company',
     place: 'Novo Hamburgo, RS',
@@ -118,8 +118,8 @@ export const experiences: Experience[] = [
   },
   {
     id: 'dev',
-    label: 'Dev Fullstack (2023)',
-    title: 'Desenvolvedor Fullstack',
+    label: 'Dev Fullstack Jr',
+    title: 'Desenvolvedor Fullstack Júnior',
     org: 'Testing Company',
     place: 'Novo Hamburgo, RS · híbrido',
     period: 'abr/2023 – nov/2024',
@@ -133,8 +133,8 @@ export const experiences: Experience[] = [
   },
   {
     id: 'fb-junior',
-    label: 'F&B Júnior (2024)',
-    title: 'Desenvolvedor de Software Júnior',
+    label: 'Dev Fullstack Jr',
+    title: 'Desenvolvedor Fullstack Júnior',
     org: 'Fraga & Bitello',
     place: 'São Leopoldo, RS · híbrido',
     period: 'nov/2024 – ago/2026',
@@ -149,8 +149,8 @@ export const experiences: Experience[] = [
   },
   {
     id: 'fb-pleno',
-    label: 'F&B Pleno (2026)',
-    title: 'Desenvolvedor de Software Pleno',
+    label: 'Dev Fullstack Pleno',
+    title: 'Desenvolvedor Fullstack Pleno',
     org: 'Fraga & Bitello',
     place: 'São Leopoldo, RS · híbrido',
     period: 'set/2026 – hoje',
@@ -338,21 +338,32 @@ export const projects: Project[] = [
     title: 'Tenancy Laravel',
     summary:
       'Aplicação multi-tenant com um banco de dados isolado por tenant, identificado pelo subdomínio e criado automaticamente quando o tenant é cadastrado.',
+    // Estrutura do README do repositório: o domínio central serve o painel admin e
+    // o banco central (tenants e domains); cadastrar um tenant dispara a criação do
+    // banco dele e as migrations de tenant; os domínios de tenant usam só o próprio banco.
     diagrams: [
       {
-        caption: 'um banco por tenant',
+        caption: 'domínio central x domínio do tenant',
         nodes: [
-          { id: 'a', label: 'a.dominio', col: 0, row: 0 },
-          { id: 'b', label: 'b.dominio', col: 1, row: 0 },
-          { id: 'app', label: 'Laravel + stancl/tenancy', col: 0, row: 1 },
-          { id: 'dba', label: 'banco do tenant A', col: 0, row: 2, kind: 'database' },
-          { id: 'dbb', label: 'banco do tenant B', col: 1, row: 2, kind: 'database' },
+          { id: 'central', label: 'domínio central', col: 0, row: 0 },
+          { id: 'tdom', label: 'domínio do tenant', col: 2, row: 0 },
+          { id: 'admin', label: 'painel central (admin)', col: 0, row: 1 },
+          { id: 'troutes', label: 'rotas do tenant', col: 2, row: 1 },
+          {
+            id: 'cdb',
+            label: 'banco central: tenants e domains',
+            col: 0,
+            row: 2,
+            kind: 'database',
+          },
+          { id: 'tdb', label: 'banco do tenant', col: 2, row: 2, kind: 'database' },
         ],
         edges: [
-          { from: 'a', to: 'app' },
-          { from: 'b', to: 'app' },
-          { from: 'app', to: 'dba' },
-          { from: 'app', to: 'dbb' },
+          { from: 'central', to: 'admin' },
+          { from: 'admin', to: 'cdb', label: 'cadastra tenant' },
+          { from: 'cdb', to: 'tdb', label: 'cria banco + migrations' },
+          { from: 'tdom', to: 'troutes', label: 'identifica o tenant' },
+          { from: 'troutes', to: 'tdb' },
         ],
       },
     ],
@@ -360,8 +371,8 @@ export const projects: Project[] = [
     problem: [],
     decisions: [
       'Um banco de dados por tenant, em vez de um banco compartilhado.',
-      'O tenant é identificado pelo subdomínio da requisição.',
-      'O banco do tenant é provisionado automaticamente na criação.',
+      'O tenant é identificado pelo domínio da requisição. Os domínios centrais servem o painel administrativo; qualquer outro é tratado como tenant.',
+      'Cadastrar um tenant cria automaticamente o banco dele e roda as migrations de tenant, que ficam separadas das migrations do banco central.',
       // TODO: por que banco isolado e não banco compartilhado?
     ],
     role: ['Projeto pessoal.'],

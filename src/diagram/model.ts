@@ -62,7 +62,7 @@ export const nodes: ModelNode[] = [
   {
     id: 'queue',
     kind: 'queue',
-    label: experiences.map((e) => e.label).join(' → '),
+    label: experiences.map((e) => `${e.label} (${e.org})`).join(' → '),
     route: '/experiencia',
   },
   ...contactLinks.map((c): ModelNode => ({ ...c, kind: 'sticky', tone: 'blue' })),

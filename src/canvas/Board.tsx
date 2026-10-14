@@ -141,11 +141,17 @@ function TourCamera({ nodeId }: { nodeId: string }) {
 function FitAll() {
   const { fitView } = useReactFlow()
   return (
-    <button className={s.button} onClick={() => fitView({ duration: reducedMotion() ? 0 : 400 })}>
+    <button
+      className={s.button}
+      onClick={() => fitView({ ...FIT, duration: reducedMotion() ? 0 : 400 })}
+    >
       ver tudo
     </button>
   )
 }
+
+// "Ver tudo" deixa livres o canto do minimapa (direita) e o botão (embaixo).
+const FIT = { padding: { top: '24px', left: '24px', right: '240px', bottom: '72px' } } as const
 
 const HINT_KEY = 'hint-seen'
 
@@ -183,6 +189,7 @@ export function Board({ tourNodeId }: { tourNodeId?: string }) {
         defaultEdges={rfEdges}
         nodeTypes={nodeTypes}
         fitView
+        fitViewOptions={FIT}
         minZoom={0.3}
         maxZoom={2}
         // O layout.ts é a fonte da verdade: nós não se arrastam nem se conectam.

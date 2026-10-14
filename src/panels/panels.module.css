@@ -129,7 +129,8 @@
   padding-left: 20px;
 }
 
-.timeline li + li {
+/* Só entre cargos: sem o ">" a regra pegava também as listas de dentro (as tags). */
+.timeline > li + li {
   margin-top: 16px;
 }
 

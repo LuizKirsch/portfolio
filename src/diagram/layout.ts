@@ -54,7 +54,7 @@ export function position(id: string): XY {
 
 /**
  * Lado de saída/entrada de uma seta: horizontal se a distância em x domina,
- * vertical caso contrário. Usado pelo canvas e pelos mini diagramas dos painéis.
+ * vertical caso contrário. Usado pelo canvas (os mini diagramas usam a grade).
  */
 // ponytail: compara cantos superiores, não centros; basta para layouts espaçados.
 export function sides(a: XY, b: XY): [string, string] {

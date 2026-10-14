@@ -1,13 +1,12 @@
 import { MarkerType, ReactFlow, type Edge, type Node, type NodeProps } from '@xyflow/react'
 import type { ProjectDiagram } from '../content/content'
-import { sides, type XY } from '../diagram/layout'
+import type { XY } from '../diagram/layout'
 import { Handles } from '../canvas/nodes/Handles'
 import s from './panels.module.css'
 
 /*
  * Diagrama somente leitura dentro do painel. Usa o mesmo React Flow e os mesmos
- * Handles do canvas, então as setas escolhem o lado do mesmo jeito.
- * As posições vêm de uma grade (col/row) definida no content.ts.
+ * Handles do canvas. As posições vêm de uma grade (col/row) definida no content.ts.
  */
 
 const COL = 220
@@ -15,6 +14,17 @@ const ROW = 80
 
 type MiniData = ProjectDiagram['nodes'][number]
 type MiniNode = Node<MiniData>
+
+/**
+ * Os diagramas dos painéis são em camadas: o lado da seta vem da grade, não dos
+ * pixels. Linha diferente → seta vertical (sai por baixo, entra por cima);
+ * mesma linha → horizontal. Comparar pixels fazia setas entre camadas saírem
+ * pela lateral quando a distância em x era maior.
+ */
+function gridSides(a: MiniData, b: MiniData): [string, string] {
+  if (a.row !== b.row) return a.row < b.row ? ['b', 't'] : ['t', 'b']
+  return a.col < b.col ? ['r', 'l'] : ['l', 'r']
+}
 
 function MiniBox({ data }: NodeProps<MiniNode>) {
   return (
@@ -31,6 +41,7 @@ export function MiniDiagram({ diagram }: { diagram: ProjectDiagram }) {
   const pos = new Map<string, XY>(
     diagram.nodes.map((n) => [n.id, { x: n.col * COL, y: n.row * ROW }]),
   )
+  const byId = new Map(diagram.nodes.map((n) => [n.id, n]))
   const label = new Map(diagram.nodes.map((n) => [n.id, n.label]))
 
   const nodes: MiniNode[] = diagram.nodes.map((n) => ({
@@ -41,7 +52,7 @@ export function MiniDiagram({ diagram }: { diagram: ProjectDiagram }) {
   }))
 
   const edges: Edge[] = diagram.edges.map((e) => {
-    const [from, to] = sides(pos.get(e.from)!, pos.get(e.to)!)
+    const [from, to] = gridSides(byId.get(e.from)!, byId.get(e.to)!)
     return {
       id: `${e.from}->${e.to}`,
       source: e.from,

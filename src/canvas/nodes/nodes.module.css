@@ -111,6 +111,8 @@
 
 /* Slots da fila separados por traços verticais, como num desenho de queue. */
 .queue li {
+  display: flex;
+  flex-direction: column;
   padding: 4px 12px;
   font-size: 13px;
   white-space: nowrap;
