@@ -1,8 +1,7 @@
 /**
  * Modelo lógico do diagrama: quais nós existem e como se conectam.
  *
- * Sem posições: o layout desktop está em layout.ts, e o mobile percorre este
- * modelo em ordem. Os dois usam a mesma lista de nós.
+ * Sem posições: elas estão em layout.ts, o mesmo para desktop e mobile.
  *
  * Tudo é derivado de content.ts: um projeto novo vira nó e aresta sozinho.
  */

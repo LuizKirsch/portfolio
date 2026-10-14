@@ -512,16 +512,16 @@ export const projects: Project[] = [
         caption: 'do conteúdo à tela',
         nodes: [
           { id: 'content', label: 'content.ts', col: 0, row: 0 },
+          { id: 'semantic', label: 'versão semântica', col: 1, row: 0 },
           { id: 'model', label: 'model.ts', col: 0, row: 1 },
           { id: 'layout', label: 'layout.ts', col: 1, row: 1 },
-          { id: 'semantic', label: 'HTML semântico', col: 0, row: 2 },
-          { id: 'board', label: 'React Flow', col: 1, row: 2 },
+          { id: 'board', label: 'quadro (React Flow)', col: 0.5, row: 2 },
         ],
         edges: [
+          { from: 'content', to: 'semantic' },
           { from: 'content', to: 'model', label: 'conteúdo tipado' },
-          { from: 'model', to: 'layout' },
-          { from: 'model', to: 'semantic' },
-          { from: 'layout', to: 'board', label: 'desktop e mobile' },
+          { from: 'model', to: 'board', label: 'nós e arestas' },
+          { from: 'layout', to: 'board', label: 'posições' },
         ],
       },
       {
