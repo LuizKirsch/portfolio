@@ -93,7 +93,9 @@ test('8. GET /health mostra o badge do CI e abre o Actions numa nova aba', async
   await expect(link).toHaveAttribute('href', health.actions)
   await expect(link).toHaveAttribute('target', '_blank')
   await expect(link.locator('img')).toHaveAttribute('src', health.badge)
-  for (const c of health.checks) await expect(link).toContainText(c)
+  // Lidos do ci.yml no build (src/content/ci.ts).
+  for (const c of ['lint · ESLint', 'typecheck · tsc', 'unit · Vitest', 'e2e · Playwright'])
+    await expect(link).toContainText(c)
 })
 
 test.describe('7. stack', () => {

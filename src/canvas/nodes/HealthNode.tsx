@@ -1,3 +1,4 @@
+import { checks } from '../../content/ci'
 import { health } from '../../content/content'
 import { Handles } from './Handles'
 import type { BoardNodeProps } from './types'
@@ -11,7 +12,7 @@ export function HealthNode({ data }: BoardNodeProps) {
       <strong>{data.label}</strong>
       <img src={health.badge} alt="status do CI no GitHub Actions" height={20} />
       <ul>
-        {health.checks.map((c) => (
+        {checks.map((c) => (
           <li key={c}>{c}</li>
         ))}
       </ul>

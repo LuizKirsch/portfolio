@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 import { asset } from '../asset'
+import { checks } from '../content/ci'
 import { camadas, health, profile, projects, techs } from '../content/content'
 import { ExperienciaPanel, SobrePanel } from '../panels/SectionPanels'
 import { contactLinks, projectRoute, services, techRoute } from '../diagram/model'
@@ -99,7 +100,7 @@ export function SemanticSite() {
           <a href={health.actions} target="_blank" rel="noreferrer">
             GET /health: status do CI ↗
           </a>{' '}
-          ({health.checks.join(', ')})
+          ({checks.join(', ')})
         </p>
       </header>
 

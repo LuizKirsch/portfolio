@@ -148,12 +148,12 @@ const repo = 'https://github.com/LuizKirsch/portfolio'
 
 /**
  * Nó GET /health: o status do CI vem do badge oficial do workflow (uma imagem
- * SVG servida pelo GitHub), sem chamar API. `checks` é o que o ci.yml roda.
+ * SVG servida pelo GitHub), sem chamar API. Os tipos de teste saem do próprio
+ * ci.yml (ver content/ci.ts).
  */
 export const health = {
   actions: `${repo}/actions`,
   badge: `${repo}/actions/workflows/ci.yml/badge.svg`,
-  checks: ['e2e · Playwright', 'unit · Vitest', 'lint · ESLint', 'typecheck · tsc'],
 }
 
 /** Post-its à esquerda do visitante: como usar o quadro, um assunto por cor. */
