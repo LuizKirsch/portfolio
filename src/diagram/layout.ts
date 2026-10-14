@@ -4,10 +4,12 @@
  * Coordenadas em px, canto superior esquerdo do nó. A leitura é da esquerda
  * para a direita, como uma request: visitante → gateway → serviços → dados.
  *
- * Projetos são calculados pelo índice dentro do cluster, então adicionar um
- * projeto em content.ts não exige mexer aqui: o cluster cresce sozinho.
+ * A coluna de serviços segue a ordem de `services` (content.ts): mudar a ordem
+ * lá reposiciona serviços e dados aqui. Projetos e tecnologias são calculados
+ * pelo índice, então o cluster e o frame de stack crescem sozinhos.
  */
-import { camadas, projects, techs } from '../content/content'
+import { camadas, projects, services, techs, type ServiceId } from '../content/content'
+import { contactLinks } from './model'
 
 export type XY = { x: number; y: number }
 
@@ -40,10 +42,45 @@ function techPosition(id: string): XY | undefined {
   return { x: STACK_PAD + col * STACK_COL, y: STACK_TOP + row * STACK_GAP }
 }
 
-// O cluster cresce para cima a partir de uma base fixa, logo acima da fila de
-// experiência. Sobre e o post-it sobem junto, então nada se sobrepõe.
-const CLUSTER_BOTTOM = 90
-const clusterTop = CLUSTER_BOTTOM - clusterSize.height
+/*
+ * Coluna de serviços: uma linha por serviço, de cima para baixo, centrada na
+ * altura do gateway. Cada linha tem a altura do que o serviço liga, e o serviço
+ * fica no meio dela. Alturas estimadas: o layout vem antes de o React Flow
+ * medir os nós. Linhas empilhadas na ordem do menu = setas do gateway sem cruzar.
+ */
+const SERVICE_X = 480
+const DATA_X = 800
+const SERVICE_H = 50
+const ROW_GAP = 70
+const GATEWAY_MID = 115
+const CONTACT_GAP = 80
+
+const rowHeight: Record<ServiceId, number> = {
+  sobre: 150,
+  projetos: clusterSize.height,
+  experiencia: 75,
+  stack: stackFrameSize.height,
+  contato: (contactLinks.length - 1) * CONTACT_GAP + 50,
+}
+
+// O que cada serviço liga, com o deslocamento vertical dentro da linha.
+const rowNodes: Record<ServiceId, [id: string, dy: number][]> = {
+  sobre: [['sobre-note', 0]],
+  projetos: [['cluster', 0]],
+  experiencia: [['queue', 0]],
+  stack: [['stack-frame', 0]],
+  contato: contactLinks.map((c, i) => [c.id, i * CONTACT_GAP]),
+}
+
+const column: Record<string, XY> = {}
+let rowTop =
+  GATEWAY_MID -
+  (services.reduce((sum, s) => sum + rowHeight[s.id], 0) + ROW_GAP * (services.length - 1)) / 2
+for (const s of services) {
+  column[s.id] = { x: SERVICE_X, y: rowTop + rowHeight[s.id] / 2 - SERVICE_H / 2 }
+  for (const [id, dy] of rowNodes[s.id]) column[id] = { x: DATA_X, y: rowTop + dy }
+  rowTop += rowHeight[s.id] + ROW_GAP
+}
 
 const fixed: Record<string, XY> = {
   // Post-its de como usar: coluna à esquerda do visitante, levemente desencontrados.
@@ -54,24 +91,7 @@ const fixed: Record<string, XY> = {
   gateway: { x: 0, y: 0 },
   curriculo: { x: 90, y: 320 },
   health: { x: 40, y: -250 },
-
-  sobre: { x: 480, y: clusterTop - 150 },
-  'sobre-note': { x: 800, y: clusterTop - 200 },
-
-  projetos: { x: 480, y: clusterTop + clusterSize.height / 2 - 30 },
-  cluster: { x: 800, y: clusterTop },
-
-  experiencia: { x: 480, y: 140 },
-  queue: { x: 800, y: 125 },
-
-  contato: { x: 480, y: 340 },
-  linkedin: { x: 800, y: 290 },
-  github: { x: 800, y: 370 },
-  email: { x: 800, y: 450 },
-
-  // Abaixo de contato: as setas até os usos sobem para a fila e o cluster.
-  stack: { x: 480, y: 620 + stackFrameSize.height / 2 - 30 },
-  'stack-frame': { x: 800, y: 620 },
+  ...column,
 }
 
 /** Posição de um nó. Filhos do cluster e do frame recebem posição relativa ao pai. */

@@ -11,7 +11,7 @@ Meu portfólio, desenhado como um quadro de system design. O visitante é um ato
 Antes de escrever código, eu costumo desenhar o sistema. O site usa esse desenho como interface:
 
 - **Gateway:** nome, cargo, stack principal e uma frase.
-- **5 serviços:** `sobre-service`, `projetos-service`, `experiencia-service`, `contato-service` e `stack-service`. Cada um liga a um tipo de nó: post-it, cluster de projetos, fila (a carreira em ordem), links de contato e o frame de stack por camada.
+- **5 serviços:** `sobre-service`, `projetos-service`, `experiencia-service`, `stack-service` e `contato-service` (sempre por último). Cada um liga a um tipo de nó: post-it, cluster de projetos, fila (a carreira em ordem), o frame de stack por camada e links de contato. A ordem fica num único array, `services` no `content.ts`, e dele saem as posições no quadro, a versão semântica e o tour.
 - **Stack:** clicar numa tecnologia (`/stack/:id`) destaca onde ela foi usada e abre o painel com os usos. As ligações são calculadas do `stack` de cada projeto e experiência ([`content/stack.ts`](src/content/stack.ts)), sem lista duplicada.
 - **Banco de dados "currículo":** baixa o PDF.
 - **`GET /health`:** o badge oficial do workflow de CI (imagem SVG do GitHub, sem chamar API) e os tipos de teste que ele roda. O clique abre a página de Actions.

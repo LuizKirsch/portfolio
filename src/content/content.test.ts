@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { nodes } from '../diagram/model'
-import { experiences, howTo, projects, tour } from './content'
+import { experiences, howTo, projects, services, tour } from './content'
 
 // Valida o content.ts: é o único arquivo que muda para adicionar conteúdo,
 // então é aqui que um projeto mal preenchido precisa falhar.
@@ -64,6 +64,13 @@ describe('tour', () => {
 
   it.each(tour.filter((s) => s.route))('$nodeId abre um painel que existe', (step) => {
     expect(panelRoutes).toContain(step.route)
+  })
+
+  it('passa pelos serviços na ordem do menu, com contato por último', () => {
+    const ids = new Set<string>(services.map((s) => s.id))
+    const visited = tour.map((s) => s.nodeId).filter((id) => ids.has(id))
+    expect(visited).toEqual(services.map((s) => s.id))
+    expect(visited.at(-1)).toBe('contato')
   })
 
   it('passa por todos os projetos', () => {

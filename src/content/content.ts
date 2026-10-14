@@ -568,36 +568,75 @@ export const projects: Project[] = [
 ]
 
 /**
+ * Os serviços do gateway, na ordem do menu. É o único lugar da ordem: as
+ * setas e as posições no quadro (model.ts e layout.ts), a versão semântica e
+ * o tour seguem este array. `panel`: a rota abre painel (/projetos e /stack só
+ * levam a câmera até os dados). `tour`: o texto da parada do serviço.
+ */
+export const services = [
+  {
+    id: 'sobre',
+    label: 'sobre-service',
+    route: '/sobre',
+    panel: true,
+    tour: 'sobre-service: quem eu sou, em poucas linhas.',
+  },
+  {
+    id: 'projetos',
+    label: 'projetos-service',
+    route: '/projetos',
+    panel: false,
+    tour: 'projetos-service: cada projeto é um estudo de caso. Vamos passar por eles.',
+  },
+  {
+    id: 'experiencia',
+    label: 'experiencia-service',
+    route: '/experiencia',
+    panel: true,
+    tour: 'experiencia-service: a fila da carreira, de QA em 2022 a Pleno em 2026.',
+  },
+  {
+    id: 'stack',
+    label: 'stack-service',
+    route: '/stack',
+    panel: false,
+    tour: 'stack-service: as tecnologias por camada. Clique numa delas para ver onde eu usei.',
+  },
+  // Contato sempre por último.
+  {
+    id: 'contato',
+    label: 'contato-service',
+    route: '/contato',
+    panel: true,
+    tour: 'contato-service: LinkedIn, GitHub e e-mail.',
+  },
+] as const
+
+export type ServiceId = (typeof services)[number]['id']
+
+/**
  * O tour segue a request: visitante → gateway → cada serviço → currículo.
  * Paradas com `route` abrem o painel daquela rota. Sem `ms`, o tempo da parada
  * é o de leitura do balão + painel (ver src/tour/timing.ts).
- * As paradas de projeto saem de `projects`: projeto novo entra no tour sozinho.
+ * A ordem dos serviços vem de `services`, e as paradas de projeto saem de
+ * `projects`: projeto novo entra no tour sozinho.
  */
 export const tour: TourStep[] = [
   { nodeId: 'actor', text: 'Você é o visitante. Sua request é GET /luiz.', ms: 5000 },
   { nodeId: 'gateway', text: 'O gateway responde com quem eu sou e com o que trabalho.', ms: 5000 },
-  { nodeId: 'sobre', route: '/sobre', text: 'sobre-service: quem eu sou, em poucas linhas.' },
-  {
-    nodeId: 'projetos',
-    text: 'projetos-service: cada projeto é um estudo de caso. Vamos passar por eles.',
-    ms: 5000,
-  },
-  ...projects.map((p, i) => ({
-    nodeId: `project-${p.slug}`,
-    route: `/projetos/${p.slug}`,
-    text: `Projeto ${i + 1} de ${projects.length}: ${p.title}.`,
-  })),
-  {
-    nodeId: 'experiencia',
-    route: '/experiencia',
-    text: 'experiencia-service: a fila da carreira, de QA em 2022 a Pleno em 2026.',
-  },
-  { nodeId: 'contato', route: '/contato', text: 'contato-service: LinkedIn, GitHub e e-mail.' },
-  {
-    nodeId: 'stack',
-    text: 'stack-service: as tecnologias por camada. Clique numa delas para ver onde eu usei.',
-    ms: 5000,
-  },
+  ...services.flatMap((s): TourStep[] => [
+    // Serviço com painel abre o painel; sem painel, a parada tem tempo fixo.
+    s.panel
+      ? { nodeId: s.id, route: s.route, text: s.tour }
+      : { nodeId: s.id, text: s.tour, ms: 5000 },
+    ...(s.id === 'projetos'
+      ? projects.map((p, i) => ({
+          nodeId: `project-${p.slug}`,
+          route: `/projetos/${p.slug}`,
+          text: `Projeto ${i + 1} de ${projects.length}: ${p.title}.`,
+        }))
+      : []),
+  ]),
   {
     nodeId: 'curriculo',
     text: 'O banco de dados guarda o currículo em PDF. Clique para baixar.',

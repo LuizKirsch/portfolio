@@ -13,6 +13,7 @@ import {
   howTo,
   profile,
   projects,
+  services,
   techs,
   type TechId,
 } from '../content/content'
@@ -50,14 +51,8 @@ export type ModelNode = {
 
 export type ModelEdge = { id: string; source: string; target: string; label?: string }
 
-// Os serviços: as setas do gateway até eles são o menu do site.
-export const services = [
-  { id: 'sobre', label: 'sobre-service', route: '/sobre' },
-  { id: 'projetos', label: 'projetos-service', route: '/projetos' },
-  { id: 'experiencia', label: 'experiencia-service', route: '/experiencia' },
-  { id: 'contato', label: 'contato-service', route: '/contato' },
-  { id: 'stack', label: 'stack-service', route: '/stack' },
-] as const
+// Os serviços (e a ordem deles) vêm do content.ts: as setas do gateway até eles são o menu.
+export { services }
 
 export const contactLinks = [
   { id: 'linkedin', label: 'LinkedIn', href: profile.linkedin },
@@ -82,7 +77,7 @@ export const nodes: ModelNode[] = [
   { id: 'gateway', kind: 'gateway', label: profile.name, route: '/' },
   { id: 'curriculo', kind: 'database', label: 'currículo', href: profile.cv },
   { id: 'health', kind: 'health', label: 'GET /health', href: health.actions },
-  ...services.map((s): ModelNode => ({ ...s, kind: 'service' })),
+  ...services.map(({ id, label, route }): ModelNode => ({ id, label, route, kind: 'service' })),
   {
     id: 'sobre-note',
     kind: 'sticky',

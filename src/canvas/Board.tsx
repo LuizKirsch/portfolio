@@ -15,7 +15,7 @@ import {
 } from '@xyflow/react'
 import { howTo, type TechId, type TourStep } from '../content/content'
 import { getUsages, type Usage } from '../content/stack'
-import { edges, nodeForRoute, nodes, techNodeId, type ModelNode } from '../diagram/model'
+import { edges, nodeForRoute, nodes, services, techNodeId, type ModelNode } from '../diagram/model'
 import { clusterSize, position, sides, stackFrameSize, type XY } from '../diagram/layout'
 import { PANEL_WIDTH } from '../panels/Panel'
 import { reducedMotion } from '../reducedMotion'
@@ -74,7 +74,9 @@ const rfEdges: Edge[] = edges.map((e) => {
   }
 })
 
-const hasPanel = (path: string) => !['/', '/projetos', '/stack'].includes(path)
+// /projetos e /stack só levam a câmera: sem painel, o nó não precisa sair da frente.
+const noPanel = new Set(['/', ...services.filter((s) => !s.panel).map((s) => s.route)])
+const hasPanel = (path: string) => !noPanel.has(path)
 
 /**
  * Marca um nó como selecionado e leva a câmera até ele. `offset` (em px de

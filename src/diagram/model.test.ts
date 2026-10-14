@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { position } from './layout'
-import { edges, nodes } from './model'
+import { edges, nodes, services } from './model'
 
 // O modelo (o que existe e como se conecta) e o layout (onde fica) são separados.
 // Estes testes garantem que os dois continuam batendo.
@@ -31,5 +31,20 @@ describe('modelo do diagrama', () => {
 describe('layout desktop', () => {
   it.each(nodes)('$id tem posição', (n) => {
     expect(() => position(n.id)).not.toThrow()
+  })
+
+  it('contato é o último serviço', () => {
+    expect(services.at(-1)?.id).toBe('contato')
+  })
+
+  // A coluna desce na ordem do menu: setas do gateway sem cruzar e cada
+  // serviço na altura dos seus dados.
+  it('serviços e seus dados descem na ordem de services', () => {
+    const ys = (ids: string[]) => ids.map((id) => position(id).y)
+    const increasing = (v: number[]) => v.every((y, i) => i === 0 || y > v[i - 1])
+    expect(increasing(ys(services.map((s) => s.id)))).toBe(true)
+    // O primeiro nó de dados de cada serviço, na mesma ordem.
+    const firstData = services.map((s) => edges.find((e) => e.source === s.id)!.target)
+    expect(increasing(ys(firstData))).toBe(true)
   })
 })

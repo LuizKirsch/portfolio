@@ -109,12 +109,8 @@ export function SemanticSite() {
           <Arrow label={svc.route} />
           <h2 id={`h-${svc.id}`} className={`${s.box} ${s.service}`}>
             <span className={s.tag}>service</span>
-            {/* /projetos e /stack não têm painel: o título só nomeia a seção. */}
-            {svc.id === 'projetos' || svc.id === 'stack' ? (
-              svc.label
-            ) : (
-              <Link to={svc.route}>{svc.label}</Link>
-            )}
+            {/* Serviço sem painel (/projetos, /stack): o título só nomeia a seção. */}
+            {!svc.panel ? svc.label : <Link to={svc.route}>{svc.label}</Link>}
           </h2>
           <Arrow />
           {body[svc.id]}
