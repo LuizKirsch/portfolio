@@ -1,6 +1,6 @@
 .panel {
   position: fixed;
-  top: 0;
+  top: var(--bar-h);
   right: 0;
   bottom: 0;
   z-index: 10;

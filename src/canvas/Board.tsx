@@ -53,7 +53,7 @@ const rfEdges: Edge[] = edges.map((e) => {
     ...e,
     sourceHandle: `s-${from}`,
     targetHandle: `t-${to}`,
-    markerEnd: { type: MarkerType.ArrowClosed, width: 18, height: 18 },
+    markerEnd: { type: MarkerType.ArrowClosed, width: 18, height: 18, color: 'var(--ink)' },
   }
 })
 

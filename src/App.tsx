@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { AnimatePresence } from 'motion/react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router'
 import { Board } from './canvas/Board'
+import { TopBar } from './TopBar'
 import { projects } from './content/content'
 import { nodeForRoute } from './diagram/model'
 import { Panel } from './panels/Panel'
@@ -38,6 +39,7 @@ export default function App() {
 
   return (
     <>
+      <TopBar />
       <Board />
       <AnimatePresence>
         {project && (

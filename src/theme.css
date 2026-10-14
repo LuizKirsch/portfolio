@@ -11,6 +11,21 @@
   --radius: 6px;
   --mono: 'JetBrains Mono', ui-monospace, monospace;
   --hand: 'Caveat', cursive;
+  --bar-h: 48px;
+  color-scheme: light;
+}
+
+/* Blackboard: lousa verde-escura, giz no lugar da tinta. */
+:root[data-theme='dark'] {
+  --bg: #1f2b27;
+  --dot: #3b4a45;
+  --ink: #ecebe4;
+  --paper: #263631;
+  --accent: #7fb0ff;
+  --sticky-yellow: #e8d27a;
+  --sticky-blue: #a9c9ec;
+  --shadow: 3px 3px 0 rgb(0 0 0 / 0.45);
+  color-scheme: dark;
 }
 
 * {
@@ -40,15 +55,11 @@ body {
   --xy-controls-button-color-default: var(--ink);
   --xy-controls-button-border-color-default: var(--ink);
   --xy-node-background-color-default: transparent;
+  --xy-attribution-background-color-default: transparent;
 }
 
 /* Rótulos das setas em letra de mão, como anotação no quadro. */
 .react-flow__edge-text {
   font-family: var(--hand);
   font-size: 18px;
-}
-
-.react-flow__arrowhead polyline {
-  stroke: var(--ink);
-  fill: var(--ink);
 }

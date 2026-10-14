@@ -1,6 +1,7 @@
 .board {
   width: 100%;
   height: 100dvh;
+  padding-top: var(--bar-h);
 }
 
 .board :global(.react-flow__minimap),

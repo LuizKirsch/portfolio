@@ -49,7 +49,7 @@ export function MiniDiagram({ diagram }: { diagram: ProjectDiagram }) {
       label: e.label,
       sourceHandle: `s-${from}`,
       targetHandle: `t-${to}`,
-      markerEnd: { type: MarkerType.ArrowClosed },
+      markerEnd: { type: MarkerType.ArrowClosed, color: 'var(--ink)' },
     }
   })
 
