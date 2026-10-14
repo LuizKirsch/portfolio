@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { tour } from '../content/content'
+import { stepMs } from './timing'
 import s from './tour.module.css'
 
 type Props = {
@@ -11,8 +12,9 @@ type Props = {
 }
 
 /**
- * O balão do tour "seguir a request". Os passos e o tempo de cada um vêm do
- * content.ts; este componente só controla a passagem entre eles.
+ * O balão do tour "seguir a request". Os passos vêm do content.ts e o tempo de
+ * cada um de timing.ts (fixo ou proporcional ao texto do painel que a parada abre).
+ * Quem abre o painel é o App, ao trocar de parada; aqui só se controla a passagem.
  *
  * - Avança sozinho a cada `ms`. Pausar e voltar reiniciam a contagem da parada.
  * - Com prefers-reduced-motion, não avança sozinho: o visitante usa "próximo".
@@ -24,6 +26,7 @@ export function Tour({ step, onStep, onEnd, mobile }: Props) {
   const [paused, setPaused] = useState(!!reduce)
   const card = useRef<HTMLDivElement>(null)
   const current = tour[step]
+  const ms = stepMs(current)
   const last = step === tour.length - 1
   const next = () => (last ? onEnd() : onStep(step + 1))
 
@@ -31,9 +34,9 @@ export function Tour({ step, onStep, onEnd, mobile }: Props) {
 
   useEffect(() => {
     if (paused) return
-    const t = setTimeout(() => (last ? onEnd() : onStep(step + 1)), current.ms)
+    const t = setTimeout(() => (last ? onEnd() : onStep(step + 1)), ms)
     return () => clearTimeout(t)
-  }, [step, paused, last, current.ms, onEnd, onStep])
+  }, [step, paused, last, ms, onEnd, onStep])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onEnd()
@@ -53,7 +56,8 @@ export function Tour({ step, onStep, onEnd, mobile }: Props) {
     <motion.div
       ref={card}
       tabIndex={-1}
-      className={s.card}
+      // Com painel aberto no desktop, o balão vai para a metade livre da tela.
+      className={`${s.card} ${current.route && !mobile ? s.withPanel : ''}`}
       role="region"
       aria-label="Tour: seguir a request"
       initial={{ opacity: 0, y: reduce ? 0 : 16 }}
@@ -66,11 +70,7 @@ export function Tour({ step, onStep, onEnd, mobile }: Props) {
       </p>
       {/* Barra de tempo da parada. A key reinicia a animação a cada passo ou retomada. */}
       {!paused && (
-        <div
-          key={`${step}`}
-          className={s.progress}
-          style={{ animationDuration: `${current.ms}ms` }}
-        />
+        <div key={`${step}`} className={s.progress} style={{ animationDuration: `${ms}ms` }} />
       )}
       <div className={s.controls}>
         <span className={s.count}>

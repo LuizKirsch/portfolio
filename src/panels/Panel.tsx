@@ -5,7 +5,7 @@ import s from './panels.module.css'
 /** Largura do painel no desktop. O Board usa para deslocar a câmera. */
 export const PANEL_WIDTH = 560
 
-type Props = { title: string; onClose: () => void; children: ReactNode }
+type Props = { title: string; onClose: () => void; autoFocus?: boolean; children: ReactNode }
 
 /**
  * Casca de todos os painéis: animação de entrada, título, botão de fechar e Esc.
@@ -14,12 +14,14 @@ type Props = { title: string; onClose: () => void; children: ReactNode }
  * foco preso. Ao abrir, o foco vai para o título; ao fechar, o App devolve o
  * foco ao nó de onde o visitante veio.
  */
-export function Panel({ title, onClose, children }: Props) {
+export function Panel({ title, onClose, autoFocus = true, children }: Props) {
   const reduce = useReducedMotion()
   const titleId = useId()
   const heading = useRef<HTMLHeadingElement>(null)
 
-  useEffect(() => heading.current?.focus(), [])
+  useEffect(() => {
+    if (autoFocus) heading.current?.focus()
+  }, [autoFocus])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()

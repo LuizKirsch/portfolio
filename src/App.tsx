@@ -33,15 +33,29 @@ export default function App() {
   const mobile = useMedia(MOBILE)
 
   // Tour: índice da parada atual, ou null quando não está rodando.
+  // Cada parada abre o painel da sua rota (ou fecha, se não tiver).
   const [tourStep, setTourStep] = useState<number | null>(null)
-  const endTour = useCallback(() => setTourStep(null), [])
-  const startTour = () => {
+  const [seenPath, setSeenPath] = useState(pathname)
+  const goToStep = useCallback(
+    (i: number) => {
+      setTourStep(i)
+      navigate(tour[i].route ?? '/')
+    },
+    [navigate],
+  )
+  const endTour = useCallback(() => {
+    setTourStep(null)
     navigate('/')
-    setTourStep(0)
+  }, [navigate])
+  // Se a URL mudou para algo que não é a parada atual (clique em outro nó, fechar
+  // o painel, voltar do navegador), o visitante saiu do tour. Só olha quando a URL
+  // muda: o navigate do router aplica a URL num render depois do setTourStep.
+  // Ajuste de estado no render: o padrão do React para estado que depende de outra mudança.
+  if (pathname !== seenPath) {
+    setSeenPath(pathname)
+    if (tourStep !== null && pathname !== (tour[tourStep].route ?? '/')) setTourStep(null)
   }
-  // Abrir um painel no meio do tour encerra o tour (ajuste de estado no render,
-  // o padrão do React para estado derivado de outra mudança).
-  if (tourStep !== null && pathname !== '/') setTourStep(null)
+  const touring = tourStep !== null
 
   const project = slug ? projects.find((p) => p.slug === slug) : undefined
   if (slug && !project) return <Navigate to="/" replace />
@@ -60,23 +74,24 @@ export default function App() {
 
   return (
     <>
-      <TopBar onTour={startTour} />
+      <TopBar onTour={() => goToStep(0)} />
       {/* Canvas antes da versão em texto: no desktop o Tab chega primeiro aos nós. */}
-      {!mobile && <Board tourNodeId={tourStep === null ? undefined : tour[tourStep].nodeId} />}
-      <SemanticSite mobile={mobile} inert={mobile && panelOpen} onTour={startTour} />
+      {!mobile && <Board tour={touring ? tour[tourStep] : undefined} />}
+      <SemanticSite mobile={mobile} inert={mobile && panelOpen} onTour={() => goToStep(0)} />
       <AnimatePresence>
-        {tourStep !== null && (
-          <Tour key="tour" step={tourStep} onStep={setTourStep} onEnd={endTour} mobile={mobile} />
+        {touring && (
+          <Tour key="tour" step={tourStep} onStep={goToStep} onEnd={endTour} mobile={mobile} />
         )}
       </AnimatePresence>
       <AnimatePresence>
+        {/* No tour o foco fica nos botões do balão, não no título do painel. */}
         {project && (
-          <Panel key={pathname} title={project.title} onClose={close}>
+          <Panel key={pathname} title={project.title} onClose={close} autoFocus={!touring}>
             <ProjectPanel project={project} />
           </Panel>
         )}
         {section && (
-          <Panel key={pathname} title={section.title} onClose={close}>
+          <Panel key={pathname} title={section.title} onClose={close} autoFocus={!touring}>
             <section.body />
           </Panel>
         )}

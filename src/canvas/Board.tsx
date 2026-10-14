@@ -12,6 +12,7 @@ import {
   useReactFlow,
   type Edge,
 } from '@xyflow/react'
+import type { TourStep } from '../content/content'
 import { edges, nodeForRoute, nodes, type ModelNode } from '../diagram/model'
 import { clusterSize, position, sides, type XY } from '../diagram/layout'
 import { PANEL_WIDTH } from '../panels/Panel'
@@ -93,7 +94,7 @@ function useFocusNode() {
  * navegador), a câmera vai até o nó da rota. Roda uma vez por rota, senão a
  * re-medição causada pela seleção dispararia o efeito em loop.
  */
-function RouteCamera() {
+function RouteCamera({ touring }: { touring: boolean }) {
   const { pathname } = useLocation()
   const ready = useNodesInitialized()
   const focus = useFocusNode()
@@ -102,9 +103,11 @@ function RouteCamera() {
   useEffect(() => {
     if (!ready || handled.current === pathname) return
     handled.current = pathname
+    // Durante o tour quem move a câmera é o TourCamera; a rota só abre o painel.
+    if (touring) return
     const target = pathname === '/' ? undefined : nodeForRoute(pathname)
     focus(target?.id, { x: hasPanel(pathname) ? PANEL_WIDTH / 2 : 0, y: 0 })
-  }, [pathname, ready, focus])
+  }, [pathname, ready, focus, touring])
 
   return null
 }
@@ -117,16 +120,17 @@ const TOUR_CARD_OFFSET = 90
  * pinta de azul a seta que chega nele (o trecho da request que acabou de andar).
  * Ao desmontar, limpa seleção e destaque.
  */
-function TourCamera({ nodeId }: { nodeId: string }) {
+function TourCamera({ nodeId, withPanel }: { nodeId: string; withPanel: boolean }) {
   const ready = useNodesInitialized()
   const focus = useFocusNode()
   const { setEdges } = useReactFlow()
 
   useEffect(() => {
     if (!ready) return
-    focus(nodeId, { x: 0, y: TOUR_CARD_OFFSET })
+    // Com painel aberto, o nó vai para a metade livre da tela (à esquerda).
+    focus(nodeId, { x: withPanel ? PANEL_WIDTH / 2 : 0, y: TOUR_CARD_OFFSET })
     setEdges((es) => es.map((e) => ({ ...e, className: e.target === nodeId ? 'tour' : '' })))
-  }, [nodeId, ready, focus, setEdges])
+  }, [nodeId, withPanel, ready, focus, setEdges])
 
   useEffect(
     () => () => {
@@ -155,8 +159,8 @@ const FIT = { padding: { top: '24px', left: '24px', right: '240px', bottom: '72p
 
 const HINT_KEY = 'hint-seen'
 
-/** `tourNodeId`: parada atual do tour, quando ele está rodando. */
-export function Board({ tourNodeId }: { tourNodeId?: string }) {
+/** `tour`: parada atual do tour, quando ele está rodando. */
+export function Board({ tour }: { tour?: TourStep }) {
   const navigate = useNavigate()
   const [hint, setHint] = useState(() => !localStorage.getItem(HINT_KEY))
   const dismissHint = () => {
@@ -201,11 +205,11 @@ export function Board({ tourNodeId }: { tourNodeId?: string }) {
         // `event` só existe quando o movimento veio do usuário, não do fitView.
         onMoveStart={(event) => event && dismissHint()}
       >
-        <RouteCamera />
-        {tourNodeId && (
+        <RouteCamera touring={!!tour} />
+        {tour && (
           <>
-            <TourCamera nodeId={tourNodeId} />
-            <TourDot nodeId={tourNodeId} />
+            <TourCamera nodeId={tour.nodeId} withPanel={!!tour.route} />
+            <TourDot nodeId={tour.nodeId} />
           </>
         )}
         <Background variant={BackgroundVariant.Dots} gap={20} size={1.5} />

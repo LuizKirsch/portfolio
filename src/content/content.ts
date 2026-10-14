@@ -60,7 +60,14 @@ export type Experience = {
 export type Education = { course: string; school: string; period: string }
 
 /** Uma parada do tour. `nodeId` precisa existir em src/diagram/model.ts. */
-export type TourStep = { nodeId: string; text: string; ms: number }
+export type TourStep = {
+  nodeId: string
+  text: string
+  /** Painel que a parada abre. */
+  route?: string
+  /** Tempo fixo. Sem ele, o tempo vem do tamanho do texto. */
+  ms?: number
+}
 
 export const profile = {
   name: 'Luiz Kirsch',
@@ -384,23 +391,30 @@ export const projects: Project[] = [
 
 /**
  * O tour segue a request: visitante → gateway → cada serviço → currículo.
- * 7 paradas × 5 s ≈ 35 s.
+ * Paradas com `route` abrem o painel daquela rota. Sem `ms`, o tempo da parada
+ * é o de leitura do balão + painel (ver src/tour/timing.ts).
+ * As paradas de projeto saem de `projects`: projeto novo entra no tour sozinho.
  */
 export const tour: TourStep[] = [
   { nodeId: 'actor', text: 'Você é o visitante. Sua request é GET /luiz.', ms: 5000 },
   { nodeId: 'gateway', text: 'O gateway responde com quem eu sou e com o que trabalho.', ms: 5000 },
-  { nodeId: 'sobre', text: 'sobre-service: um post-it com a minha história curta.', ms: 5000 },
+  { nodeId: 'sobre', route: '/sobre', text: 'sobre-service: quem eu sou, em poucas linhas.' },
   {
     nodeId: 'projetos',
-    text: 'projetos-service: clique num projeto para ver o estudo de caso.',
+    text: 'projetos-service: cada projeto é um estudo de caso. Vamos passar por eles.',
     ms: 5000,
   },
+  ...projects.map((p, i) => ({
+    nodeId: `project-${p.slug}`,
+    route: `/projetos/${p.slug}`,
+    text: `Projeto ${i + 1} de ${projects.length}: ${p.title}.`,
+  })),
   {
     nodeId: 'experiencia',
+    route: '/experiencia',
     text: 'experiencia-service: a fila da carreira, de QA em 2022 a Pleno em 2026.',
-    ms: 5000,
   },
-  { nodeId: 'contato', text: 'contato-service: LinkedIn, GitHub e e-mail.', ms: 5000 },
+  { nodeId: 'contato', route: '/contato', text: 'contato-service: LinkedIn, GitHub e e-mail.' },
   {
     nodeId: 'curriculo',
     text: 'O banco de dados guarda o currículo em PDF. Clique para baixar.',

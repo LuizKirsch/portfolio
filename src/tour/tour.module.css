@@ -89,3 +89,9 @@
     display: none;
   }
 }
+
+/* Painel aberto (desktop): centraliza o balão na área à esquerda do painel (560px). */
+.withPanel {
+  left: calc((100vw - 560px) / 2);
+  width: min(480px, calc(100vw - 560px - 24px));
+}
