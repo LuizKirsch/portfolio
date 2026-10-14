@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
+import { asset } from './asset'
 import { profile } from './content/content'
 import s from './topbar.module.css'
 
@@ -34,7 +35,7 @@ export function TopBar({ onTour }: { onTour: () => void }) {
         <a href={profile.github} target="_blank" rel="noreferrer">
           GitHub
         </a>
-        <a href={profile.cv} download className={s.cv}>
+        <a href={asset(profile.cv)} download className={s.cv}>
           currículo.pdf ↓
         </a>
         <button

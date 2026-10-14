@@ -2,7 +2,7 @@
 
 Meu portfólio, desenhado como um quadro de system design. O visitante é um ator que faz `GET /luiz`, o gateway responde com quem eu sou, e as setas até os serviços são o menu.
 
-<!-- TODO: link do site depois do deploy na Vercel -->
+**Site:** https://luizkirsch.github.io/portfolio/
 
 ![O quadro: visitante, gateway, serviços, cluster de projetos, fila de experiência e contatos](public/og-image.png)
 
@@ -101,7 +101,11 @@ O nó no cluster, a rota `/projetos/<slug>`, a parada no tour e o item na versã
 
 ## Deploy
 
-Vercel, como site estático (preset Vite). O [`vercel.json`](vercel.json) manda toda rota para o `index.html`, para `/projetos/barnout` funcionar ao recarregar. As URLs absolutas do Open Graph usam o domínio de produção da Vercel. Com domínio próprio, defina `SITE_URL` nas variáveis de ambiente.
+GitHub Pages, pelo próprio GitHub Actions: a cada push na `main`, depois que lint, testes e build passam, o job `deploy` publica o `dist/`.
+
+- O site fica em `/portfolio/`. O workflow lê esse prefixo do `actions/configure-pages` e o passa como `BASE_PATH` (base do Vite e do React Router) e `SITE_URL` (URLs absolutas do Open Graph). Com outro nome de repositório ou domínio próprio, nada no código muda.
+- O Pages não tem rewrite de SPA. O build gera um HTML por rota de painel ([`scripts/spa-routes.mjs`](scripts/spa-routes.mjs)): `/projetos/barnout` é servido por `projetos/barnout.html`, com status 200 e o título do projeto. URL inexistente cai no `404.html`, que volta para o início.
+- Para ativar: em **Settings → Pages**, escolha **Source: GitHub Actions**.
 
 ## Stack
 

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
+import { asset } from '../asset'
 import { profile, projects } from '../content/content'
 import { ExperienciaPanel, SobrePanel } from '../panels/SectionPanels'
 import { contactLinks, projectRoute, services } from '../diagram/model'
@@ -81,7 +82,7 @@ export function SemanticSite({ mobile, inert, onTour }: Props) {
           ))}
         </ul>
         <p className={s.hand}>{profile.tagline}</p>
-        <a className={s.cv} href={profile.cv} download data-node="curriculo">
+        <a className={s.cv} href={asset(profile.cv)} download data-node="curriculo">
           currículo.pdf ↓
         </a>
       </header>

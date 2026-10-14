@@ -1,3 +1,4 @@
+import { asset } from '../../asset'
 import { Handles } from './Handles'
 import type { BoardNodeProps } from './types'
 import s from './nodes.module.css'
@@ -5,7 +6,7 @@ import s from './nodes.module.css'
 // Cilindro de banco de dados com o download do currículo.
 export function DatabaseNode({ data }: BoardNodeProps) {
   return (
-    <a className={s.database} href={data.href} download>
+    <a className={s.database} href={asset(data.href!)} download>
       <svg width="120" height="90" viewBox="0 0 120 90" aria-hidden="true">
         <g fill="var(--paper)" stroke="currentColor" strokeWidth="2">
           <path d="M2 14v62c0 7 26 12 58 12s58-5 58-12V14" />

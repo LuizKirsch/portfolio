@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { Project } from '../content/content'
+import { asset } from '../asset'
 import { MiniDiagram } from './MiniDiagram'
 import s from './panels.module.css'
 
@@ -22,7 +23,7 @@ export function ProjectPanel({ project: p }: { project: Project }) {
       {p.images && (
         <div className={s.shots}>
           {p.images.map((img) => (
-            <img key={img.src} src={img.src} alt={img.alt} loading="lazy" />
+            <img key={img.src} src={asset(img.src)} alt={img.alt} loading="lazy" />
           ))}
         </div>
       )}

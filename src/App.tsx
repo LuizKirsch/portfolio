@@ -1,4 +1,4 @@
-import { useCallback, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { AnimatePresence } from 'motion/react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router'
 import { Board } from './canvas/Board'
@@ -55,18 +55,28 @@ export default function App() {
   }
   const touring = tourStep !== null
 
+  // Ao fechar um painel, o foco volta para o que o abriu. Fica num efeito porque
+  // o navigate aplica a URL um render depois: antes disso a lista do mobile
+  // ainda está inert e não aceita foco.
+  const returnFocus = useRef<string | null>(null)
+  useEffect(() => {
+    if (pathname !== '/' || !returnFocus.current) return
+    document.querySelector<HTMLElement>(returnFocus.current)?.focus()
+    returnFocus.current = null
+  }, [pathname])
+
   const project = slug ? projects.find((p) => p.slug === slug) : undefined
   if (slug && !project) return <Navigate to="/" replace />
   const section = sections[pathname]
   const panelOpen = !!(project || section)
 
-  // Ao fechar, o foco volta para o nó (desktop) ou o link (mobile) que abriu o painel.
+  // Origem do painel: o nó (desktop) ou o link (mobile). href$= porque no
+  // GitHub Pages o href do link tem o prefixo da base.
   const close = () => {
-    const origin = mobile
-      ? `main a[href="${pathname}"]`
+    returnFocus.current = mobile
+      ? `main a[href$="${pathname}"]`
       : `.react-flow__node[data-id="${nodeForRoute(pathname)?.id}"]`
     navigate('/')
-    requestAnimationFrame(() => document.querySelector<HTMLElement>(origin)?.focus())
   }
 
   return (

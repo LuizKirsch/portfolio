@@ -37,7 +37,7 @@ export type Project = {
   result: string[]
   stack: string[]
   links: Link[]
-  /** Prints do projeto, em /public. */
+  /** Prints do projeto, em /public/img (fora de /projetos, que são rotas). */
   images?: { src: string; alt: string }[]
 }
 
@@ -261,11 +261,11 @@ export const projects: Project[] = [
     ],
     images: [
       {
-        src: '/projetos/barnout/trilhas.jpg',
+        src: '/img/barnout/trilhas.jpg',
         alt: 'Tela de trilhas do BarNout com os desafios e os pontos de cada um',
       },
       {
-        src: '/projetos/barnout/ranking.jpg',
+        src: '/img/barnout/ranking.jpg',
         alt: 'Tela de ranking do BarNout com o pódio; nomes borrados',
       },
     ],

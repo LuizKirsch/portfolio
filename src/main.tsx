@@ -15,7 +15,8 @@ const paths = ['/', '/sobre', '/experiencia', '/contato', '/projetos', '/projeto
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    {/* basename: no GitHub Pages o site fica em /portfolio/ (ver vite.config). */}
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         {paths.map((path) => (
           <Route key={path} path={path} element={<App />} />

@@ -78,6 +78,13 @@ test.describe('5. mobile', () => {
     await expect(panelTitle(page)).toHaveText(projects[0].title)
     const box = await page.getByRole('dialog').boundingBox()
     expect(Math.round(box!.width)).toBeGreaterThanOrEqual(388)
+
+    // Esc fecha e o foco volta para o link que abriu o painel.
+    await page.keyboard.press('Escape')
+    await expect(page.getByRole('dialog')).toBeHidden()
+    await expect(
+      page.getByRole('main').getByRole('link', { name: new RegExp(projects[0].title) }),
+    ).toBeFocused()
   })
 })
 

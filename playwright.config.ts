@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 
-// E2E contra o build de produção (vite preview), o mesmo que vai para a Vercel.
+// E2E contra o build de produção (vite preview), o mesmo que vai para o GitHub Pages.
 // Rode com `npm run e2e`, que faz o build antes.
 export default defineConfig({
   testDir: 'e2e',
