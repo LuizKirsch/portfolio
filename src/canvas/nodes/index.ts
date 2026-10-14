@@ -7,7 +7,9 @@ import { GatewayNode } from './GatewayNode'
 import { ProjectNode } from './ProjectNode'
 import { QueueNode } from './QueueNode'
 import { ServiceNode } from './ServiceNode'
+import { StackFrameNode } from './StackFrameNode'
 import { StickyNode } from './StickyNode'
+import { TechNode } from './TechNode'
 
 // O `kind` do modelo é o `type` do React Flow. O Record obriga a cobrir todo kind.
 export const nodeTypes: Record<NodeKind, NodeTypes[string]> = {
@@ -19,4 +21,6 @@ export const nodeTypes: Record<NodeKind, NodeTypes[string]> = {
   queue: QueueNode,
   sticky: StickyNode,
   database: DatabaseNode,
+  stackFrame: StackFrameNode,
+  tech: TechNode,
 }

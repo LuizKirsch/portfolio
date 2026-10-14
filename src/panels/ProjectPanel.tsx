@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { Project } from '../content/content'
+import { refTech, techById } from '../content/stack'
 import { asset } from '../asset'
 import { MiniDiagram } from './MiniDiagram'
 import s from './panels.module.css'
@@ -35,8 +36,8 @@ export function ProjectPanel({ project: p }: { project: Project }) {
 
       <Section title="Stack" items={p.stack}>
         <ul className={s.chips}>
-          {p.stack.map((t) => (
-            <li key={t}>{t}</li>
+          {p.stack.map(refTech).map((id) => (
+            <li key={id}>{techById.get(id)!.nome}</li>
           ))}
         </ul>
       </Section>

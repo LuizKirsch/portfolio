@@ -7,7 +7,7 @@
  * Projetos são calculados pelo índice dentro do cluster, então adicionar um
  * projeto em content.ts não exige mexer aqui: o cluster cresce sozinho.
  */
-import { projects } from '../content/content'
+import { camadas, projects, techs } from '../content/content'
 
 export type XY = { x: number; y: number }
 
@@ -17,6 +17,27 @@ const PROJECT_GAP = 64
 export const clusterSize = {
   width: 340,
   height: PROJECT_TOP + projects.length * PROJECT_GAP,
+}
+
+// Frame de stack: uma coluna por camada, um chip embaixo do outro. Também
+// cresce sozinho com as tecnologias do content.ts.
+export const STACK_COL = 160
+export const STACK_TOP = 76
+const STACK_GAP = 42
+export const STACK_PAD = 20
+const tallest = Math.max(...camadas.map((c) => techs.filter((t) => t.camada === c.id).length))
+
+export const stackFrameSize = {
+  width: STACK_PAD * 2 + camadas.length * STACK_COL - 20,
+  height: STACK_TOP + tallest * STACK_GAP + 8,
+}
+
+function techPosition(id: string): XY | undefined {
+  const t = techs.find((t) => `tech-${t.id}` === id)
+  if (!t) return
+  const col = camadas.findIndex((c) => c.id === t.camada)
+  const row = techs.filter((o) => o.camada === t.camada).indexOf(t)
+  return { x: STACK_PAD + col * STACK_COL, y: STACK_TOP + row * STACK_GAP }
 }
 
 // O cluster cresce para cima a partir de uma base fixa, logo acima da fila de
@@ -46,13 +67,19 @@ const fixed: Record<string, XY> = {
   linkedin: { x: 800, y: 290 },
   github: { x: 800, y: 370 },
   email: { x: 800, y: 450 },
+
+  // Abaixo de contato: as setas até os usos sobem para a fila e o cluster.
+  stack: { x: 480, y: 620 + stackFrameSize.height / 2 - 30 },
+  'stack-frame': { x: 800, y: 620 },
 }
 
-/** Posição de um nó. Filhos do cluster recebem posição relativa ao cluster. */
+/** Posição de um nó. Filhos do cluster e do frame recebem posição relativa ao pai. */
 export function position(id: string): XY {
   if (fixed[id]) return fixed[id]
   const i = projects.findIndex((p) => `project-${p.slug}` === id)
   if (i >= 0) return { x: 20, y: PROJECT_TOP + i * PROJECT_GAP }
+  const tech = techPosition(id)
+  if (tech) return tech
   throw new Error(`layout: nó sem posição: ${id}`)
 }
 

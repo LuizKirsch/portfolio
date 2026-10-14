@@ -11,7 +11,8 @@ Meu portfólio, desenhado como um quadro de system design. O visitante é um ato
 Antes de escrever código, eu costumo desenhar o sistema. O site usa esse desenho como interface:
 
 - **Gateway:** nome, cargo, stack principal e uma frase.
-- **4 serviços:** `sobre-service`, `projetos-service`, `experiencia-service` e `contato-service`. Cada um liga a um tipo de nó: post-it, cluster de projetos, fila (a carreira em ordem) e links de contato.
+- **5 serviços:** `sobre-service`, `projetos-service`, `experiencia-service`, `contato-service` e `stack-service`. Cada um liga a um tipo de nó: post-it, cluster de projetos, fila (a carreira em ordem), links de contato e o frame de stack por camada.
+- **Stack:** clicar numa tecnologia (`/stack/:id`) destaca onde ela foi usada e abre o painel com os usos. As ligações são calculadas do `stack` de cada projeto e experiência ([`content/stack.ts`](src/content/stack.ts)), sem lista duplicada.
 - **Banco de dados "currículo":** baixa o PDF.
 - **Painéis:** cada projeto abre um estudo de caso com diagrama, problema, decisões, papel e resultado. Cada painel tem a sua URL (`/projetos/barnout`, `/sobre` etc.).
 - **Tour "seguir a request":** um ponto percorre as setas, a câmera para em cada nó e o painel daquela parada abre. Dá para pausar, voltar e pular.

@@ -6,10 +6,27 @@
  *
  * Tudo é derivado de content.ts: um projeto novo vira nó e aresta sozinho.
  */
-import { aboutNote, experiences, howTo, profile, projects } from '../content/content'
+import {
+  aboutNote,
+  experiences,
+  howTo,
+  profile,
+  projects,
+  techs,
+  type TechId,
+} from '../content/content'
 
 export type NodeKind =
-  'actor' | 'gateway' | 'service' | 'cluster' | 'project' | 'queue' | 'sticky' | 'database'
+  | 'actor'
+  | 'gateway'
+  | 'service'
+  | 'cluster'
+  | 'project'
+  | 'queue'
+  | 'sticky'
+  | 'database'
+  | 'stackFrame'
+  | 'tech'
 
 export type ModelNode = {
   id: string
@@ -25,16 +42,19 @@ export type ModelNode = {
   tone?: 'yellow' | 'blue' | 'green'
   /** Texto do post-it (um parágrafo por item). */
   text?: string[]
+  /** Tecnologia do chip (nós `tech`). */
+  techId?: TechId
 }
 
 export type ModelEdge = { id: string; source: string; target: string; label?: string }
 
-// Os 4 serviços: as setas do gateway até eles são o menu do site.
+// Os serviços: as setas do gateway até eles são o menu do site.
 export const services = [
   { id: 'sobre', label: 'sobre-service', route: '/sobre' },
   { id: 'projetos', label: 'projetos-service', route: '/projetos' },
   { id: 'experiencia', label: 'experiencia-service', route: '/experiencia' },
   { id: 'contato', label: 'contato-service', route: '/contato' },
+  { id: 'stack', label: 'stack-service', route: '/stack' },
 ] as const
 
 export const contactLinks = [
@@ -44,6 +64,8 @@ export const contactLinks = [
 ]
 
 export const projectRoute = (slug: string) => `/projetos/${slug}`
+export const techRoute = (id: TechId) => `/stack/${id}`
+export const techNodeId = (id: TechId) => `tech-${id}`
 
 export const nodes: ModelNode[] = [
   // Anotações soltas ao lado do visitante, sem setas: explicam como usar o quadro.
@@ -82,6 +104,16 @@ export const nodes: ModelNode[] = [
     route: '/experiencia',
   },
   ...contactLinks.map((c): ModelNode => ({ ...c, kind: 'sticky', tone: 'blue' })),
+  // Como /projetos, /stack não tem painel. Cada chip abre /stack/:id.
+  { id: 'stack-frame', kind: 'stackFrame', label: 'stack: por camada', route: '/stack' },
+  ...techs.map((t): ModelNode => ({
+    id: techNodeId(t.id),
+    kind: 'tech',
+    label: t.nome,
+    route: techRoute(t.id),
+    parentId: 'stack-frame',
+    techId: t.id,
+  })),
 ]
 
 const edge = (source: string, target: string, label?: string): ModelEdge => ({
@@ -99,6 +131,7 @@ export const edges: ModelEdge[] = [
   edge('projetos', 'cluster'),
   edge('experiencia', 'queue', 'enqueue'),
   ...contactLinks.map((c) => edge('contato', c.id)),
+  edge('stack', 'stack-frame'),
 ]
 
 /** Nó que corresponde a uma rota, usado para centralizar a câmera ao abrir uma URL direto. */

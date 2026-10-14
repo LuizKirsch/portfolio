@@ -1,4 +1,5 @@
 import { about, education, experiences, profile } from '../content/content'
+import { refTech, techById } from '../content/stack'
 import { contactLinks } from '../diagram/model'
 import s from './panels.module.css'
 
@@ -39,8 +40,8 @@ export function ExperienciaPanel() {
             ))}
           </ul>
           <ul className={s.chips} aria-label="Stack">
-            {e.stack.map((t) => (
-              <li key={t}>{t}</li>
+            {e.stack.map(refTech).map((id) => (
+              <li key={id}>{techById.get(id)!.nome}</li>
             ))}
           </ul>
         </li>

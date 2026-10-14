@@ -4,10 +4,12 @@ import { Navigate, useLocation, useNavigate, useParams } from 'react-router'
 import { Board } from './canvas/Board'
 import { TopBar } from './TopBar'
 import { projects, tour } from './content/content'
+import { techById, isTechId } from './content/stack'
 import { nodeForRoute } from './diagram/model'
 import { Panel } from './panels/Panel'
 import { ProjectPanel } from './panels/ProjectPanel'
 import { ContatoPanel, ExperienciaPanel, SobrePanel } from './panels/SectionPanels'
+import { StackPanel } from './panels/StackPanel'
 import { SemanticSite } from './semantic/SemanticSite'
 import { Tour } from './tour/Tour'
 import { MOBILE, useMedia } from './useMedia'
@@ -28,7 +30,7 @@ const sections: Record<string, { title: string; body: () => ReactNode }> = {
  */
 export default function App() {
   const { pathname } = useLocation()
-  const { slug } = useParams()
+  const { slug, techId } = useParams()
   const navigate = useNavigate()
   const mobile = useMedia(MOBILE)
 
@@ -68,8 +70,10 @@ export default function App() {
 
   const project = slug ? projects.find((p) => p.slug === slug) : undefined
   if (slug && !project) return <Navigate to="/" replace />
+  if (techId && !isTechId(techId)) return <Navigate to="/" replace />
+  const tech = isTechId(techId) ? techById.get(techId) : undefined
   const section = sections[pathname]
-  const panelOpen = !!(project || section)
+  const panelOpen = !!(project || section || tech)
 
   const close = () => {
     returnFocus.current = `.react-flow__node[data-id="${nodeForRoute(pathname)?.id}"]`
@@ -94,6 +98,11 @@ export default function App() {
         {project && (
           <Panel key={pathname} title={project.title} onClose={close} autoFocus={!touring}>
             <ProjectPanel project={project} />
+          </Panel>
+        )}
+        {tech && (
+          <Panel key={pathname} title={tech.nome} onClose={close} autoFocus={!touring}>
+            <StackPanel tech={tech} />
           </Panel>
         )}
         {section && (

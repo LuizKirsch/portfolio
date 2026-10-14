@@ -5,7 +5,7 @@
 // Roda depois do vite build (npm run build).
 import fs from 'node:fs'
 import path from 'node:path'
-import { projects } from '../src/content/content.ts'
+import { projects, techs } from '../src/content/content.ts'
 
 const dist = 'dist'
 const html = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
@@ -16,6 +16,7 @@ const routes = {
   experiencia: 'experiencia-service',
   contato: 'contato-service',
   ...Object.fromEntries(projects.map((p) => [`projetos/${p.slug}`, p.title])),
+  ...Object.fromEntries(techs.map((t) => [`stack/${t.id}`, t.nome])),
 }
 
 for (const [route, title] of Object.entries(routes)) {

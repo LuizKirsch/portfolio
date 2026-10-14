@@ -11,7 +11,16 @@ import App from './App'
 
 // Toda rota renderiza o mesmo App: o quadro fica montado e a URL só decide
 // qual painel está aberto e onde a câmera para.
-const paths = ['/', '/sobre', '/experiencia', '/contato', '/projetos', '/projetos/:slug']
+const paths = [
+  '/',
+  '/sobre',
+  '/experiencia',
+  '/contato',
+  '/projetos',
+  '/projetos/:slug',
+  '/stack',
+  '/stack/:techId',
+]
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

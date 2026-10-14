@@ -14,6 +14,56 @@
 
 export type Link = { label: string; href: string }
 
+export type Camada = 'back' | 'front' | 'dados' | 'infra' | 'testes'
+
+/** Colunas do frame de stack no canvas, nesta ordem. */
+export const camadas: { id: Camada; label: string }[] = [
+  { id: 'back', label: 'back' },
+  { id: 'front', label: 'front' },
+  { id: 'dados', label: 'dados' },
+  { id: 'infra', label: 'infra/IA' },
+  { id: 'testes', label: 'testes' },
+]
+
+/**
+ * Tecnologias que aparecem nos projetos e nas experiências. A chave é o id
+ * (vira a rota /stack/:id), então referência a um id que não existe não compila.
+ * `porque`: por que eu escolho a tecnologia; sem texto, a seção não aparece.
+ */
+const techData = {
+  php: { nome: 'PHP', camada: 'back' },
+  laravel: { nome: 'Laravel', camada: 'back' },
+  'stancl-tenancy': { nome: 'stancl/tenancy', camada: 'back' },
+  nodejs: { nome: 'Node.js', camada: 'back' },
+  express: { nome: 'Express', camada: 'back' },
+  python: { nome: 'Python', camada: 'back' },
+  fastapi: { nome: 'FastAPI', camada: 'back' },
+  react: { nome: 'React', camada: 'front' },
+  nextjs: { nome: 'Next.js', camada: 'front' },
+  vite: { nome: 'Vite', camada: 'front' },
+  livewire: { nome: 'Livewire', camada: 'front' },
+  mysql: { nome: 'MySQL', camada: 'dados' },
+  sequelize: { nome: 'Sequelize', camada: 'dados' },
+  chromadb: { nome: 'ChromaDB', camada: 'dados' },
+  docker: { nome: 'Docker', camada: 'infra' },
+  'cloud-run': { nome: 'Cloud Run', camada: 'infra' },
+  langchain: { nome: 'LangChain', camada: 'infra' },
+  'openai-api': { nome: 'OpenAI API', camada: 'infra' },
+  cypress: { nome: 'Cypress', camada: 'testes' },
+  selenium: { nome: 'Selenium', camada: 'testes' },
+  codeceptjs: { nome: 'CodeceptJS', camada: 'testes' },
+} satisfies Record<string, { nome: string; camada: Camada; porque?: string }>
+
+export type TechId = keyof typeof techData
+export type Tech = { id: TechId; nome: string; camada: Camada; porque?: string }
+export const techs: Tech[] = Object.entries(techData).map(([id, t]) => ({ id: id as TechId, ...t }))
+
+/** Onde usei: trabalho (linha cheia no canvas), pessoal ou voluntário (tracejada). */
+export type Contexto = 'trabalho' | 'pessoal' | 'voluntario'
+
+/** Tecnologia de um projeto/experiência. `nota`: descrição curta do uso, opcional. */
+export type StackRef = TechId | { tech: TechId; nota: string }
+
 /**
  * Diagrama pequeno dentro do painel de projeto. As posições são uma grade
  * (col/row) em vez de pixels: é mais fácil de escrever à mão e o MiniDiagram
@@ -35,7 +85,8 @@ export type Project = {
   decisions: string[]
   role: string[]
   result: string[]
-  stack: string[]
+  stack: StackRef[]
+  contexto: Contexto
   links: Link[]
   /** Prints do projeto, em /public/img (fora de /projetos, que são rotas). */
   images?: { src: string; alt: string }[]
@@ -53,7 +104,8 @@ export type Experience = {
   summary: string
   /** Problemas reais em que trabalhei. Sem números e sem nomes internos. */
   highlights: string[]
-  stack: string[]
+  stack: StackRef[]
+  contexto: Contexto
 }
 
 export type Education = { course: string; school: string; period: string }
@@ -146,7 +198,8 @@ export const experiences: Experience[] = [
       'Automatizei testes com Cypress, Selenium e CodeceptJS.',
       'Depois de cinco meses, passei para o time de desenvolvimento.',
     ],
-    stack: ['Cypress', 'Selenium', 'CodeceptJS'],
+    stack: ['cypress', 'selenium', 'codeceptjs'],
+    contexto: 'trabalho',
   },
   {
     id: 'dev',
@@ -161,7 +214,8 @@ export const experiences: Experience[] = [
       'Modelei o banco e criei as migrations das funcionalidades novas.',
       'Ajudei a estimar e quebrar tarefas nas cerimônias de Scrum e Kanban.',
     ],
-    stack: ['PHP', 'Laravel', 'MySQL'],
+    stack: ['php', 'laravel', 'mysql'],
+    contexto: 'trabalho',
   },
   {
     id: 'fb-junior',
@@ -177,7 +231,8 @@ export const experiences: Experience[] = [
       'Migrei processamentos em lote para jobs e filas. As operações demoradas passaram a rodar em segundo plano, sem travar a aplicação.',
       'Criei o Oráculo, uma prova de conceito de assistente que responde perguntas sobre PDFs de administradoras de consórcio usando RAG.',
     ],
-    stack: ['Laravel', 'Livewire', 'PHP', 'Python', 'Selenium'],
+    stack: ['laravel', 'livewire', 'php', 'python', 'selenium'],
+    contexto: 'trabalho',
   },
   {
     id: 'fb-pleno',
@@ -194,7 +249,8 @@ export const experiences: Experience[] = [
       'No módulo administrativo, toda a lógica ficava nos controllers e os filtros eram lentos. Organizei o código em camadas, deixei os controllers só com o fluxo de requisição e resposta e melhorei o desempenho dos filtros.',
       'Estou implantando uma base de conhecimento no Obsidian para o time, organizada por módulo, para que a informação não fique só na cabeça de quem trabalhou em cada parte.',
     ],
-    stack: ['Laravel', 'Livewire', 'PHP', 'MySQL'],
+    stack: ['laravel', 'livewire', 'php', 'mysql'],
+    contexto: 'trabalho',
   },
 ]
 
@@ -251,7 +307,9 @@ export const projects: Project[] = [
     result: [
       'A v2 entrou em produção em 07/10/2026, no primeiro dia do evento. O evento inteiro terminou sem nenhum incidente, e já no primeiro dia o time brincou que tinha acabado a emoção.',
     ],
-    stack: ['Laravel', 'PHP', 'Next.js', 'MySQL'],
+    stack: ['laravel', 'php', 'nextjs', 'mysql'],
+    // TODO: confirmar o contexto do BarNout.
+    contexto: 'voluntario',
     links: [
       { label: 'barnout.barcongress.com.br', href: 'https://barnout.barcongress.com.br/' },
       { label: 'Bar Congress', href: 'https://barcongress.com.br/' },
@@ -317,7 +375,8 @@ export const projects: Project[] = [
       'Agenda e atividades estão completas. Ordens de serviço, clientes e usuários estão implementados, com ajustes pendentes. O orçamento fica para a segunda entrega.',
       // TODO: o Edson já usa o sistema? O que mudou no dia a dia dele?
     ],
-    stack: ['React', 'Vite', 'Node.js', 'Express', 'Sequelize', 'MySQL'],
+    stack: ['react', 'vite', 'nodejs', 'express', 'sequelize', 'mysql'],
+    contexto: 'pessoal',
     links: [
       { label: 'Código', href: 'https://github.com/LuizKirsch/agenda-eletrecista' },
       {
@@ -362,7 +421,8 @@ export const projects: Project[] = [
     role: ['Concebi e desenvolvi a prova de conceito.'],
     // TODO: resultado da POC (foi usada? virou ferramenta?).
     result: [],
-    stack: ['Python', 'FastAPI', 'LangChain', 'ChromaDB', 'OpenAI API', 'Docker', 'Cloud Run'],
+    stack: ['python', 'fastapi', 'langchain', 'chromadb', 'openai-api', 'docker', 'cloud-run'],
+    contexto: 'pessoal',
     links: [{ label: 'Código', href: 'https://github.com/LuizKirsch/oraculo' }],
   },
   {
@@ -409,7 +469,8 @@ export const projects: Project[] = [
     ],
     role: ['Projeto pessoal.'],
     result: [],
-    stack: ['Laravel', 'stancl/tenancy', 'Livewire', 'MySQL'],
+    stack: ['laravel', 'stancl-tenancy', 'livewire', 'mysql'],
+    contexto: 'pessoal',
     links: [{ label: 'Código', href: 'https://github.com/LuizKirsch/tenancy-laravel' }],
   },
 ]
@@ -440,6 +501,11 @@ export const tour: TourStep[] = [
     text: 'experiencia-service: a fila da carreira, de QA em 2022 a Pleno em 2026.',
   },
   { nodeId: 'contato', route: '/contato', text: 'contato-service: LinkedIn, GitHub e e-mail.' },
+  {
+    nodeId: 'stack',
+    text: 'stack-service: as tecnologias por camada. Clique numa delas para ver onde eu usei.',
+    ms: 5000,
+  },
   {
     nodeId: 'curriculo',
     text: 'O banco de dados guarda o currículo em PDF. Clique para baixar.',

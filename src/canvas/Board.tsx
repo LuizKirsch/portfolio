@@ -12,15 +12,17 @@ import {
   useReactFlow,
   type Edge,
 } from '@xyflow/react'
-import { howTo, type TourStep } from '../content/content'
-import { edges, nodeForRoute, nodes, type ModelNode } from '../diagram/model'
-import { clusterSize, position, sides, type XY } from '../diagram/layout'
+import { howTo, type TechId, type TourStep } from '../content/content'
+import { getUsages, type Usage } from '../content/stack'
+import { edges, nodeForRoute, nodes, techNodeId, type ModelNode } from '../diagram/model'
+import { clusterSize, position, sides, stackFrameSize, type XY } from '../diagram/layout'
 import { PANEL_WIDTH } from '../panels/Panel'
 import { reducedMotion } from '../reducedMotion'
 import { MOBILE } from '../useMedia'
 import { TourDot } from '../tour/TourDot'
 import { EndLabelEdge } from './EndLabelEdge'
 import { nodeTypes } from './nodes'
+import { useSelectedTech } from './useStackMarks'
 import type { BoardNode } from './nodes/types'
 import s from './board.module.css'
 
@@ -46,7 +48,7 @@ const rfNodes: BoardNode[] = nodes.map((n) => ({
   data: n,
   position: position(n.id),
   parentId: n.parentId,
-  style: n.kind === 'cluster' ? clusterSize : undefined,
+  style: n.kind === 'cluster' ? clusterSize : n.kind === 'stackFrame' ? stackFrameSize : undefined,
   ariaLabel: n.route ? `${n.label}, abre ${n.route}` : n.label,
 }))
 
@@ -54,10 +56,15 @@ const rfNodes: BoardNode[] = nodes.map((n) => ({
 const edgeTypes = { endLabel: EndLabelEdge }
 
 const rfEdges: Edge[] = edges.map((e) => {
-  const [from, to] = sides(absolute(byId.get(e.source)!), absolute(byId.get(e.target)!))
+  const menu = e.source === 'gateway' && byId.get(e.target)?.kind === 'service'
+  // O menu sai sempre pela direita do gateway: o stack-service fica bem abaixo,
+  // e a seta por baixo cruzaria o currículo.
+  const [from, to] = menu
+    ? ['r', 'l']
+    : sides(absolute(byId.get(e.source)!), absolute(byId.get(e.target)!))
   return {
     ...e,
-    type: e.source === 'gateway' && byId.get(e.target)?.kind === 'service' ? 'endLabel' : undefined,
+    type: menu ? 'endLabel' : undefined,
     sourceHandle: `s-${from}`,
     targetHandle: `t-${to}`,
     markerEnd: { type: MarkerType.ArrowClosed, width: 18, height: 18, color: 'var(--ink)' },
@@ -66,7 +73,7 @@ const rfEdges: Edge[] = edges.map((e) => {
   }
 })
 
-const hasPanel = (path: string) => path !== '/' && path !== '/projetos'
+const hasPanel = (path: string) => !['/', '/projetos', '/stack'].includes(path)
 
 /**
  * Marca um nó como selecionado e leva a câmera até ele. `offset` (em px de
@@ -146,6 +153,41 @@ function TourCamera({ nodeId, withPanel }: { nodeId: string; withPanel: boolean 
   return null
 }
 
+/**
+ * Setas temporárias do chip aberto em /stack/:techId até cada uso: linha cheia
+ * para trabalho, tracejada para pessoal e voluntário. Experiências chegam no
+ * slot do cargo, dentro da fila (handle exp-<id> do QueueNode).
+ */
+function usageEdge(tech: TechId, u: Usage): Edge {
+  const source = techNodeId(tech)
+  const target = u.kind === 'projeto' ? `project-${u.id}` : 'queue'
+  // Sobe do chip; projetos recebem pela direita, para a seta não cruzar os
+  // outros projetos do cluster.
+  return {
+    id: `uso:${source}->${u.kind}-${u.id}`,
+    source,
+    target,
+    sourceHandle: 's-t',
+    targetHandle: u.kind === 'projeto' ? 't-r' : `exp-${u.id}`,
+    style: {
+      stroke: 'var(--accent)',
+      strokeDasharray: u.contexto === 'trabalho' ? undefined : '6 5',
+    },
+    markerEnd: { type: MarkerType.ArrowClosed, width: 18, height: 18, color: 'var(--accent)' },
+    domAttributes: { 'aria-hidden': true },
+  }
+}
+
+function StackEdges() {
+  const tech = useSelectedTech()
+  const { setEdges } = useReactFlow()
+  useEffect(() => {
+    const extra = tech ? getUsages(tech).map((u) => usageEdge(tech, u)) : []
+    setEdges((es) => [...es.filter((e) => !e.id.startsWith('uso:')), ...extra])
+  }, [tech, setEdges])
+  return null
+}
+
 function FitAll() {
   const { fitView } = useReactFlow()
   return (
@@ -220,6 +262,7 @@ export function Board({ tour }: { tour?: TourStep }) {
         onKeyDown={onKeyDown}
       >
         <RouteCamera touring={!!tour} />
+        <StackEdges />
         {tour && (
           <>
             <TourCamera nodeId={tour.nodeId} withPanel={!!tour.route} />

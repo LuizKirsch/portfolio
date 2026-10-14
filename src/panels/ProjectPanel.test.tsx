@@ -33,7 +33,8 @@ const base: Project = {
   decisions: ['Uma decisão.'],
   role: ['Meu papel.'],
   result: ['O resultado.'],
-  stack: ['React'],
+  stack: ['react'],
+  contexto: 'pessoal',
   links: [{ label: 'Código', href: 'https://example.com' }],
 }
 

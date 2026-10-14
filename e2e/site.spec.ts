@@ -87,6 +87,53 @@ test.describe('5. mobile', () => {
   })
 })
 
+test.describe('7. stack', () => {
+  const node = (page: Page, id: string) => page.locator(`.react-flow__node[data-id="${id}"]`)
+  const mark = (page: Page, id: string) => node(page, id).locator('[data-stack]').first()
+  const cargo = (page: Page, i: number) => node(page, 'queue').locator('li').nth(i)
+
+  test('clicar em Laravel destaca os usos e esmaece o resto', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'ver tudo' }).click()
+    await node(page, 'tech-laravel').click()
+    await expect(page).toHaveURL('/stack/laravel')
+    await expect(panelTitle(page)).toHaveText('Laravel')
+
+    await expect(mark(page, 'tech-laravel')).toHaveAttribute('data-stack', 'selecionada')
+    await expect(mark(page, 'tech-php')).toHaveAttribute('data-stack', 'junto')
+    await expect(mark(page, 'project-barnout')).toHaveAttribute('data-stack', 'uso')
+    await expect(mark(page, 'project-tenancy-laravel')).toHaveAttribute('data-stack', 'uso')
+    await expect(mark(page, 'project-agenda')).toHaveAttribute('data-stack', 'fora')
+    // Fila: QA (fora), Dev Jr, F&B Jr, F&B Pleno (uso).
+    await expect(cargo(page, 0)).toHaveAttribute('data-stack', 'fora')
+    for (const i of [1, 2, 3]) await expect(cargo(page, i)).toHaveAttribute('data-stack', 'uso')
+    // Uma seta temporária por uso.
+    await expect(page.locator('.react-flow__edge[data-id^="uso:"]')).toHaveCount(5)
+  })
+
+  test('/stack/laravel abre direto o painel, e Esc limpa o destaque', async ({ page }) => {
+    await page.goto('/stack/laravel')
+    await expect(panelTitle(page)).toHaveText('Laravel')
+    await expect(page.getByRole('dialog')).toContainText('BarNout')
+    await expect(page.locator('[data-stack]').first()).toBeAttached()
+
+    await page.keyboard.press('Escape')
+    await expect(page.getByRole('dialog')).toBeHidden()
+    await expect(page).toHaveURL('/')
+    await expect(page.locator('[data-stack]')).toHaveCount(0)
+    await expect(page.locator('.react-flow__edge[data-id^="uso:"]')).toHaveCount(0)
+  })
+
+  test('teclado: Tab chega nos chips e Enter abre', async ({ page }) => {
+    await page.goto('/')
+    await node(page, 'tech-react').focus()
+    await page.keyboard.press('Tab')
+    await expect(node(page, 'tech-nextjs')).toBeFocused()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL('/stack/nextjs')
+  })
+})
+
 for (const viewport of [
   { width: 1400, height: 800 },
   { width: 390, height: 844 },

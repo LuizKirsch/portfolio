@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 import { asset } from '../asset'
-import { profile, projects } from '../content/content'
+import { camadas, profile, projects, techs } from '../content/content'
 import { ExperienciaPanel, SobrePanel } from '../panels/SectionPanels'
-import { contactLinks, projectRoute, services } from '../diagram/model'
+import { contactLinks, projectRoute, services, techRoute } from '../diagram/model'
 import s from './semantic.module.css'
 
 /**
@@ -54,6 +54,24 @@ export function SemanticSite() {
         ))}
       </ul>
     ),
+    stack: (
+      <div className={s.cluster}>
+        {camadas.map((c) => (
+          <section key={c.id} aria-label={c.label}>
+            <h3>{c.label}</h3>
+            <ul className={s.chips}>
+              {techs
+                .filter((t) => t.camada === c.id)
+                .map((t) => (
+                  <li key={t.id}>
+                    <Link to={techRoute(t.id)}>{t.nome}</Link>
+                  </li>
+                ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    ),
   }
 
   return (
@@ -84,8 +102,12 @@ export function SemanticSite() {
           <Arrow label={svc.route} />
           <h2 id={`h-${svc.id}`} className={`${s.box} ${s.service}`}>
             <span className={s.tag}>service</span>
-            {/* /projetos não tem painel: o título só nomeia a seção. */}
-            {svc.id === 'projetos' ? svc.label : <Link to={svc.route}>{svc.label}</Link>}
+            {/* /projetos e /stack não têm painel: o título só nomeia a seção. */}
+            {svc.id === 'projetos' || svc.id === 'stack' ? (
+              svc.label
+            ) : (
+              <Link to={svc.route}>{svc.label}</Link>
+            )}
           </h2>
           <Arrow />
           {body[svc.id]}
