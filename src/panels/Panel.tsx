@@ -38,6 +38,8 @@ export function Panel({ title, onClose, children }: Props) {
       exit={reduce ? { opacity: 0 } : { x: '100%' }}
       transition={{ duration: 0.25, ease: 'easeOut' }}
     >
+      {/* React 19 leva este <title> para o <head>: cada URL de painel tem título próprio. */}
+      <title>{`${title} · Luiz Kirsch`}</title>
       <header className={s.header}>
         <h2 id={titleId} ref={heading} tabIndex={-1}>
           {title}

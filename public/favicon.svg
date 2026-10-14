@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Uma caixa do quadro (com a sombra sólida) e uma seta saindo para um nó azul. -->
+  <rect x="4" y="10" width="17" height="14" rx="2" fill="#1f1f1f"/>
+  <rect x="2" y="8" width="17" height="14" rx="2" fill="#fff" stroke="#1f1f1f" stroke-width="2.5"/>
+  <path d="M19 15h5" stroke="#1f1f1f" stroke-width="2.5"/>
+  <circle cx="27" cy="15" r="3.5" fill="#2563eb"/>
+</svg>
