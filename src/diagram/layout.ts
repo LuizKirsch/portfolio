@@ -53,6 +53,7 @@ const fixed: Record<string, XY> = {
   actor: { x: -300, y: 50 },
   gateway: { x: 0, y: 0 },
   curriculo: { x: 90, y: 320 },
+  health: { x: 40, y: -250 },
 
   sobre: { x: 480, y: clusterTop - 150 },
   'sobre-note': { x: 800, y: clusterTop - 200 },

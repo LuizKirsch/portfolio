@@ -14,6 +14,7 @@ Antes de escrever código, eu costumo desenhar o sistema. O site usa esse desenh
 - **5 serviços:** `sobre-service`, `projetos-service`, `experiencia-service`, `contato-service` e `stack-service`. Cada um liga a um tipo de nó: post-it, cluster de projetos, fila (a carreira em ordem), links de contato e o frame de stack por camada.
 - **Stack:** clicar numa tecnologia (`/stack/:id`) destaca onde ela foi usada e abre o painel com os usos. As ligações são calculadas do `stack` de cada projeto e experiência ([`content/stack.ts`](src/content/stack.ts)), sem lista duplicada.
 - **Banco de dados "currículo":** baixa o PDF.
+- **`GET /health`:** o badge oficial do workflow de CI (imagem SVG do GitHub, sem chamar API) e os tipos de teste que ele roda. O clique abre a página de Actions.
 - **Painéis:** cada projeto abre um estudo de caso com diagrama, problema, decisões, papel e resultado. Cada painel tem a sua URL (`/projetos/barnout`, `/sobre` etc.).
 - **Tour "seguir a request":** um ponto percorre as setas, a câmera para em cada nó e o painel daquela parada abre. Dá para pausar, voltar e pular.
 

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 import { asset } from '../asset'
-import { camadas, profile, projects, techs } from '../content/content'
+import { camadas, health, profile, projects, techs } from '../content/content'
 import { ExperienciaPanel, SobrePanel } from '../panels/SectionPanels'
 import { contactLinks, projectRoute, services, techRoute } from '../diagram/model'
 import s from './semantic.module.css'
@@ -95,6 +95,12 @@ export function SemanticSite() {
         <a className={s.cv} href={asset(profile.cv)} download>
           currículo.pdf ↓
         </a>
+        <p>
+          <a href={health.actions} target="_blank" rel="noreferrer">
+            GET /health: status do CI ↗
+          </a>{' '}
+          ({health.checks.join(', ')})
+        </p>
       </header>
 
       {services.map((svc) => (

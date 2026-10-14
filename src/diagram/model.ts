@@ -9,6 +9,7 @@
 import {
   aboutNote,
   experiences,
+  health,
   howTo,
   profile,
   projects,
@@ -27,6 +28,7 @@ export type NodeKind =
   | 'database'
   | 'stackFrame'
   | 'tech'
+  | 'health'
 
 export type ModelNode = {
   id: string
@@ -79,6 +81,7 @@ export const nodes: ModelNode[] = [
   { id: 'actor', kind: 'actor', label: 'visitante' },
   { id: 'gateway', kind: 'gateway', label: profile.name, route: '/' },
   { id: 'curriculo', kind: 'database', label: 'currículo', href: profile.cv },
+  { id: 'health', kind: 'health', label: 'GET /health', href: health.actions },
   ...services.map((s): ModelNode => ({ ...s, kind: 'service' })),
   {
     id: 'sobre-note',
@@ -126,6 +129,7 @@ const edge = (source: string, target: string, label?: string): ModelEdge => ({
 export const edges: ModelEdge[] = [
   edge('actor', 'gateway', 'GET /luiz'),
   edge('gateway', 'curriculo', 'SELECT pdf'),
+  edge('gateway', 'health'),
   ...services.map((s) => edge('gateway', s.id, s.route)),
   edge('sobre', 'sobre-note'),
   edge('projetos', 'cluster'),

@@ -238,6 +238,33 @@
   text-underline-offset: 4px;
 }
 
+.health {
+  display: block;
+  width: 240px;
+  padding: 10px 14px;
+  border: 2px dashed var(--ink);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.health:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--paper));
+}
+
+.health strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.health ul {
+  margin: 6px 0 0;
+  padding-left: 16px;
+}
+
 .database {
   position: relative;
   display: block;

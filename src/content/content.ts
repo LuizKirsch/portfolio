@@ -144,6 +144,18 @@ export const profile = {
   cv: '/curriculo.pdf',
 }
 
+const repo = 'https://github.com/LuizKirsch/portfolio'
+
+/**
+ * Nó GET /health: o status do CI vem do badge oficial do workflow (uma imagem
+ * SVG servida pelo GitHub), sem chamar API. `checks` é o que o ci.yml roda.
+ */
+export const health = {
+  actions: `${repo}/actions`,
+  badge: `${repo}/actions/workflows/ci.yml/badge.svg`,
+  checks: ['e2e · Playwright', 'unit · Vitest', 'lint · ESLint', 'typecheck · tsc'],
+}
+
 /** Post-its à esquerda do visitante: como usar o quadro, um assunto por cor. */
 export const howTo: {
   id: string
@@ -550,7 +562,7 @@ export const projects: Project[] = [
       'github-pages',
     ],
     contexto: 'pessoal',
-    links: [{ label: 'Código', href: 'https://github.com/LuizKirsch/portfolio' }],
+    links: [{ label: 'Código', href: repo }],
   },
 ]
 

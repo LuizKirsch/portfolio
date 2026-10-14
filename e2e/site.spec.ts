@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { profile, projects, tour } from '../src/content/content'
+import { health, profile, projects, tour } from '../src/content/content'
 
 // Os testes leem o content.ts: projeto novo ou parada nova do tour entram aqui sozinhos.
 
@@ -85,6 +85,15 @@ test.describe('5. mobile', () => {
     await expect(page.getByRole('dialog')).toBeHidden()
     await expect(node).toBeFocused()
   })
+})
+
+test('8. GET /health mostra o badge do CI e abre o Actions numa nova aba', async ({ page }) => {
+  await page.goto('/')
+  const link = page.locator('.react-flow__node[data-id="health"] a')
+  await expect(link).toHaveAttribute('href', health.actions)
+  await expect(link).toHaveAttribute('target', '_blank')
+  await expect(link.locator('img')).toHaveAttribute('src', health.badge)
+  for (const c of health.checks) await expect(link).toContainText(c)
 })
 
 test.describe('7. stack', () => {

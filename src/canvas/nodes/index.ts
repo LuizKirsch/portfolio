@@ -4,6 +4,7 @@ import { ActorNode } from './ActorNode'
 import { ClusterNode } from './ClusterNode'
 import { DatabaseNode } from './DatabaseNode'
 import { GatewayNode } from './GatewayNode'
+import { HealthNode } from './HealthNode'
 import { ProjectNode } from './ProjectNode'
 import { QueueNode } from './QueueNode'
 import { ServiceNode } from './ServiceNode'
@@ -23,4 +24,5 @@ export const nodeTypes: Record<NodeKind, NodeTypes[string]> = {
   database: DatabaseNode,
   stackFrame: StackFrameNode,
   tech: TechNode,
+  health: HealthNode,
 }
