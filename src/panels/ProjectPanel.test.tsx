@@ -31,6 +31,7 @@ const base: Project = {
   ],
   problem: ['O problema.'],
   decisions: ['Uma decisão.'],
+  ia: ['Como usei IA.'],
   role: ['Meu papel.'],
   result: ['O resultado.'],
   stack: ['react'],
@@ -45,6 +46,7 @@ it('mostra as seções do estudo de caso na ordem', () => {
   expect(headings()).toEqual([
     'O problema',
     'Decisões e trade-offs',
+    'Como usei IA',
     'Meu papel',
     'Resultado',
     'Stack',
@@ -56,7 +58,7 @@ it('mostra as seções do estudo de caso na ordem', () => {
 })
 
 it('esconde seções sem conteúdo (TODO no content.ts)', () => {
-  render(<ProjectPanel project={{ ...base, problem: [], result: [], links: [] }} />)
+  render(<ProjectPanel project={{ ...base, problem: [], ia: undefined, result: [], links: [] }} />)
   expect(headings()).toEqual(['Decisões e trade-offs', 'Meu papel', 'Stack'])
 })
 

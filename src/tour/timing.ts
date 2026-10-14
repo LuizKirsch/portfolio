@@ -13,7 +13,7 @@ function panelText(route: string): string[] {
   if (route === '/experiencia')
     return experiences.flatMap((e) => [e.title, e.org, e.summary, ...e.highlights])
   const p = projects.find((p) => route === `/projetos/${p.slug}`)
-  if (p) return [p.summary, ...p.problem, ...p.decisions, ...p.role, ...p.result]
+  if (p) return [p.summary, ...p.problem, ...p.decisions, ...(p.ia ?? []), ...p.role, ...p.result]
   return []
 }
 

@@ -35,6 +35,14 @@ test('3. abrir /projetos/barnout direto abre o painel', async ({ page }) => {
   await expect(page).toHaveTitle(/BarNout/)
 })
 
+test('3b. /projetos/este-site mostra a seção Como usei IA', async ({ page }) => {
+  await page.goto('/projetos/este-site')
+  const panel = page.getByRole('dialog')
+  await expect(panelTitle(page)).toHaveText('Este site')
+  await expect(panel.getByRole('heading', { level: 3, name: 'Como usei IA' })).toBeVisible()
+  await expect(panel).toContainText('Claude Code')
+})
+
 test('4. o tour percorre todas as etapas e pode ser pulado', async ({ page }) => {
   await page.goto('/')
   const start = page.getByRole('banner').getByRole('button', { name: /seguir a request/ })

@@ -93,6 +93,8 @@ export type Project = {
   // Seções do estudo de caso. Lista vazia = seção não aparece.
   problem: string[]
   decisions: string[]
+  /** Como usei IA no projeto. Opcional: só aparece onde foi usada de verdade. */
+  ia?: string[]
   role: string[]
   result: string[]
   stack: StackRef[]
@@ -544,6 +546,12 @@ export const projects: Project[] = [
       'Ligações calculadas: o "onde usei" de cada tecnologia sai da stack declarada em cada projeto e experiência, então não existe uma segunda lista para manter em sincronia.',
       'Fallback semântico: leitor de tela e Google não leem o canvas, então o mesmo conteúdo também é renderizado em HTML semântico, oculto até o foco do teclado chegar nele.',
       'Deep links no GitHub Pages: o Pages não reescreve rotas de SPA, então o build gera um HTML por rota de painel, com status 200 e título próprio. Projetos e tecnologias entram sozinhos; um serviço novo precisa ser acrescentado no script.',
+    ],
+    ia: [
+      'O conceito do quadro e a arquitetura do site são meus. Desenhei o diagrama e defini a estrutura antes de começar a implementar.',
+      'A implementação foi feita com o Claude Code, em etapas. Cada etapa saiu de um prompt que eu escrevi, virou um commit e só seguiu depois da minha revisão.',
+      'Os testes e o CI são a rede de segurança para o código gerado.',
+      'O conteúdo tem uma regra explícita: não inventar métricas, tecnologias nem resultados. O que faltava ficava marcado para eu preencher depois.',
     ],
     role: ['Projeto pessoal.'],
     // TODO: resultado.

@@ -7,7 +7,7 @@ import s from './panels.module.css'
 
 /**
  * Renderiza qualquer Project, sempre na mesma ordem: resumo, diagrama, prints,
- * problema, decisões, papel, resultado, stack e links. O título fica no Panel.
+ * problema, decisões, como usei IA, papel, resultado, stack e links. O título fica no Panel.
  * Seção sem conteúdo (ainda em TODO no content.ts) não aparece.
  */
 export function ProjectPanel({ project: p }: { project: Project }) {
@@ -31,6 +31,7 @@ export function ProjectPanel({ project: p }: { project: Project }) {
 
       <Section title="O problema" items={p.problem} />
       <Section title="Decisões e trade-offs" items={p.decisions} list />
+      <Section title="Como usei IA" items={p.ia ?? []} list />
       <Section title="Meu papel" items={p.role} list />
       <Section title="Resultado" items={p.result} />
 
