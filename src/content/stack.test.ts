@@ -22,6 +22,19 @@ describe('getUsages', () => {
     expect(python.find((u) => u.id === 'fb-junior')?.contexto).toBe('trabalho')
   })
 
+  it('Claude Code aponta para este site, como projeto pessoal com nota', () => {
+    const usages = getUsages('claude-code')
+    expect(usages.length).toBeGreaterThan(0)
+    expect(usages.map((u) => u.id)).toEqual(['este-site'])
+    expect(usages[0]).toMatchObject({ kind: 'projeto', contexto: 'pessoal' })
+    expect(usages[0].nota).toBeTruthy()
+  })
+
+  // IA aparece onde foi construída, não só usada como ferramenta.
+  it.each(['langchain', 'openai-api'] as const)('%s aponta para o Oráculo', (id) => {
+    expect(usos(id)).toContain('projeto:oraculo')
+  })
+
   it('usedWith junta as tecnologias dos mesmos usos, sem a própria', () => {
     expect(usedWith('cypress')).toEqual(['selenium', 'codeceptjs'])
   })

@@ -55,6 +55,8 @@ const techData = {
   'openai-api': { nome: 'OpenAI API', camada: 'infra' },
   'github-actions': { nome: 'GitHub Actions', camada: 'infra' },
   'github-pages': { nome: 'GitHub Pages', camada: 'infra' },
+  // TODO: uso no trabalho (Fraga & Bitello), aguardando confirmação antes de ligar.
+  'claude-code': { nome: 'Claude Code', camada: 'infra' },
   cypress: { nome: 'Cypress', camada: 'testes' },
   selenium: { nome: 'Selenium', camada: 'testes' },
   codeceptjs: { nome: 'CodeceptJS', camada: 'testes' },
@@ -569,6 +571,10 @@ export const projects: Project[] = [
       'eslint',
       'github-actions',
       'github-pages',
+      {
+        tech: 'claude-code',
+        nota: 'implementação em etapas a partir de prompts meus, com revisão a cada commit',
+      },
     ],
     contexto: 'pessoal',
     links: [{ label: 'Código', href: repo }],
