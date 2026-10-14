@@ -4,12 +4,11 @@ import { edges } from '../diagram/model'
 import { reducedMotion } from '../reducedMotion'
 
 /**
- * O "pacote" da request: um ponto que corre pela seta que chega na parada atual
- * (visitante → gateway, gateway → serviço...).
+ * Ponto que percorre a seta que chega na parada atual do tour.
  *
- * Em vez de recalcular a curva, reaproveita o `d` do <path> que o React Flow já
- * desenhou para a aresta, e anima com <animateMotion> do SVG. O ViewportPortal
- * põe o SVG nas coordenadas do quadro, então o path serve como está.
+ * Reaproveita o `d` do <path> que o React Flow já desenhou para a aresta e anima
+ * com <animateMotion>. O ViewportPortal põe o SVG nas coordenadas do quadro,
+ * então o path serve sem conversão.
  */
 export function TourDot({ nodeId }: { nodeId: string }) {
   const motion = useRef<SVGAnimateMotionElement>(null)

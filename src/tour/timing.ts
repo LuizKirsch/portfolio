@@ -2,7 +2,7 @@ import { about, education, experiences, projects, type TourStep } from '../conte
 
 // Leitura em português, texto técnico: ~200 palavras por minuto.
 const WPM = 200
-// Tempo para a câmera chegar, o painel abrir e o olho achar o começo do texto.
+// Margem para a câmera chegar e o painel abrir.
 const BASE_MS = 4000
 
 const words = (texts: string[]) => texts.join(' ').split(/\s+/).filter(Boolean).length

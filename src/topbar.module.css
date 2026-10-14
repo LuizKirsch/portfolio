@@ -37,7 +37,7 @@
   color: var(--accent);
 }
 
-/* O currículo é a ação mais procurada: ganha a cara de botão. */
+/* Currículo com cara de botão: é o link mais procurado. */
 .cv {
   border: 2px solid var(--ink);
   border-radius: var(--radius);

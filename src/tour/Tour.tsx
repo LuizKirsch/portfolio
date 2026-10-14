@@ -63,9 +63,9 @@ export function Tour({ step, onStep, onEnd, mobile }: Props) {
       <p className={s.text} aria-live="polite">
         {current.text}
       </p>
-      {/* A barra é o relógio da parada: quando a animação termina, o tour avança.
-          Pausar congela a animação onde está e continuar retoma dali; o navegador
-          também a congela com a aba em segundo plano. A key recomeça a cada parada. */}
+      {/* Quando a animação da barra termina, o tour avança. Pausar congela a
+          animação (e com ela o tempo); o navegador também congela com a aba em
+          segundo plano. A key recomeça a animação a cada parada. */}
       <div
         key={step}
         className={s.progress}

@@ -2,7 +2,7 @@ import { Handles } from './Handles'
 import type { BoardNodeProps } from './types'
 import s from './nodes.module.css'
 
-// Cilindro de banco de dados. O "registro" guardado é o currículo em PDF.
+// Cilindro de banco de dados com o download do currículo.
 export function DatabaseNode({ data }: BoardNodeProps) {
   return (
     <a className={s.database} href={data.href} download>

@@ -1,16 +1,15 @@
 /**
  * Todo o conteúdo do site mora aqui. Os componentes só leem deste arquivo.
  *
- * Fonte: o vault do currículo (C:\Users\Wolf360\Desktop\curriculo) e o vault de
- * análise da Agenda (github.com/LuizKirsch/agenda-eletrecista-obsidian).
- * Mudou lá, muda aqui.
+ * Fonte: o vault do meu currículo e o vault de análise da Agenda
+ * (github.com/LuizKirsch/agenda-eletrecista-obsidian).
  *
  * Para adicionar um projeto: acrescente um objeto em `projects`. O nó no canvas,
  * a aresta do cluster, a rota /projetos/:slug e o item da versão semântica
  * são derivados daqui (ver src/diagram/model.ts).
  *
- * Regra: nada inventado. O que falta está marcado com TODO em comentário,
- * e a seção correspondente simplesmente não aparece no painel.
+ * O que falta está marcado com TODO em comentário; a seção correspondente
+ * não aparece no painel.
  */
 
 export type Link = { label: string; href: string }
@@ -74,8 +73,7 @@ export const profile = {
   role: 'Desenvolvedor Fullstack Pleno',
   company: 'Fraga & Bitello',
   location: 'Campo Bom, RS',
-  // Headline do LinkedIn (opção E, 2026-10-07): Node e React na frente, Laravel
-  // porque é a experiência profissional que sustenta o nível.
+  // Mesma ordem da headline do LinkedIn.
   stack: ['Node.js', 'React', 'Laravel'],
   tagline: 'Antes de implementar algo novo, costumo modelar os dados e documentar o fluxo.',
   github: 'https://github.com/LuizKirsch',

@@ -11,8 +11,8 @@
   white-space: nowrap;
 }
 
-/* Se o foco do teclado entrar aqui, a versão em texto aparece: nenhum foco
-   pode cair num elemento invisível. */
+/* Se o foco do teclado entra aqui, a versão em texto aparece, para nenhum
+   link focado ficar invisível. */
 .textOnly:focus-within {
   position: fixed;
   z-index: 15;
@@ -31,7 +31,7 @@
   line-height: 1.5;
 }
 
-/* Lista vertical do mobile: o mesmo quadro, empilhado. */
+/* Mobile: lista vertical com o visual do quadro. */
 .list {
   display: flex;
   flex-direction: column;

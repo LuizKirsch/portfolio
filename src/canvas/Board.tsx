@@ -23,9 +23,8 @@ import type { BoardNode } from './nodes/types'
 import s from './board.module.css'
 
 /*
- * Aqui modelo + layout viram nós e arestas do React Flow. É o único lugar que
- * conhece os dois: model.ts não sabe de posição e layout.ts não sabe de conexão.
- * Como nada disso muda em tempo de execução, é calculado uma vez, fora do componente.
+ * Junta modelo (model.ts) e posições (layout.ts) em nós e arestas do React Flow.
+ * Nada disso muda em tempo de execução, então é calculado uma vez, fora do componente.
  */
 
 const byId = new Map(nodes.map((n) => [n.id, n]))
@@ -56,7 +55,7 @@ const rfEdges: Edge[] = edges.map((e) => {
     sourceHandle: `s-${from}`,
     targetHandle: `t-${to}`,
     markerEnd: { type: MarkerType.ArrowClosed, width: 18, height: 18, color: 'var(--ink)' },
-    // Setas são decorativas para leitores de tela: a versão semântica já diz o que liga em quê.
+    // Fora da árvore de acessibilidade; a versão semântica descreve as conexões.
     domAttributes: { 'aria-hidden': true },
   }
 })
@@ -90,9 +89,9 @@ function useFocusNode() {
 }
 
 /**
- * A URL é o estado: quando ela muda (clique, Enter, link direto, voltar do
- * navegador), a câmera vai até o nó da rota. Roda uma vez por rota, senão a
- * re-medição causada pela seleção dispararia o efeito em loop.
+ * Quando a URL muda (clique, Enter, link direto, voltar do navegador), leva a
+ * câmera até o nó da rota. Roda uma vez por rota: a seleção faz o React Flow
+ * medir os nós de novo, o que dispararia o efeito em loop.
  */
 function RouteCamera({ touring }: { touring: boolean }) {
   const { pathname } = useLocation()
@@ -116,9 +115,8 @@ function RouteCamera({ touring }: { touring: boolean }) {
 const TOUR_CARD_OFFSET = 90
 
 /**
- * Câmera do tour: só existe enquanto o tour roda. A cada parada, foca o nó e
- * pinta de azul a seta que chega nele (o trecho da request que acabou de andar).
- * Ao desmontar, limpa seleção e destaque.
+ * Câmera do tour, montada só enquanto ele roda. A cada parada foca o nó e pinta
+ * de azul a seta que chega nele. Ao desmontar, limpa seleção e destaque.
  */
 function TourCamera({ nodeId, withPanel }: { nodeId: string; withPanel: boolean }) {
   const ready = useNodesInitialized()
@@ -157,9 +155,8 @@ function FitAll() {
 // "Ver tudo" deixa livres o canto do minimapa (direita) e o botão (embaixo).
 const FIT = { padding: { top: '24px', left: '24px', right: '240px', bottom: '72px' } } as const
 
-// Ao entrar, a câmera abre nos post-its de como usar e no visitante: primeiro
-// se lê como usar, depois se explora. Zoom de leitura, sem ampliar demais.
-// URL direta (ex.: /projetos/barnout) ainda vai para o nó dela (RouteCamera).
+// Abertura nos post-its de como usar e no visitante, em zoom de leitura.
+// URL direta (ex.: /projetos/barnout) vai para o nó dela pelo RouteCamera.
 const INITIAL = {
   nodes: [...howTo.map((h) => ({ id: h.id })), { id: 'actor' }],
   maxZoom: 1,
@@ -199,7 +196,7 @@ export function Board({ tour }: { tour?: TourStep }) {
         fitViewOptions={INITIAL}
         minZoom={0.3}
         maxZoom={2}
-        // O layout.ts é a fonte da verdade: nós não se arrastam nem se conectam.
+        // Posições vêm do layout.ts: nós não se arrastam nem se conectam.
         nodesDraggable={false}
         nodesConnectable={false}
         edgesFocusable={false}

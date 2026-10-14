@@ -2,7 +2,7 @@ import { Handles } from './Handles'
 import type { BoardNodeProps } from './types'
 import s from './nodes.module.css'
 
-// O bonequinho de diagrama de caso de uso: quem faz a request é o visitante.
+// Ator de diagrama de caso de uso: o visitante que faz a request.
 export function ActorNode({ data }: BoardNodeProps) {
   return (
     <div className={s.actor}>

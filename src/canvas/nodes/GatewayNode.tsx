@@ -3,7 +3,7 @@ import { Handles } from './Handles'
 import type { BoardNodeProps } from './types'
 import s from './nodes.module.css'
 
-// A caixa central: é a "resposta" do GET /luiz.
+// Caixa central: nome, cargo, stack e tagline.
 export function GatewayNode({ selected }: BoardNodeProps) {
   return (
     <div className={`${s.box} ${s.gateway} ${selected ? s.selected : ''}`}>

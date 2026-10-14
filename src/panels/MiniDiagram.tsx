@@ -16,10 +16,8 @@ type MiniData = ProjectDiagram['nodes'][number]
 type MiniNode = Node<MiniData>
 
 /**
- * Os diagramas dos painéis são em camadas: o lado da seta vem da grade, não dos
- * pixels. Linha diferente → seta vertical (sai por baixo, entra por cima);
- * mesma linha → horizontal. Comparar pixels fazia setas entre camadas saírem
- * pela lateral quando a distância em x era maior.
+ * Lado da seta pela grade: linha diferente → vertical (sai por baixo, entra
+ * por cima); mesma linha → horizontal. Os diagramas dos painéis são em camadas.
  */
 function gridSides(a: MiniData, b: MiniData): [string, string] {
   if (a.row !== b.row) return a.row < b.row ? ['b', 't'] : ['t', 'b']
@@ -89,7 +87,7 @@ export function MiniDiagram({ diagram }: { diagram: ProjectDiagram }) {
           zoomOnPinch={false}
           zoomOnDoubleClick={false}
           preventScrolling={false}
-          // ponytail: atribuição só no canvas principal, para não repetir em cada miniatura.
+          // A atribuição do React Flow fica no canvas principal, não em cada miniatura.
           proOptions={{ hideAttribution: true }}
         />
       </div>

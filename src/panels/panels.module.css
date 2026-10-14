@@ -129,7 +129,7 @@
   padding-left: 20px;
 }
 
-/* Só entre cargos: sem o ">" a regra pegava também as listas de dentro (as tags). */
+/* Espaço só entre cargos, não nas listas de dentro de cada um. */
 .timeline > li + li {
   margin-top: 16px;
 }

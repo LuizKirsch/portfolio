@@ -1,9 +1,8 @@
 /**
  * Modelo lógico do diagrama: quais nós existem e como se conectam.
  *
- * Aqui não há posição na tela. O layout desktop (layout.ts) diz onde cada nó
- * fica no canvas; o mobile percorre este mesmo modelo em ordem e empilha as
- * caixas. Assim os dois layouts nunca divergem sobre *o que* existe.
+ * Sem posições: o layout desktop está em layout.ts, e o mobile percorre este
+ * modelo em ordem. Os dois usam a mesma lista de nós.
  *
  * Tudo é derivado de content.ts: um projeto novo vira nó e aresta sozinho.
  */
@@ -67,7 +66,7 @@ export const nodes: ModelNode[] = [
     tone: 'yellow',
     text: [aboutNote],
   },
-  // /projetos não tem painel próprio: clicar no cluster só centraliza a câmera nele.
+  // A rota /projetos não tem painel: só leva a câmera até os projetos.
   { id: 'cluster', kind: 'cluster', label: 'cluster: projetos', route: '/projetos' },
   ...projects.map((p): ModelNode => ({
     id: `project-${p.slug}`,

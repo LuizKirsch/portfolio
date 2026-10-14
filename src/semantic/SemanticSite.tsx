@@ -21,7 +21,7 @@ type Props = { mobile: boolean; inert: boolean; onTour: () => void }
 export function SemanticSite({ mobile, inert, onTour }: Props) {
   // A ordem das seções é a ordem dos serviços no modelo do diagrama.
   const body: Record<(typeof services)[number]['id'], ReactNode> = {
-    // Sobre e experiência reaproveitam os componentes dos painéis: um texto só.
+    // Sobre e experiência reaproveitam os componentes dos painéis.
     sobre: (
       <div className={s.sticky}>
         <SobrePanel />

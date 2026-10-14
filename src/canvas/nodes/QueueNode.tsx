@@ -3,8 +3,8 @@ import { Handles } from './Handles'
 import type { BoardNodeProps } from './types'
 import s from './nodes.module.css'
 
-// Fila FIFO desenhada como slots: a carreira entra pela esquerda, em ordem.
-// Cada slot mostra o cargo e, à mão, a empresa (há cargos repetidos entre empresas).
+// Um slot por cargo, em ordem cronológica. A empresa vai embaixo porque há
+// cargos com o mesmo nome em empresas diferentes.
 export function QueueNode({ selected }: BoardNodeProps) {
   return (
     <div className={`${s.box} ${s.queue} ${selected ? s.selected : ''}`}>

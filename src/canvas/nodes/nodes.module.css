@@ -28,7 +28,7 @@
   box-shadow: 3px 3px 0 var(--accent);
 }
 
-/* Rótulo pequeno no canto, como o estereótipo de um diagrama UML. */
+/* Tipo do nó (service, gateway...) no canto superior. */
 .tag {
   position: absolute;
   top: -11px;
@@ -109,7 +109,7 @@
   list-style: none;
 }
 
-/* Slots da fila separados por traços verticais, como num desenho de queue. */
+/* Um slot por cargo, separados por traço vertical. */
 .queue li {
   display: flex;
   flex-direction: column;
@@ -135,8 +135,8 @@
   color: inherit;
 }
 
-/* Cor do post-it. Cada cor tem uma inclinação própria, para notas vizinhas
-   não ficarem alinhadas demais, como papéis colados à mão. */
+/* Cor do post-it. Cada cor tem uma inclinação diferente para notas vizinhas
+   não ficarem paralelas. */
 .yellow {
   background: var(--sticky-yellow);
   transform: rotate(-2deg);

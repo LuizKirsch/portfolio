@@ -16,7 +16,7 @@
   color-scheme: light;
 }
 
-/* Blackboard: lousa verde-escura, giz no lugar da tinta. */
+/* Modo escuro: lousa verde-escura. */
 :root[data-theme='dark'] {
   --bg: #1f2b27;
   --dot: #3b4a45;

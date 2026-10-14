@@ -16,11 +16,11 @@ try {
   await page.goto(`http://localhost:${port}/`)
   await page.waitForSelector('.react-flow__node-gateway')
   await page.evaluate(() => document.fonts.ready)
-  // A abertura foca o post-it "como funciona"; a imagem mostra o quadro inteiro.
+  // A abertura foca os post-its de como usar; a imagem mostra o quadro inteiro.
   // Com reducedMotion o "ver tudo" é instantâneo.
   await page.getByRole('button', { name: 'ver tudo' }).click()
   await page.waitForTimeout(100)
-  // Minimapa, zoom, "ver tudo" e a dica são interface, não fazem parte do desenho.
+  // Minimapa, zoom e "ver tudo" ficam fora da imagem.
   await page.addStyleTag({
     content:
       '.react-flow__minimap, .react-flow__controls, .react-flow__panel.center { display: none }',

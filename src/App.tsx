@@ -19,12 +19,11 @@ const sections: Record<string, { title: string; body: () => ReactNode }> = {
 }
 
 /**
- * A URL decide o painel aberto. O quadro fica sempre montado; só o painel
- * entra e sai. Slug de projeto inexistente volta para o início.
+ * A URL decide qual painel está aberto; o quadro fica montado o tempo todo.
+ * Slug de projeto inexistente volta para o início.
  *
- * Desktop: canvas + versão semântica oculta (sr-only). Painel lateral, não modal.
- * Mobile: sem canvas; a versão semântica é a interface. Painel em tela cheia,
- * modal: `inert` tira a lista de trás do foco e dos leitores de tela.
+ * Desktop: canvas + versão semântica oculta, painel lateral não modal.
+ * Mobile: só a versão semântica, painel em tela cheia e `inert` na lista atrás dele.
  */
 export default function App() {
   const { pathname } = useLocation()
@@ -47,10 +46,9 @@ export default function App() {
     setTourStep(null)
     navigate('/')
   }, [navigate])
-  // Se a URL mudou para algo que não é a parada atual (clique em outro nó, fechar
-  // o painel, voltar do navegador), o visitante saiu do tour. Só olha quando a URL
-  // muda: o navigate do router aplica a URL num render depois do setTourStep.
-  // Ajuste de estado no render: o padrão do React para estado que depende de outra mudança.
+  // Se a URL saiu da parada atual (outro nó, painel fechado, voltar do navegador),
+  // o tour acaba. Só checa quando a URL muda, porque o navigate aplica a URL um
+  // render depois do setTourStep.
   if (pathname !== seenPath) {
     setSeenPath(pathname)
     if (tourStep !== null && pathname !== (tour[tourStep].route ?? '/')) setTourStep(null)
@@ -62,8 +60,7 @@ export default function App() {
   const section = sections[pathname]
   const panelOpen = !!(project || section)
 
-  // Ao fechar, o foco volta para o que abriu o painel: o nó no canvas ou o
-  // link na lista do mobile. Assim quem navega por teclado não se perde.
+  // Ao fechar, o foco volta para o nó (desktop) ou o link (mobile) que abriu o painel.
   const close = () => {
     const origin = mobile
       ? `main a[href="${pathname}"]`
