@@ -275,7 +275,7 @@ export const experiences: Experience[] = [
       'No módulo administrativo, toda a lógica ficava nos controllers e os filtros eram lentos. Organizei o código em camadas, deixei os controllers só com o fluxo de requisição e resposta e melhorei o desempenho dos filtros.',
       'Estou implantando uma base de conhecimento no Obsidian para o time, organizada por módulo, para que a informação não fique só na cabeça de quem trabalhou em cada parte.',
     ],
-    stack: ['laravel', 'livewire', 'php', 'mysql'],
+    stack: ['laravel', 'livewire', 'php', 'mysql', 'docker'],
     contexto: 'trabalho',
   },
 ]

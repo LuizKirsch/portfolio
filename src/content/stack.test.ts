@@ -38,6 +38,7 @@ describe('getUsages', () => {
   it.each([
     ['mysql', 'experiencia:fb-junior'],
     ['docker', 'experiencia:fb-junior'],
+    ['docker', 'experiencia:fb-pleno'],
     ['docker', 'projeto:barnout'],
     ['stancl-tenancy', 'experiencia:dev'],
     ['fastapi', 'experiencia:fb-junior'],
