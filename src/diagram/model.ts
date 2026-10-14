@@ -45,6 +45,8 @@ export type ModelNode = {
   tone?: 'yellow' | 'blue' | 'green'
   /** Texto do post-it (um parágrafo por item). */
   text?: string[]
+  /** Nome acessível, quando o padrão ("rótulo, abre /rota") não serve. */
+  ariaLabel?: string
   /** Tecnologia do chip (nós `tech`). */
   techId?: TechId
 }
@@ -82,7 +84,9 @@ export const nodes: ModelNode[] = [
     id: 'sobre-note',
     kind: 'sticky',
     label: 'sobre mim',
+    // Post-it com rota = a resposta do GET /sobre (tag, seta e texto cortado).
     route: '/sobre',
+    ariaLabel: 'Abrir sobre',
     tone: 'yellow',
     text: [aboutNote],
   },

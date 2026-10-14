@@ -35,6 +35,37 @@ test('3. abrir /projetos/barnout direto abre o painel', async ({ page }) => {
   await expect(page).toHaveTitle(/BarNout/)
 })
 
+test('3c. o post-it do sobre e o sobre-service abrem o mesmo painel', async ({ page }) => {
+  const note = page.locator('.react-flow__node[data-id="sobre-note"]')
+  const service = page.locator('.react-flow__node[data-id="sobre"]')
+  await page.goto('/')
+  await page.getByRole('button', { name: 'ver tudo' }).click()
+
+  // O post-it é a resposta do GET /sobre: botão acessível, com tag e seta.
+  await expect(page.getByRole('button', { name: 'Abrir sobre' })).toHaveAttribute(
+    'data-id',
+    'sobre-note',
+  )
+  await expect(note).toContainText('response')
+  await expect(note).toContainText('→')
+
+  await note.click()
+  await expect(page).toHaveURL('/sobre')
+  await expect(panelTitle(page)).toHaveText('sobre-service')
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog')).toBeHidden()
+
+  await service.click()
+  await expect(page).toHaveURL('/sobre')
+  await expect(panelTitle(page)).toHaveText('sobre-service')
+  await page.keyboard.press('Escape')
+
+  // Teclado: Tab chega no post-it e Enter abre.
+  await note.focus()
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL('/sobre')
+})
+
 test('3b. /projetos/este-site mostra a seção Como usei IA', async ({ page }) => {
   await page.goto('/projetos/este-site')
   const panel = page.getByRole('dialog')

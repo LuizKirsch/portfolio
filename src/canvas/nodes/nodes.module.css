@@ -43,7 +43,9 @@
   background: var(--paper);
   border: 2px solid var(--ink);
   border-radius: 4px;
+  font-family: var(--mono);
   font-size: 11px;
+  color: var(--ink);
 }
 
 .gateway {
@@ -229,6 +231,42 @@
 
 .note p + p {
   margin-top: 6px;
+}
+
+/* Resposta de um serviço (GET /sobre): clicável. A inclinação vem da cor,
+   então o toque repete o rotate antes do scale. */
+.response {
+  position: relative;
+  cursor: pointer;
+  padding-top: 18px;
+  padding-bottom: 26px;
+  transition:
+    transform 0.08s,
+    box-shadow 0.08s;
+}
+
+.response.yellow:active {
+  transform: rotate(-2deg) scale(0.97);
+  box-shadow: 1px 1px 0 rgb(0 0 0 / 0.18);
+}
+
+/* Texto cortado: o "…" indica que o resto está no painel. */
+.clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+/* Mesma seta dos itens do cluster de projetos, no canto inferior direito. */
+.corner {
+  position: absolute;
+  right: 12px;
+  bottom: 4px;
+  font-family: var(--hand);
+  font-size: 20px;
+  line-height: 1.1;
 }
 
 /* Post-its de como usar: maiores, para ler na abertura. */

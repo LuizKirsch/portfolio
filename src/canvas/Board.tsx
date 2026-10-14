@@ -50,7 +50,9 @@ const rfNodes: BoardNode[] = nodes.map((n) => ({
   position: position(n.id),
   parentId: n.parentId,
   style: n.kind === 'cluster' ? clusterSize : n.kind === 'stackFrame' ? stackFrameSize : undefined,
-  ariaLabel: n.route ? `${n.label}, abre ${n.route}` : n.label,
+  ariaLabel: n.ariaLabel ?? (n.route ? `${n.label}, abre ${n.route}` : n.label),
+  // Post-it que abre painel age como botão; os de instrução não têm rota.
+  ariaRole: n.kind === 'sticky' && n.route ? 'button' : undefined,
 }))
 
 // Setas do gateway até os serviços levam o rótulo no fim (ver EndLabelEdge).
