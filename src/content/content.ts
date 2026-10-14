@@ -86,7 +86,7 @@ export const about: string[] = [
   'Sou desenvolvedor Fullstack Pleno na Fraga & Bitello. Trabalho num ERP para o setor de consórcios, feito em PHP com Laravel e Livewire. Antes de implementar algo novo, costumo modelar os dados e documentar o fluxo.',
   'Comecei em TI no fim de 2022, como QA na Testing Company, automatizando testes web e mobile com Cypress, Selenium e CodeceptJS. Cinco meses depois fui para o time de desenvolvimento, onde participei da migração de um sistema em PHP puro para Laravel com multitenancy.',
   'Entrei na Fraga & Bitello como júnior no fim de 2024 e virei Pleno em setembro de 2026. Além de trabalhar no ERP com o time, criei ferramentas internas em Python, como o Oráculo, que usa RAG para responder perguntas sobre os PDFs das administradoras.',
-  'Nos projetos pessoais tenho usado Node.js e React, como na Agenda Eletricista.',
+  'Agora quero trabalhar mais com Node.js e React. É a stack que tenho usado nos projetos pessoais, como a Agenda Eletricista.',
 ]
 
 export const education: Education[] = [
