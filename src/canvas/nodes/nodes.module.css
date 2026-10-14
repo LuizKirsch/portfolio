@@ -22,8 +22,14 @@
     box-shadow 0.15s;
 }
 
-.box:hover,
-.selected {
+/* Hover só clareia a borda; azul cheio (borda + sombra) é só do selecionado,
+   para não parecer que dois itens estão abertos ao mesmo tempo. */
+.box:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--paper));
+}
+
+.selected,
+.selected:hover {
   border-color: var(--accent);
   box-shadow: 3px 3px 0 var(--accent);
 }

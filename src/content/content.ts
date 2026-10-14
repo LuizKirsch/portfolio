@@ -490,6 +490,7 @@ export const projects: Project[] = [
       // TODO: por que banco isolado e não banco compartilhado?
     ],
     role: ['Projeto pessoal.'],
+    // TODO: resultado.
     result: [],
     stack: ['laravel', 'stancl-tenancy', 'livewire', 'mysql'],
     contexto: 'pessoal',

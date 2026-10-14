@@ -12,6 +12,9 @@ test('1. a página carrega e mostra o gateway', async ({ page }) => {
   await expect(gateway).toBeVisible()
   await expect(gateway).toContainText(profile.name)
   await expect(gateway).toContainText(profile.role)
+  // Abertura no desktop: post-its de como usar e o gateway inteiro, sem corte.
+  await expect(gateway).toBeInViewport({ ratio: 1 })
+  await expect(page.locator('.react-flow__node[data-id="como-funciona"]')).toBeInViewport()
 })
 
 for (const p of projects) {

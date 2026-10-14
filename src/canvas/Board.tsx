@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, type KeyboardEvent } from 'react'
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import {
   Background,
@@ -11,6 +11,7 @@ import {
   useNodesInitialized,
   useReactFlow,
   type Edge,
+  type FitViewOptions,
 } from '@xyflow/react'
 import { howTo, type TechId, type TourStep } from '../content/content'
 import { getUsages, type Usage } from '../content/stack'
@@ -211,12 +212,18 @@ const fitAll = () =>
     },
   }) as const
 
-// Abertura nos post-its de como usar e no visitante, em zoom de leitura.
+// Abertura nos post-its de como usar, no visitante e, no desktop, no gateway
+// inteiro (com espaço para o minimapa à direita). No celular o gateway fica de
+// fora: com ele, o zoom cairia demais para ler os post-its.
 // URL direta (ex.: /projetos/barnout) vai para o nó dela pelo RouteCamera.
-const INITIAL = {
-  nodes: [...howTo.map((h) => ({ id: h.id })), { id: 'actor' }],
-  maxZoom: 1,
-  padding: 0.15,
+const initialView = (): FitViewOptions => {
+  const mobile = matchMedia(MOBILE).matches
+  const ids = [...howTo.map((h) => h.id), 'actor', ...(mobile ? [] : ['gateway'])]
+  return {
+    nodes: ids.map((id) => ({ id })),
+    maxZoom: 1,
+    padding: mobile ? 0.15 : { top: '24px', left: '24px', right: '240px', bottom: '24px' },
+  }
 }
 
 /**
@@ -225,6 +232,7 @@ const INITIAL = {
  */
 export function Board({ tour }: { tour?: TourStep }) {
   const navigate = useNavigate()
+  const [initial] = useState(initialView)
 
   const open = (n: ModelNode) => {
     if (n.route) navigate(n.route)
@@ -250,7 +258,7 @@ export function Board({ tour }: { tour?: TourStep }) {
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         fitView
-        fitViewOptions={INITIAL}
+        fitViewOptions={initial}
         // Baixo o bastante para o "ver tudo" caber num celular de 390px.
         minZoom={0.15}
         maxZoom={2}
