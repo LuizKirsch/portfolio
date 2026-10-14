@@ -42,6 +42,10 @@ const techData = {
   nextjs: { nome: 'Next.js', camada: 'front' },
   vite: { nome: 'Vite', camada: 'front' },
   livewire: { nome: 'Livewire', camada: 'front' },
+  typescript: { nome: 'TypeScript', camada: 'front' },
+  'react-flow': { nome: 'React Flow', camada: 'front' },
+  'react-router': { nome: 'React Router', camada: 'front' },
+  motion: { nome: 'Motion', camada: 'front' },
   mysql: { nome: 'MySQL', camada: 'dados' },
   sequelize: { nome: 'Sequelize', camada: 'dados' },
   chromadb: { nome: 'ChromaDB', camada: 'dados' },
@@ -49,9 +53,15 @@ const techData = {
   'cloud-run': { nome: 'Cloud Run', camada: 'infra' },
   langchain: { nome: 'LangChain', camada: 'infra' },
   'openai-api': { nome: 'OpenAI API', camada: 'infra' },
+  'github-actions': { nome: 'GitHub Actions', camada: 'infra' },
+  'github-pages': { nome: 'GitHub Pages', camada: 'infra' },
   cypress: { nome: 'Cypress', camada: 'testes' },
   selenium: { nome: 'Selenium', camada: 'testes' },
   codeceptjs: { nome: 'CodeceptJS', camada: 'testes' },
+  vitest: { nome: 'Vitest', camada: 'testes' },
+  'testing-library': { nome: 'Testing Library', camada: 'testes' },
+  playwright: { nome: 'Playwright', camada: 'testes' },
+  eslint: { nome: 'ESLint', camada: 'testes' },
 } satisfies Record<string, { nome: string; camada: Camada; porque?: string }>
 
 export type TechId = keyof typeof techData
@@ -472,6 +482,75 @@ export const projects: Project[] = [
     stack: ['laravel', 'stancl-tenancy', 'livewire', 'mysql'],
     contexto: 'pessoal',
     links: [{ label: 'Código', href: 'https://github.com/LuizKirsch/tenancy-laravel' }],
+  },
+  {
+    slug: 'este-site',
+    title: 'Este site',
+    summary:
+      'Este portfólio: um quadro de system design em que o visitante faz GET /luiz e cada caixa abre um painel.',
+    // Montado a partir do repositório: src/content, src/diagram, src/canvas,
+    // src/semantic, .github/workflows/ci.yml e scripts/spa-routes.mjs.
+    diagrams: [
+      {
+        caption: 'do conteúdo à tela',
+        nodes: [
+          { id: 'content', label: 'content.ts', col: 0, row: 0 },
+          { id: 'model', label: 'model.ts', col: 0, row: 1 },
+          { id: 'layout', label: 'layout.ts', col: 1, row: 1 },
+          { id: 'semantic', label: 'HTML semântico', col: 0, row: 2 },
+          { id: 'board', label: 'React Flow', col: 1, row: 2 },
+        ],
+        edges: [
+          { from: 'content', to: 'model', label: 'conteúdo tipado' },
+          { from: 'model', to: 'layout' },
+          { from: 'model', to: 'semantic' },
+          { from: 'layout', to: 'board', label: 'desktop e mobile' },
+        ],
+      },
+      {
+        caption: 'build e deploy',
+        nodes: [
+          { id: 'push', label: 'push na main', col: 0, row: 0 },
+          { id: 'ci', label: 'GitHub Actions', col: 0, row: 1 },
+          { id: 'routes', label: 'spa-routes.mjs', col: 0, row: 2 },
+          { id: 'pages', label: 'GitHub Pages', col: 0, row: 3 },
+        ],
+        edges: [
+          { from: 'push', to: 'ci' },
+          { from: 'ci', to: 'routes', label: 'lint, testes, build' },
+          { from: 'routes', to: 'pages', label: 'um HTML por rota' },
+        ],
+      },
+    ],
+    // TODO: o problema (texto do Luiz).
+    problem: [],
+    // Proposta a partir do código, para revisar.
+    decisions: [
+      'React Flow para o canvas: pan, zoom, minimapa, nós focáveis e setas entre handles já vêm prontos. Escrevi só os nós customizados e a câmera que segue a URL e o tour. Em troca, o bundle passa de 500 kB.',
+      'Conteúdo tipado num arquivo só: os componentes só leem do content.ts. Um projeto novo é um objeto novo, e o nó, a rota, a parada do tour e a versão em texto saem dele.',
+      'Ligações calculadas: o "onde usei" de cada tecnologia sai da stack declarada em cada projeto e experiência, então não existe uma segunda lista para manter em sincronia.',
+      'Fallback semântico: leitor de tela e Google não leem o canvas, então o mesmo conteúdo também é renderizado em HTML semântico, oculto até o foco do teclado chegar nele.',
+      'Deep links no GitHub Pages: o Pages não reescreve rotas de SPA, então o build gera um HTML por rota de painel, com status 200 e título próprio. Projetos e tecnologias entram sozinhos; um serviço novo precisa ser acrescentado no script.',
+    ],
+    role: ['Projeto pessoal.'],
+    // TODO: resultado.
+    result: [],
+    stack: [
+      'react',
+      'typescript',
+      'vite',
+      'react-flow',
+      'react-router',
+      'motion',
+      'vitest',
+      'testing-library',
+      'playwright',
+      'eslint',
+      'github-actions',
+      'github-pages',
+    ],
+    contexto: 'pessoal',
+    links: [{ label: 'Código', href: 'https://github.com/LuizKirsch/portfolio' }],
   },
 ]
 
