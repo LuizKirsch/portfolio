@@ -140,7 +140,7 @@ export const profile = {
   company: 'Fraga & Bitello',
   location: 'Campo Bom, RS',
   // Mesma ordem da headline do LinkedIn.
-  stack: ['Node.js', 'React', 'Laravel'],
+  stack: ['PHP', 'Laravel', 'React'],
   tagline: 'Antes de implementar algo novo, costumo modelar os dados e documentar o fluxo.',
   github: 'https://github.com/LuizKirsch',
   linkedin: 'https://linkedin.com/in/luiz-kirsch',
@@ -191,12 +191,13 @@ export const howTo: {
 export const aboutNote =
   'Comecei como QA no fim de 2022. Cinco meses depois fui para o desenvolvimento. Hoje sou Pleno num ERP de consórcios.'
 
-// "Sobre" do LinkedIn, versão final de 2026-10-07.
+// "Sobre" do LinkedIn, versão final de 2026-10-07. Formação e contato têm painel próprio;
+// o parágrafo de Node.js/React (v6) fica porque a headline F mantém Node no perfil.
 export const about: string[] = [
   'Sou desenvolvedor Fullstack Pleno na Fraga & Bitello. Trabalho num ERP para o setor de consórcios, feito em PHP com Laravel e Livewire. Antes de implementar algo novo, costumo modelar os dados e documentar o fluxo.',
   'Comecei em TI no fim de 2022, como QA na Testing Company, automatizando testes web e mobile com Cypress, Selenium e CodeceptJS. Cinco meses depois fui para o time de desenvolvimento, onde participei da migração de um sistema em PHP puro para Laravel com multitenancy.',
-  'Entrei na Fraga & Bitello como júnior no fim de 2024 e virei Pleno em setembro de 2026. Além de trabalhar no ERP com o time, criei ferramentas internas em Python, como o Oráculo, que usa RAG para responder perguntas sobre os PDFs das administradoras.',
-  'Agora quero trabalhar mais com Node.js e React. É a stack que tenho usado nos projetos pessoais, como a Agenda Eletricista.',
+  'Entrei na Fraga & Bitello como júnior no fim de 2024 e virei Pleno em setembro de 2026. Além do ERP, criei ferramentas internas em Python, como o Oráculo, que usa RAG para responder perguntas sobre os PDFs das administradoras.',
+  'Nos projetos pessoais tenho usado Node.js e React, como na Agenda Eletricista, um sistema de agenda e ordens de serviço para eletricista autônomo.',
 ]
 
 export const education: Education[] = [
@@ -218,10 +219,10 @@ export const experiences: Experience[] = [
     org: 'Testing Company',
     place: 'Novo Hamburgo, RS',
     period: 'dez/2022 – abr/2023',
-    summary: 'Testes de aplicações web e mobile.',
+    summary: 'Testes exploratórios e automação web, mobile e de API.',
     highlights: [
-      'Fiz testes exploratórios em aplicações web e mobile.',
-      'Automatizei testes com Cypress, Selenium e CodeceptJS.',
+      'Fiz testes exploratórios e automação web, mobile e de API.',
+      'No app da Piccadilly, automatizei o aplicativo com CodeceptJS e a API com Cypress, que também usava nos projetos web.',
       'Depois de cinco meses, passei para o time de desenvolvimento.',
     ],
     stack: ['cypress', 'selenium', 'codeceptjs'],
@@ -237,6 +238,7 @@ export const experiences: Experience[] = [
     summary: 'Sistema multitenancy em PHP e Laravel, onde trabalhei no front-end e no back-end.',
     highlights: [
       'Trabalhei na refatoração de um sistema em PHP puro para Laravel com multitenancy. O objetivo era acabar com a manutenção de um ambiente separado para cada cliente.',
+      'Desenvolvi em sites da Piccadilly feitos em Laravel.',
       'Modelei o banco e criei as migrations das funcionalidades novas.',
       'Ajudei a estimar e quebrar tarefas nas cerimônias de Scrum e Kanban.',
     ],
@@ -255,9 +257,20 @@ export const experiences: Experience[] = [
     highlights: [
       'Desenvolvi automações em Python e Selenium para processos operacionais. Elas tiraram da equipe boa parte do trabalho manual da semana, e a equipe passou a só conferir os resultados.',
       'Migrei processamentos em lote para jobs e filas. As operações demoradas passaram a rodar em segundo plano, sem travar a aplicação.',
-      'Criei o Oráculo, uma prova de conceito de assistente que responde perguntas sobre PDFs de administradoras de consórcio usando RAG.',
+      'Criei o Oráculo, uma prova de conceito de assistente que responde perguntas sobre PDFs de administradoras de consórcio usando RAG. Desenvolvi com FastAPI, LangChain, ChromaDB e OpenAI API.',
     ],
-    stack: ['laravel', 'livewire', 'php', 'mysql', 'python', 'fastapi', 'selenium', 'docker'],
+    stack: [
+      'laravel',
+      'livewire',
+      'php',
+      'mysql',
+      'python',
+      'fastapi',
+      'langchain',
+      'openai-api',
+      'selenium',
+      'docker',
+    ],
     contexto: 'trabalho',
   },
   {
@@ -270,12 +283,11 @@ export const experiences: Experience[] = [
     summary:
       'Faço parte do time que desenvolve um ERP para o setor de consórcios, com Laravel e Livewire. Além de entregar funcionalidades, investigo incidentes em produção e reorganizo módulos para que fiquem mais fáceis de manter.',
     highlights: [
-      'O sistema estava trocando a estrutura antiga de dados de clientes por uma nova, que permitia reaproveitar cadastros. A primeira versão dessa estrutura tinha sido feita às pressas e começou a dar problema. Mapeei como ela funcionava, avaliei o que valia manter e implementei uma segunda versão, com a estrutura corrigida.',
-      'Separei o cadastro principal do cliente dos dados de cada negociação, para que uma negociação não sobrescreva a outra.',
-      'No módulo administrativo, toda a lógica ficava nos controllers e os filtros eram lentos. Organizei o código em camadas, deixei os controllers só com o fluxo de requisição e resposta e melhorei o desempenho dos filtros.',
+      'O sistema estava trocando a estrutura antiga de dados de clientes por uma nova, que permitia reaproveitar cadastros. A primeira versão dessa estrutura tinha sido feita às pressas e começou a dar problema. Mapeei como ela funcionava, entendi a ideia por trás dela, avaliei o que valia manter e o que seria descartado e implementei uma segunda versão, com a estrutura corrigida.',
+      'No módulo administrativo, toda a lógica ficava nos controllers, que acumulavam responsabilidades, e os filtros eram lentos. Organizei o código em camadas, deixei os controllers só com o fluxo de requisição e resposta e melhorei o desempenho dos filtros.',
       'Estou implantando uma base de conhecimento no Obsidian para o time, organizada por módulo, para que a informação não fique só na cabeça de quem trabalhou em cada parte.',
     ],
-    stack: ['laravel', 'livewire', 'php', 'mysql', 'docker'],
+    stack: ['laravel', 'livewire', 'php', 'mysql', 'python', 'selenium', 'docker'],
     contexto: 'trabalho',
   },
 ]
@@ -616,7 +628,7 @@ export const services = [
     panel: false,
     tour: 'stack-service: as tecnologias por camada. Clique numa delas para ver onde eu usei.',
   },
-  // Contato sempre por último.
+  // contato sempre por último.
   {
     id: 'contato',
     label: 'contato-service',
