@@ -165,6 +165,26 @@
   background: var(--sticky-yellow);
 }
 
+/* Cabeçalho do /sobre: foto, nome, cargo e cidade. */
+.who {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.who img {
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+}
+
+.who p {
+  margin: 0;
+}
+
 .timeline {
   padding-left: 20px;
 }

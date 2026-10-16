@@ -53,6 +53,26 @@
   padding: 20px;
 }
 
+/* Foto ao lado do nome: só para confirmar que é a pessoa do LinkedIn. */
+.who {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.photo {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+
+.who .role {
+  margin: 0;
+}
+
 .name {
   font-weight: 700;
   margin: 4px 0;
