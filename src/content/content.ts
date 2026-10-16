@@ -146,6 +146,8 @@ export const profile = {
   linkedin: 'https://linkedin.com/in/luiz-kirsch',
   email: 'luizhkirch@gmail.com',
   cv: '/curriculo.pdf',
+  // Mesma foto do LinkedIn e do GitHub.
+  photo: '/img/luiz.webp',
 }
 
 const repo = 'https://github.com/LuizKirsch/portfolio'
