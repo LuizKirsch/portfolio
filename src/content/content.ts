@@ -183,7 +183,7 @@ export const howTo: {
     id: 'como-tour',
     tone: 'green',
     title: 'Prefere ser guiado?',
-    text: 'Clique em ▶ seguir a request, lá em cima. A request passa por cada serviço e abre os painéis, um de cada vez. Dá para pausar, voltar ou pular.',
+    text: 'Use o botão "▶" no topo da tela. A request passa por cada serviço e abre os painéis, um por vez. Dá para pausar, voltar ou pular.',
   },
 ]
 
