@@ -338,7 +338,7 @@ export const projects: Project[] = [
       'Separamos o sistema em duas partes: um código em Laravel com as APIs e o painel administrativo, e um front em Next.js para os participantes.',
       'O objetivo era ter um front mais fácil de mudar e separar responsabilidades. Os serviços que vão entrar no futuro só precisam ser consumidos pelo front.',
       'A v2 começou a ser feita em 2025, mas não ficou pronta a tempo, e a v1 rodou mais uma edição.',
-      // TODO: trade-offs da separação (o que ficou mais caro ou mais difícil com dois apps).
+      'O custo foi ter dois ambientes: criar e configurar cada um ficou mais complexo, mas o Docker facilitou bastante. No ano de lançamento não houve nenhum incidente ligado a essa separação.',
     ],
     role: [
       'Na v1, atuei principalmente como desenvolvedor.',
