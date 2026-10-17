@@ -553,9 +553,9 @@ export const projects: Project[] = [
         ],
       },
     ],
-    // TODO: o problema (texto do Luiz).
-    problem: [],
-    // Proposta a partir do código, para revisar.
+    problem: [
+      'Escolhi o formato de quadro de system design porque quero mostrar que penso em arquitetar e planejar o código antes de colocar a mão no desenvolvimento.',
+    ],
     decisions: [
       'React Flow para o canvas: pan, zoom, minimapa, nós focáveis e setas entre handles já vêm prontos. Escrevi só os nós customizados e a câmera que segue a URL e o tour. Em troca, o bundle passa de 500 kB.',
       'Conteúdo tipado num arquivo só: os componentes só leem do content.ts. Um projeto novo é um objeto novo, e o nó, a rota, a parada do tour e a versão em texto saem dele.',
