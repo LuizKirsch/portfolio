@@ -449,7 +449,7 @@ export const projects: Project[] = [
       },
     ],
     problem: [
-      'Criei o Oráculo na Fraga & Bitello para consultar em linguagem natural os PDFs das administradoras de consórcio.',
+      'Criei o Oráculo como prova de conceito antes do projeto oficial da Fraga & Bitello, para consultar em linguagem natural os PDFs das administradoras de consórcio. O projeto oficial evoluiu em outro repositório.',
       // TODO: qual era a dor antes (como a informação era procurada)?
     ],
     decisions: [
