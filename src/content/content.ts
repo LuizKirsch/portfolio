@@ -44,6 +44,7 @@ const techData = {
   livewire: { nome: 'Livewire', camada: 'front' },
   typescript: { nome: 'TypeScript', camada: 'front' },
   'react-flow': { nome: 'React Flow', camada: 'front' },
+  ink: { nome: 'Ink', camada: 'front' },
   'react-router': { nome: 'React Router', camada: 'front' },
   motion: { nome: 'Motion', camada: 'front' },
   mysql: { nome: 'MySQL', camada: 'dados' },
@@ -56,6 +57,7 @@ const techData = {
   'github-actions': { nome: 'GitHub Actions', camada: 'infra' },
   'github-pages': { nome: 'GitHub Pages', camada: 'infra' },
   'claude-code': { nome: 'Claude Code', camada: 'infra' },
+  'github-cli': { nome: 'GitHub CLI', camada: 'infra' },
   cypress: { nome: 'Cypress', camada: 'testes' },
   selenium: { nome: 'Selenium', camada: 'testes' },
   codeceptjs: { nome: 'CodeceptJS', camada: 'testes' },
@@ -516,6 +518,76 @@ export const projects: Project[] = [
     stack: ['laravel', 'stancl-tenancy', 'livewire', 'mysql'],
     contexto: 'pessoal',
     links: [{ label: 'Código', href: 'https://github.com/LuizKirsch/tenancy-laravel' }],
+  },
+  {
+    slug: 'tako',
+    title: 'Tako',
+    summary:
+      'CLI open source que liga um board do GitHub Projects a um agente de IA. Escolho um card no terminal, o agente trabalha numa branch própria e a entrega sai como pull request. Está em alpha.',
+    // Tirado do README e do package.json do LuizKirsch/tako (npm 0.2.0).
+    diagrams: [
+      {
+        caption: 'do card ao pull request',
+        nodes: [
+          { id: 'dev', label: 'eu, no terminal', col: 0, row: 0 },
+          { id: 'tako', label: 'tako (board em Ink)', col: 0, row: 1 },
+          { id: 'gh', label: 'gh CLI', col: 1, row: 1 },
+          { id: 'github', label: 'GitHub Projects + PR', col: 1, row: 2, kind: 'database' },
+          { id: 'wt', label: 'worktree da task', col: 0, row: 2 },
+          { id: 'agent', label: 'Claude Code (background)', col: 0, row: 3 },
+        ],
+        edges: [
+          { from: 'dev', to: 'tako', label: 'escolhe o card' },
+          { from: 'tako', to: 'gh', label: 'move card, push, PR' },
+          { from: 'gh', to: 'github' },
+          { from: 'tako', to: 'wt', label: 'cria a branch' },
+          { from: 'wt', to: 'agent', label: 'issue + regras' },
+        ],
+      },
+      {
+        caption: 'colunas do board',
+        nodes: [
+          { id: 'ready', label: 'ready', col: 0, row: 0 },
+          { id: 'progress', label: 'in_progress', col: 0, row: 1 },
+          { id: 'delivery', label: 'delivery', col: 0, row: 2 },
+          { id: 'blocked', label: 'blocked', col: 1, row: 1 },
+        ],
+        edges: [
+          { from: 'ready', to: 'progress', label: 'start' },
+          { from: 'progress', to: 'delivery', label: 'PR aberto' },
+          { from: 'progress', to: 'blocked', label: 'falta informação' },
+        ],
+      },
+    ],
+    problem: [
+      'Organizo as tasks dos meus projetos no GitHub Projects e fazia o fluxo à mão com o Claude Code: pegar o card, criar a branch, mover a coluna e abrir o PR. As regras desse fluxo estavam escritas neste próprio site, em .claude/rules/fluxo-issues.md.',
+      'O Tako automatiza esse caminho, do card ao pull request.',
+    ],
+    decisions: [
+      'Nenhum token: toda chamada ao GitHub passa pelo gh, que cuida da autenticação. O Tako nunca pede, guarda nem registra um token. Em troca, depende do gh instalado e logado com o escopo project.',
+      'Colunas pelo ID: o usuário mapeia as próprias colunas para os papéis ready, in_progress, delivery e blocked. O Tako guarda o ID, então renomear uma coluna não quebra a configuração.',
+      'Um worktree por task: cada card ganha a branch tako/<número>-<título> num worktree próprio. O checkout do usuário não é tocado e várias tasks do mesmo repositório rodam lado a lado.',
+      'O agente não entrega: ele só faz commits. Push, PR com "Closes #N" e a mudança de coluna ficam com o Tako, então a entrega é sempre igual e, se falhar, o card mostra o motivo e pode ser entregue de novo.',
+      'Regras do repositório primeiro: o agente segue o CLAUDE.md, o AGENTS.md e a convenção de commits do repositório, e só depois o .tako/rules.md.',
+      'Estado em disco: projetos e tasks ficam em config.json e tasks.json, na pasta de configuração do usuário. Fechar o Tako não perde nada; o board se atualiza quando abre de novo.',
+    ],
+    ia: ['Usei o Claude para me auxiliar no desenvolvimento.'],
+    role: ['Projeto pessoal e open source (MIT).'],
+    // TODO: resultado.
+    result: [],
+    stack: [
+      'typescript',
+      'nodejs',
+      { tech: 'ink', nota: 'interface do board no terminal' },
+      { tech: 'github-cli', nota: 'toda a comunicação com o GitHub' },
+      { tech: 'claude-code', nota: 'agente que executa as tasks' },
+      'vitest',
+    ],
+    contexto: 'pessoal',
+    links: [
+      { label: 'Código', href: 'https://github.com/LuizKirsch/tako' },
+      { label: 'npm', href: 'https://www.npmjs.com/package/@luizkirsch/tako' },
+    ],
   },
   {
     slug: 'este-site',
