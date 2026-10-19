@@ -1,4 +1,3 @@
-import { asset } from '../asset'
 import { about, education, experiences, profile } from '../content/content'
 import { refTech, techById } from '../content/stack'
 import { contactLinks } from '../diagram/model'
@@ -10,7 +9,6 @@ export function SobrePanel() {
   return (
     <>
       <div className={s.who}>
-        <img src={asset(profile.photo)} alt="Foto de Luiz Kirsch" />
         <p>
           <strong>{profile.name}</strong>
           <br />
