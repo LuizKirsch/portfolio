@@ -499,17 +499,20 @@ export const projects: Project[] = [
         ],
       },
     ],
-    // TODO: o que motivou o projeto.
-    problem: [],
+    problem: [
+      'Gostei de montar a estrutura de tenancy e quis deixar um padrão pronto para facilitar projetos futuros.',
+    ],
     decisions: [
-      'Um banco de dados por tenant, em vez de um banco compartilhado.',
+      'Um banco de dados por tenant, em vez de um banco compartilhado. Assim os dados de um cliente nunca se misturam com os de outro, sem depender de filtrar cada consulta pelo tenant.',
       'O tenant é identificado pelo domínio da requisição. Os domínios centrais servem o painel administrativo; qualquer outro é tratado como tenant.',
       'Cadastrar um tenant cria automaticamente o banco dele e roda as migrations de tenant, que ficam separadas das migrations do banco central.',
-      // TODO: por que banco isolado e não banco compartilhado?
     ],
-    role: ['Projeto pessoal.'],
-    // TODO: resultado.
-    result: [],
+    role: [
+      'Projeto pessoal. Montei toda a estrutura sozinho: a identificação do tenant pelo domínio, a criação automática do banco e o painel central.',
+    ],
+    result: [
+      'Ficou uma base reutilizável para começar projetos multi-tenant. Ainda não usei em outro projeto.',
+    ],
     stack: ['laravel', 'stancl-tenancy', 'livewire', 'mysql'],
     contexto: 'pessoal',
     links: [{ label: 'Código', href: 'https://github.com/LuizKirsch/tenancy-laravel' }],
