@@ -22,12 +22,16 @@ describe('getUsages', () => {
     expect(python.find((u) => u.id === 'fb-junior')?.contexto).toBe('trabalho')
   })
 
-  it('Claude Code aponta para este site, como projeto pessoal com nota', () => {
+  it('Claude Code: este site (pessoal, com nota) e os cargos na Fraga & Bitello', () => {
+    expect(usos('claude-code')).toEqual([
+      'projeto:este-site',
+      'experiencia:fb-junior',
+      'experiencia:fb-pleno',
+    ])
     const usages = getUsages('claude-code')
-    expect(usages.length).toBeGreaterThan(0)
-    expect(usages.map((u) => u.id)).toEqual(['este-site'])
-    expect(usages[0]).toMatchObject({ kind: 'projeto', contexto: 'pessoal' })
+    expect(usages[0]).toMatchObject({ contexto: 'pessoal' })
     expect(usages[0].nota).toBeTruthy()
+    expect(usages.slice(1).every((u) => u.contexto === 'trabalho')).toBe(true)
   })
 
   // IA aparece onde foi construída, não só usada como ferramenta.

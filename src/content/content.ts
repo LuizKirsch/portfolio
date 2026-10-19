@@ -55,7 +55,6 @@ const techData = {
   'openai-api': { nome: 'OpenAI API', camada: 'infra' },
   'github-actions': { nome: 'GitHub Actions', camada: 'infra' },
   'github-pages': { nome: 'GitHub Pages', camada: 'infra' },
-  // TODO: uso no trabalho (Fraga & Bitello), aguardando confirmação antes de ligar.
   'claude-code': { nome: 'Claude Code', camada: 'infra' },
   cypress: { nome: 'Cypress', camada: 'testes' },
   selenium: { nome: 'Selenium', camada: 'testes' },
@@ -272,6 +271,7 @@ export const experiences: Experience[] = [
       'openai-api',
       'selenium',
       'docker',
+      'claude-code',
     ],
     contexto: 'trabalho',
   },
@@ -289,7 +289,7 @@ export const experiences: Experience[] = [
       'No módulo administrativo, toda a lógica ficava nos controllers, que acumulavam responsabilidades, e os filtros eram lentos. Organizei o código em camadas, deixei os controllers só com o fluxo de requisição e resposta e melhorei o desempenho dos filtros.',
       'Estou implantando uma base de conhecimento no Obsidian para o time, organizada por módulo, para que a informação não fique só na cabeça de quem trabalhou em cada parte.',
     ],
-    stack: ['laravel', 'livewire', 'php', 'mysql', 'python', 'selenium', 'docker'],
+    stack: ['laravel', 'livewire', 'php', 'mysql', 'python', 'selenium', 'docker', 'claude-code'],
     contexto: 'trabalho',
   },
 ]
