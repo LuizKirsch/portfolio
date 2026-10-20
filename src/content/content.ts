@@ -502,7 +502,7 @@ export const projects: Project[] = [
       },
     ],
     problem: [
-      'Gostei de montar a estrutura de tenancy e quis deixar um padrão pronto para facilitar projetos futuros.',
+      'Gostei de configurar a tenancy e quis deixar um padrão pronto para facilitar projetos futuros.',
     ],
     decisions: [
       'Um banco de dados por tenant, em vez de um banco compartilhado. Assim os dados de um cliente nunca se misturam com os de outro, sem depender de filtrar cada consulta pelo tenant.',
@@ -510,7 +510,7 @@ export const projects: Project[] = [
       'Cadastrar um tenant cria automaticamente o banco dele e roda as migrations de tenant, que ficam separadas das migrations do banco central.',
     ],
     role: [
-      'Projeto pessoal. Montei toda a estrutura sozinho: a identificação do tenant pelo domínio, a criação automática do banco e o painel central.',
+      'Projeto pessoal. Usei o stancl/tenancy em vez de escrever a tenancy do zero. Configurei a identificação pelo domínio, a criação automática do banco e o painel central para o fluxo que eu queria.',
     ],
     result: [
       'Ficou uma base para começar projeto multi-tenant sem montar tudo de novo. Ainda não usei em outro projeto.',
