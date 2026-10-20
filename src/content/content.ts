@@ -86,7 +86,19 @@ export type ProjectDiagram = {
   caption: string
   /** Distância entre colunas, em px. Aumente quando uma seta horizontal tiver rótulo longo. */
   colWidth?: number
-  nodes: { id: string; label: string; col: number; row: number; kind?: 'box' | 'database' }[]
+  /** Altura de cada linha, em px. Losangos precisam de mais espaço vertical. */
+  rowHeight?: number
+  /**
+   * box: ação (retângulo). state: coluna do board (pílula). decision: pergunta com
+   * saídas "sim" e "não" (losango). database: armazenamento (cilindro).
+   */
+  nodes: {
+    id: string
+    label: string
+    col: number
+    row: number
+    kind?: 'box' | 'state' | 'decision' | 'database'
+  }[]
   edges: { from: string; to: string; label?: string }[]
 }
 
@@ -531,19 +543,20 @@ export const projects: Project[] = [
       {
         caption: 'do card ao pull request',
         colWidth: 280,
+        rowHeight: 150,
         nodes: [
           { id: 'dev', label: 'eu, no terminal', col: 0, row: 0 },
           { id: 'tako', label: 'tako (board em Ink)', col: 0, row: 1 },
-          { id: 'github', label: 'GitHub: in_progress', col: 1, row: 1, kind: 'database' },
+          { id: 'progress', label: 'in_progress', col: 1, row: 1, kind: 'state' },
           { id: 'wt', label: 'worktree da task', col: 0, row: 2 },
           { id: 'agent', label: 'Claude Code (background)', col: 0, row: 3 },
-          { id: 'check', label: 'tudo certo?', col: 0, row: 4 },
-          { id: 'delivery', label: 'delivery', col: 0, row: 5 },
-          { id: 'blocked', label: 'blocked', col: 1, row: 4 },
+          { id: 'check', label: 'tudo certo?', col: 0, row: 4, kind: 'decision' },
+          { id: 'delivery', label: 'delivery', col: 0, row: 5, kind: 'state' },
+          { id: 'blocked', label: 'blocked', col: 1, row: 4, kind: 'state' },
         ],
         edges: [
           { from: 'dev', to: 'tako', label: 'escolhe o card' },
-          { from: 'tako', to: 'github', label: 'move p/ in_progress' },
+          { from: 'tako', to: 'progress', label: 'move p/ in_progress' },
           { from: 'tako', to: 'wt', label: 'cria worktree' },
           { from: 'wt', to: 'agent', label: 'issue + regras' },
           { from: 'agent', to: 'check', label: 'termina' },
@@ -554,16 +567,19 @@ export const projects: Project[] = [
       {
         caption: 'colunas do board',
         colWidth: 280,
+        rowHeight: 150,
         nodes: [
-          { id: 'ready', label: 'ready', col: 0, row: 0 },
-          { id: 'progress', label: 'in_progress', col: 0, row: 1 },
-          { id: 'delivery', label: 'delivery', col: 0, row: 2 },
-          { id: 'blocked', label: 'blocked', col: 1, row: 1 },
+          { id: 'ready', label: 'ready', col: 0, row: 0, kind: 'state' },
+          { id: 'progress', label: 'in_progress', col: 0, row: 1, kind: 'state' },
+          { id: 'check', label: 'tudo certo?', col: 0, row: 2, kind: 'decision' },
+          { id: 'delivery', label: 'delivery', col: 0, row: 3, kind: 'state' },
+          { id: 'blocked', label: 'blocked', col: 1, row: 2, kind: 'state' },
         ],
         edges: [
           { from: 'ready', to: 'progress', label: 'start' },
-          { from: 'progress', to: 'delivery', label: 'sim: push + PR' },
-          { from: 'progress', to: 'blocked', label: 'não' },
+          { from: 'progress', to: 'check', label: 'termina' },
+          { from: 'check', to: 'delivery', label: 'sim: push + PR' },
+          { from: 'check', to: 'blocked', label: 'não' },
         ],
       },
     ],

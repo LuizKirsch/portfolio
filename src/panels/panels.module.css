@@ -115,6 +115,48 @@
   padding: 12px 8px;
 }
 
+/* Coluna do board: pílula, sempre igual em todo o diagrama. */
+.miniState {
+  width: 150px;
+  border-radius: 999px;
+  padding: 8px 14px;
+}
+
+/* Decisão: losango. A borda é uma camada atrás, recortada com um pouco menos de espaço. */
+.miniDecisionWrap {
+  position: relative;
+  width: 170px;
+  height: 92px;
+}
+
+.miniDecision {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.miniDecision::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: var(--paper);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.miniDecisionLabel {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--ink);
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;
