@@ -142,7 +142,7 @@ export const profile = {
   location: 'Campo Bom, RS',
   // Mesma ordem da headline do LinkedIn.
   stack: ['PHP', 'Laravel', 'React'],
-  tagline: 'Antes de implementar algo novo, costumo modelar os dados e documentar o fluxo.',
+  tagline: 'Curto planejar antes de colocar a mão no código.',
   github: 'https://github.com/LuizKirsch',
   linkedin: 'https://linkedin.com/in/luiz-kirsch',
   email: 'luizhkirch@gmail.com',
@@ -192,15 +192,15 @@ export const howTo: {
 
 /** Versão curta para o post-it do canvas. O painel /sobre usa `about`. */
 export const aboutNote =
-  'Comecei como QA no fim de 2022. Cinco meses depois fui para o desenvolvimento. Hoje sou Pleno num ERP de consórcios.'
+  'Comecei como QA no fim de 2022. Cinco meses depois virei dev. Hoje sou Pleno num ERP de consórcios.'
 
 // "Sobre" do LinkedIn, versão final de 2026-10-07. Formação e contato têm painel próprio;
 // o parágrafo de Node.js/React (v6) fica porque a headline F mantém Node no perfil.
 export const about: string[] = [
-  'Sou desenvolvedor Fullstack Pleno na Fraga & Bitello. Trabalho num ERP para o setor de consórcios, feito em PHP com Laravel e Livewire. Antes de implementar algo novo, costumo modelar os dados e documentar o fluxo.',
-  'Comecei em TI no fim de 2022, como QA na Testing Company, automatizando testes web e mobile com Cypress, Selenium e CodeceptJS. Cinco meses depois fui para o time de desenvolvimento, onde participei da migração de um sistema em PHP puro para Laravel com multitenancy.',
-  'Entrei na Fraga & Bitello como júnior no fim de 2024 e virei Pleno em setembro de 2026. Além do ERP, criei ferramentas internas em Python, como o Oráculo, que usa RAG para responder perguntas sobre os PDFs das administradoras.',
-  'Nos projetos pessoais tenho usado Node.js e React, como na Agenda Eletricista, um sistema de agenda e ordens de serviço para eletricista autônomo.',
+  'Sou desenvolvedor Fullstack Pleno na Fraga & Bitello. Trabalho num ERP de consórcios feito em PHP, com Laravel e Livewire. Boa parte do dia é lendo regra de negócio, mexendo em modelagem de dados e resolvendo bug de produção.',
+  'Entrei em TI no fim de 2022 como QA na Testing Company, automatizando teste web e mobile com Cypress, Selenium e CodeceptJS. Cinco meses depois passei para o time de desenvolvimento e ajudei a migrar um sistema em PHP puro para Laravel com multitenancy.',
+  'Na Fraga & Bitello entrei como júnior no fim de 2024 e virei Pleno em setembro de 2026. Além do ERP, fiz ferramentas internas em Python, como o Oráculo, que responde perguntas em cima dos PDFs das administradoras.',
+  'Fora do trabalho, venho usando Node.js e React. A Agenda Eletricista, por exemplo, é um sistema de agenda e ordem de serviço que fiz para um eletricista autônomo.',
 ]
 
 export const education: Education[] = [
@@ -222,11 +222,11 @@ export const experiences: Experience[] = [
     org: 'Testing Company',
     place: 'Novo Hamburgo, RS',
     period: 'dez/2022 – abr/2023',
-    summary: 'Testes exploratórios e automação web, mobile e de API.',
+    summary: 'Fazia teste exploratório e automatizava os testes de web, mobile e API.',
     highlights: [
-      'Fiz testes exploratórios e automação web, mobile e de API.',
-      'No app da Piccadilly, automatizei o aplicativo com CodeceptJS e a API com Cypress, que também usava nos projetos web.',
-      'Depois de cinco meses, passei para o time de desenvolvimento.',
+      'No app da Piccadilly, automatizei o aplicativo com CodeceptJS e a API com Cypress.',
+      'Também usei Cypress nos projetos web.',
+      'Cinco meses depois, passei para o time de desenvolvimento.',
     ],
     stack: ['cypress', 'selenium', 'codeceptjs'],
     contexto: 'trabalho',
@@ -238,12 +238,12 @@ export const experiences: Experience[] = [
     org: 'Testing Company',
     place: 'Novo Hamburgo, RS · híbrido',
     period: 'abr/2023 – nov/2024',
-    summary: 'Sistema multitenancy em PHP e Laravel, onde trabalhei no front-end e no back-end.',
+    summary: 'Trabalhei no front e no back de um sistema multitenancy em PHP e Laravel.',
     highlights: [
-      'Trabalhei na refatoração de um sistema em PHP puro para Laravel com multitenancy. O objetivo era acabar com a manutenção de um ambiente separado para cada cliente.',
-      'Desenvolvi em sites da Piccadilly feitos em Laravel.',
-      'Modelei o banco e criei as migrations das funcionalidades novas.',
-      'Ajudei a estimar e quebrar tarefas nas cerimônias de Scrum e Kanban.',
+      'Participei da refatoração de um sistema em PHP puro para Laravel com multitenancy. Antes, cada cliente tinha um ambiente próprio para manter; a ideia era acabar com isso.',
+      'Também desenvolvi nos sites da Piccadilly, que eram em Laravel.',
+      'Modelei o banco e escrevi as migrations das funcionalidades novas.',
+      'Nas cerimônias de Scrum e Kanban, ajudava a estimar e quebrar as tarefas.',
     ],
     stack: ['php', 'laravel', 'stancl-tenancy', 'mysql'],
     contexto: 'trabalho',
@@ -256,11 +256,11 @@ export const experiences: Experience[] = [
     place: 'São Leopoldo, RS · híbrido',
     period: 'nov/2024 – ago/2026',
     summary:
-      'Desenvolvimento fullstack com Laravel e Livewire num ERP para o setor de consórcios e criação de ferramentas internas em Python.',
+      'Desenvolvia o ERP em Laravel e Livewire e, no meio do caminho, comecei a fazer ferramentas internas em Python.',
     highlights: [
-      'Desenvolvi automações em Python e Selenium para processos operacionais. Elas tiraram da equipe boa parte do trabalho manual da semana, e a equipe passou a só conferir os resultados.',
-      'Migrei processamentos em lote para jobs e filas. As operações demoradas passaram a rodar em segundo plano, sem travar a aplicação.',
-      'Criei o Oráculo, uma prova de conceito de assistente que responde perguntas sobre PDFs de administradoras de consórcio usando RAG. Desenvolvi com FastAPI, LangChain, ChromaDB e OpenAI API.',
+      'Fiz automações em Python e Selenium para processos operacionais. Elas tiraram da equipe boa parte do trabalho manual da semana, e sobrou a conferência do resultado.',
+      'Migrei processamentos em lote para jobs e filas. As operações demoradas saíram da request e foram para segundo plano.',
+      'Criei o Oráculo, uma prova de conceito de assistente que responde perguntas sobre os PDFs das administradoras. Usei RAG, com FastAPI, LangChain, ChromaDB e OpenAI API.',
     ],
     stack: [
       'laravel',
@@ -285,11 +285,11 @@ export const experiences: Experience[] = [
     place: 'São Leopoldo, RS · híbrido',
     period: 'set/2026 – hoje',
     summary:
-      'Faço parte do time que desenvolve um ERP para o setor de consórcios, com Laravel e Livewire. Além de entregar funcionalidades, investigo incidentes em produção e reorganizo módulos para que fiquem mais fáceis de manter.',
+      'Trabalho no ERP de consórcios em Laravel e Livewire. Entrego funcionalidade nova, investigo incidente em produção e reorganizo o que cresceu demais.',
     highlights: [
-      'O sistema estava trocando a estrutura antiga de dados de clientes por uma nova, que permitia reaproveitar cadastros. A primeira versão dessa estrutura tinha sido feita às pressas e começou a dar problema. Mapeei como ela funcionava, entendi a ideia por trás dela, avaliei o que valia manter e o que seria descartado e implementei uma segunda versão, com a estrutura corrigida.',
-      'No módulo administrativo, toda a lógica ficava nos controllers, que acumulavam responsabilidades, e os filtros eram lentos. Organizei o código em camadas, deixei os controllers só com o fluxo de requisição e resposta e melhorei o desempenho dos filtros.',
-      'Estou implantando uma base de conhecimento no Obsidian para o time, organizada por módulo, para que a informação não fique só na cabeça de quem trabalhou em cada parte.',
+      'O sistema estava migrando a estrutura de dados de clientes para uma versão que reaproveitava cadastros, mas a primeira tentativa foi feita às pressas e começou a dar problema. Passei um tempo entendendo o que já existia, decidi o que dava para aproveitar e refiz a modelagem. Virou uma segunda versão da estrutura, com o cadastro do cliente separado dos dados de cada negociação.',
+      'No módulo administrativo, toda a lógica ficava nos controllers e os filtros eram lentos. Tirei a regra de negócio dos controllers, organizei em camadas e melhorei os filtros.',
+      'Estou montando uma base de conhecimento no Obsidian para o time, dividida por módulo. A ideia é a informação não ficar só na cabeça de quem mexeu em cada parte.',
     ],
     stack: ['laravel', 'livewire', 'php', 'mysql', 'python', 'selenium', 'docker', 'claude-code'],
     contexto: 'trabalho',
@@ -337,17 +337,17 @@ export const projects: Project[] = [
       'Nos dias do evento, boa parte do meu trabalho era investigar e corrigir bugs em produção com o app em uso. Em 2025, depois do primeiro dia, comecei a corrigir bugs num bar com o time, continuei em casa até as 4h e depois fui para o evento.',
     ],
     decisions: [
-      'Separamos o sistema em duas partes: um código em Laravel com as APIs e o painel administrativo, e um front em Next.js para os participantes.',
-      'O objetivo era ter um front mais fácil de mudar e separar responsabilidades. Os serviços que vão entrar no futuro só precisam ser consumidos pelo front.',
-      'A v2 começou a ser feita em 2025, mas não ficou pronta a tempo, e a v1 rodou mais uma edição.',
-      'O custo foi ter dois ambientes: criar e configurar cada um ficou mais complexo, mas o Docker facilitou bastante. No ano de lançamento não houve nenhum incidente ligado a essa separação.',
+      'Dividimos o sistema em dois: Laravel com as APIs e o painel administrativo, e um front em Next.js para os participantes.',
+      'Queríamos um front mais fácil de mudar, com as responsabilidades separadas. No futuro, os serviços novos vão ser só consumidos pelo front.',
+      'Começamos a v2 em 2025, mas ela não ficou pronta a tempo. A v1 rodou mais uma edição.',
+      'A parte chata foi ter dois ambientes para configurar. O Docker ajudou, mas não sumiu com o trabalho. No lançamento, não teve nenhum incidente por causa da separação.',
     ],
     role: [
-      'Na v1, atuei principalmente como desenvolvedor.',
+      'Na v1, eu era um dos desenvolvedores.',
       'Na v2, além de desenvolver, organizei as tasks, revisei os PRs e conduzi as reuniões de um time de 7 pessoas entre dev, UX, QA e infra.',
     ],
     result: [
-      'A v2 entrou em produção em 07/10/2026, no primeiro dia do evento. O evento inteiro terminou sem nenhum incidente, e já no primeiro dia o time brincou que tinha acabado a emoção.',
+      'A v2 entrou em produção em 07/10/2026, no primeiro dia do evento. Terminou sem nenhum incidente. Já no primeiro dia o time brincou que tinha acabado a emoção.',
     ],
     stack: ['laravel', 'php', 'nextjs', 'mysql', 'docker'],
     // TODO: confirmar o contexto do BarNout.
@@ -405,8 +405,8 @@ export const projects: Project[] = [
     ],
     decisions: [
       'O endereço virou uma entidade própria, com observações datadas. O eletricista volta ao imóvel, não à pessoa, então o histórico fica no endereço.',
-      'A agenda passou a ser o meio de registrar os serviços: cada ordem de serviço agrupa atividades com data, horário e status próprios, e o sistema avisa quando dois horários batem.',
-      'Monolito: o React é servido pelo próprio Express, com uma API e um banco MySQL numa VPS. Para cinco módulos, dois perfis e pouco acesso simultâneo, serviços separados só trariam complexidade.',
+      'A agenda virou o lugar de registrar os serviços: cada ordem de serviço junta atividades com data, horário e status próprios. Se dois horários batem, o sistema avisa.',
+      'Optei por um monolito: o React é servido pelo próprio Express, com uma API e um banco MySQL numa VPS. Para cinco módulos, dois perfis e pouco acesso ao mesmo tempo, separar em serviços só ia dar mais trabalho.',
       'Uso só pelo navegador, sem instalar nada. O Edson já tinha abandonado ferramentas anteriores por serem complicadas demais.',
     ],
     role: [
@@ -414,7 +414,7 @@ export const projects: Project[] = [
       'Desenvolvi o sistema.',
     ],
     result: [
-      'Agenda e atividades estão completas. Ordens de serviço, clientes e usuários estão implementados, com ajustes pendentes. O orçamento fica para a segunda entrega.',
+      'Agenda e atividades estão completas. Ordens de serviço, clientes e usuários já estão implementados, com ajustes pendentes. O orçamento fica para a segunda entrega.',
       // TODO: o Edson já usa o sistema? O que mudou no dia a dia dele?
     ],
     stack: ['react', 'vite', 'nodejs', 'express', 'sequelize', 'mysql'],
@@ -451,13 +451,13 @@ export const projects: Project[] = [
       },
     ],
     problem: [
-      'Criei o Oráculo como prova de conceito antes do projeto oficial da Fraga & Bitello, para consultar em linguagem natural os PDFs das administradoras de consórcio. O projeto oficial evoluiu em outro repositório.',
+      'Fiz o Oráculo como prova de conceito antes do projeto oficial da Fraga & Bitello. A ideia era consultar em linguagem natural os PDFs das administradoras de consórcio. O projeto oficial seguiu em outro repositório.',
       // TODO: qual era a dor antes (como a informação era procurada)?
     ],
     decisions: [
-      'Busca filtrada por categoria de documento.',
-      'Persona configurável para as respostas.',
-      'OCR para que imagens também entrem na base, além dos PDFs.',
+      'A busca é filtrada por categoria de documento.',
+      'A persona das respostas é configurável.',
+      'Rodei OCR nas imagens para elas também entrarem na base, junto com os PDFs.',
       // TODO: trade-offs (por que RAG e ChromaDB, o que ficou de fora da POC).
     ],
     role: ['Concebi e desenvolvi a prova de conceito.'],
@@ -513,7 +513,7 @@ export const projects: Project[] = [
       'Projeto pessoal. Montei toda a estrutura sozinho: a identificação do tenant pelo domínio, a criação automática do banco e o painel central.',
     ],
     result: [
-      'Ficou uma base reutilizável para começar projetos multi-tenant. Ainda não usei em outro projeto.',
+      'Ficou uma base para começar projeto multi-tenant sem montar tudo de novo. Ainda não usei em outro projeto.',
     ],
     stack: ['laravel', 'stancl-tenancy', 'livewire', 'mysql'],
     contexto: 'pessoal',
@@ -564,12 +564,12 @@ export const projects: Project[] = [
       'O Tako automatiza esse caminho, do card ao pull request.',
     ],
     decisions: [
-      'Nenhum token: toda chamada ao GitHub passa pelo gh, que cuida da autenticação. O Tako nunca pede, guarda nem registra um token. Em troca, depende do gh instalado e logado com o escopo project.',
-      'Colunas pelo ID: o usuário mapeia as próprias colunas para os papéis ready, in_progress, delivery e blocked. O Tako guarda o ID, então renomear uma coluna não quebra a configuração.',
-      'Um worktree por task: cada card ganha a branch tako/<número>-<título> num worktree próprio. O checkout do usuário não é tocado e várias tasks do mesmo repositório rodam lado a lado.',
-      'O agente não entrega: ele só faz commits. Push, PR com "Closes #N" e a mudança de coluna ficam com o Tako, então a entrega é sempre igual e, se falhar, o card mostra o motivo e pode ser entregue de novo.',
-      'Regras do repositório primeiro: o agente segue o CLAUDE.md, o AGENTS.md e a convenção de commits do repositório, e só depois o .tako/rules.md.',
-      'Estado em disco: projetos e tasks ficam em config.json e tasks.json, na pasta de configuração do usuário. Fechar o Tako não perde nada; o board se atualiza quando abre de novo.',
+      'Toda chamada ao GitHub passa pelo gh, que cuida da autenticação. O Tako nunca pede, guarda nem registra token. Em troca, depende do gh instalado e logado com o escopo project.',
+      'As colunas são mapeadas por ID. O usuário diz qual coluna é ready, in_progress, delivery e blocked, e renomear depois não quebra a configuração.',
+      'Cada card ganha a branch tako/<número>-<título> num worktree próprio. O checkout do usuário não é tocado e dá para rodar várias tasks do mesmo repositório lado a lado.',
+      'Quem entrega é o Tako, não o agente. O agente só faz commit; push, PR com "Closes #N" e a mudança de coluna ficam com a CLI. Assim a entrega é sempre igual e, se falhar, o card mostra o motivo e pode ser entregue de novo.',
+      'O agente segue primeiro o CLAUDE.md, o AGENTS.md e a convenção de commits do repositório. O .tako/rules.md vem depois.',
+      'Projetos e tasks ficam em config.json e tasks.json, na pasta de configuração do usuário. Fechar o Tako não perde nada; o board se atualiza quando abre de novo.',
     ],
     ia: ['Usei o Claude para me auxiliar no desenvolvimento.'],
     role: ['Projeto pessoal e open source (MIT).'],
@@ -629,20 +629,20 @@ export const projects: Project[] = [
       },
     ],
     problem: [
-      'Escolhi o formato de quadro de system design porque quero mostrar que penso em arquitetar e planejar o código antes de colocar a mão no desenvolvimento.',
+      'Fiz o site em formato de quadro porque queria mostrar o que eu faço antes de codar. Em vez de uma lista de projetos, o visitante entra num diagrama e vê como as partes se ligam.',
     ],
     decisions: [
-      'React Flow para o canvas: pan, zoom, minimapa, nós focáveis e setas entre handles já vêm prontos. Escrevi só os nós customizados e a câmera que segue a URL e o tour. Em troca, o bundle passa de 500 kB.',
-      'Conteúdo tipado num arquivo só: os componentes só leem do content.ts. Um projeto novo é um objeto novo, e o nó, a rota, a parada do tour e a versão em texto saem dele.',
-      'Ligações calculadas: o "onde usei" de cada tecnologia sai da stack declarada em cada projeto e experiência, então não existe uma segunda lista para manter em sincronia.',
-      'Fallback semântico: leitor de tela e Google não leem o canvas, então o mesmo conteúdo também é renderizado em HTML semântico, oculto até o foco do teclado chegar nele.',
-      'Deep links no GitHub Pages: o Pages não reescreve rotas de SPA, então o build gera um HTML por rota de painel, com status 200 e título próprio. Projetos e tecnologias entram sozinhos; um serviço novo precisa ser acrescentado no script.',
+      'Usei React Flow no canvas porque pan, zoom, minimapa, nós focáveis e setas entre handles já vêm prontos. Escrevi só os nós customizados e a câmera que segue a URL e o tour. Em troca, o bundle passa de 500 kB.',
+      'O conteúdo fica num content.ts tipado, e os componentes só leem dali. Um projeto novo é um objeto novo; o nó, a rota, a parada do tour e a versão em texto saem dele.',
+      'O "onde usei" de cada tecnologia é calculado a partir da stack declarada em cada projeto e experiência. Não tem uma segunda lista para manter em sincronia.',
+      'Leitor de tela e Google não leem o canvas, então o mesmo conteúdo também sai em HTML semântico. Ele fica oculto até o foco do teclado chegar nele.',
+      'O GitHub Pages não reescreve rota de SPA, então o build gera um HTML por rota de painel, com status 200 e título próprio. Projetos e tecnologias entram sozinhos; um serviço novo precisa ser acrescentado no script.',
     ],
     ia: [
-      'O conceito do quadro e a arquitetura do site são meus. Desenhei o diagrama e defini a estrutura antes de começar a implementar.',
+      'Concebi o quadro e a arquitetura do site. Desenhei o diagrama e defini a estrutura antes de começar a implementar.',
       'A implementação foi feita com o Claude Code, em etapas. Cada etapa saiu de um prompt que eu escrevi, virou um commit e só seguiu depois da minha revisão.',
-      'Os testes e o CI são a rede de segurança para o código gerado.',
-      'O conteúdo tem uma regra explícita: não inventar métricas, tecnologias nem resultados. O que faltava ficava marcado para eu preencher depois.',
+      'Os testes e o CI servem de rede de segurança para o código gerado.',
+      'Uma regra que segui: não inventar métrica, tecnologia nem resultado. O que faltava ficava marcado para eu preencher depois.',
     ],
     role: ['Projeto pessoal.'],
     // TODO: resultado.

@@ -8,7 +8,7 @@ Meu portfólio, desenhado como um quadro de system design. O visitante é um ato
 
 ## O conceito
 
-Antes de escrever código, eu costumo desenhar o sistema. O site usa esse desenho como interface:
+Gosto de desenhar o sistema antes de escrever código, então o site usa esse desenho como interface:
 
 - **Gateway:** nome, cargo, stack principal e uma frase.
 - **5 serviços:** `sobre-service`, `projetos-service`, `experiencia-service`, `stack-service` e `contato-service` (sempre por último). Cada um liga a um tipo de nó: post-it, cluster de projetos, fila (a carreira em ordem), o frame de stack por camada e links de contato. A ordem fica num único array, `services` no `content.ts`, e dele saem as posições no quadro, a versão semântica e o tour.
