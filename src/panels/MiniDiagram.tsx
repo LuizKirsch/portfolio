@@ -24,9 +24,25 @@ function gridSides(a: MiniData, b: MiniData): [string, string] {
   return a.col < b.col ? ['r', 'l'] : ['l', 'r']
 }
 
+/*
+ * Formas do diagrama: ação = retângulo, coluna do board = pílula, decisão = losango,
+ * banco = cilindro. Os Handles ficam fora do div que recorta o losango, senão
+ * o clip-path cortaria os pontos de conexão nos vértices.
+ */
 function MiniBox({ data }: NodeProps<MiniNode>) {
+  if (data.kind === 'decision') {
+    return (
+      <div className={s.miniDecisionWrap}>
+        <div className={s.miniDecision}>
+          <span className={s.miniDecisionLabel}>{data.label}</span>
+        </div>
+        <Handles />
+      </div>
+    )
+  }
+  const shape = data.kind === 'state' ? s.miniState : data.kind === 'database' ? s.miniDb : ''
   return (
-    <div className={`${s.mini} ${data.kind === 'database' ? s.miniDb : ''}`}>
+    <div className={`${s.mini} ${shape}`}>
       {data.label}
       <Handles />
     </div>
@@ -37,7 +53,10 @@ const nodeTypes = { mini: MiniBox }
 
 export function MiniDiagram({ diagram }: { diagram: ProjectDiagram }) {
   const pos = new Map<string, XY>(
-    diagram.nodes.map((n) => [n.id, { x: n.col * (diagram.colWidth ?? COL), y: n.row * ROW }]),
+    diagram.nodes.map((n) => [
+      n.id,
+      { x: n.col * (diagram.colWidth ?? COL), y: n.row * (diagram.rowHeight ?? ROW) },
+    ]),
   )
   const byId = new Map(diagram.nodes.map((n) => [n.id, n]))
   const label = new Map(diagram.nodes.map((n) => [n.id, n.label]))
@@ -70,7 +89,11 @@ export function MiniDiagram({ diagram }: { diagram: ProjectDiagram }) {
 
   return (
     <figure className={s.figure}>
-      <div role="img" aria-label={description} style={{ height: rows * 64 + 24 }}>
+      <div
+        role="img"
+        aria-label={description}
+        style={{ height: rows * (diagram.rowHeight ?? ROW) * 0.8 + 24 }}
+      >
         <ReactFlow
           defaultNodes={nodes}
           defaultEdges={edges}
