@@ -99,7 +99,8 @@ export type ProjectDiagram = {
     row: number
     kind?: 'box' | 'state' | 'decision' | 'database'
   }[]
-  edges: { from: string; to: string; label?: string }[]
+  /** both: seta com ponta nos dois lados (ida e volta entre os mesmos nós). */
+  edges: { from: string; to: string; label?: string; both?: boolean }[]
 }
 
 export type Project = {
@@ -448,19 +449,22 @@ export const projects: Project[] = [
       'Prova de conceito de um assistente que responde perguntas sobre documentos internos, PDFs e imagens com OCR, usando RAG.',
     diagrams: [
       {
-        caption: 'RAG',
+        // Só o caminho de uma pergunta: a FastAPI busca no ChromaDB, manda pergunta +
+        // trechos para a OpenAI, trata a resposta e devolve ao usuário. A indexação
+        // dos documentos fica no texto.
+        caption: 'caminho de uma pergunta',
+        colWidth: 300,
+        rowHeight: 120,
         nodes: [
-          { id: 'docs', label: 'PDFs + imagens (OCR)', col: 0, row: 0 },
-          { id: 'user', label: 'pergunta', col: 1, row: 0 },
+          { id: 'user', label: 'usuário', col: 1, row: 0 },
           { id: 'chroma', label: 'ChromaDB', col: 0, row: 1, kind: 'database' },
           { id: 'api', label: 'FastAPI + LangChain', col: 1, row: 1 },
-          { id: 'llm', label: 'OpenAI', col: 1, row: 2 },
+          { id: 'llm', label: 'OpenAI', col: 2, row: 1 },
         ],
         edges: [
-          { from: 'docs', to: 'chroma', label: 'indexa' },
-          { from: 'user', to: 'api' },
-          { from: 'api', to: 'chroma', label: 'busca' },
-          { from: 'api', to: 'llm' },
+          { from: 'user', to: 'api', label: 'pergunta / resposta', both: true },
+          { from: 'api', to: 'chroma', label: 'busca / trechos', both: true },
+          { from: 'api', to: 'llm', label: 'pergunta + trechos / resposta', both: true },
         ],
       },
     ],

@@ -70,6 +70,7 @@ export function MiniDiagram({ diagram }: { diagram: ProjectDiagram }) {
 
   const edges: Edge[] = diagram.edges.map((e) => {
     const [from, to] = gridSides(byId.get(e.from)!, byId.get(e.to)!)
+    const arrow = { type: MarkerType.ArrowClosed, color: 'var(--ink)' }
     return {
       id: `${e.from}->${e.to}`,
       source: e.from,
@@ -77,7 +78,8 @@ export function MiniDiagram({ diagram }: { diagram: ProjectDiagram }) {
       label: e.label,
       sourceHandle: `s-${from}`,
       targetHandle: `t-${to}`,
-      markerEnd: { type: MarkerType.ArrowClosed, color: 'var(--ink)' },
+      markerEnd: arrow,
+      markerStart: e.both ? arrow : undefined,
     }
   })
 
