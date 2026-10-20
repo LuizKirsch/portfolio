@@ -93,6 +93,11 @@
   text-align: center;
 }
 
+/* No mini diagrama o rótulo precisa ser menor que no quadro para caber entre as caixas. */
+.figure :global(.react-flow__edge-text) {
+  font-size: 14px;
+}
+
 .mini {
   width: 140px;
   padding: 6px 8px;

@@ -37,7 +37,7 @@ const nodeTypes = { mini: MiniBox }
 
 export function MiniDiagram({ diagram }: { diagram: ProjectDiagram }) {
   const pos = new Map<string, XY>(
-    diagram.nodes.map((n) => [n.id, { x: n.col * COL, y: n.row * ROW }]),
+    diagram.nodes.map((n) => [n.id, { x: n.col * (diagram.colWidth ?? COL), y: n.row * ROW }]),
   )
   const byId = new Map(diagram.nodes.map((n) => [n.id, n]))
   const label = new Map(diagram.nodes.map((n) => [n.id, n.label]))
