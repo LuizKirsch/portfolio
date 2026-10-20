@@ -197,7 +197,7 @@ export const aboutNote =
 // "Sobre" do LinkedIn, versão final de 2026-10-07. Formação e contato têm painel próprio;
 // o parágrafo de Node.js/React (v6) fica porque a headline F mantém Node no perfil.
 export const about: string[] = [
-  'Sou desenvolvedor Fullstack Pleno na Fraga & Bitello. Trabalho num ERP de consórcios feito em PHP, com Laravel e Livewire. Boa parte do dia é lendo regra de negócio, mexendo em modelagem de dados e resolvendo bug de produção.',
+  'Trabalho num ERP de consórcios em PHP, com Laravel e Livewire. Boa parte do dia é lendo regra de negócio, mexendo em modelagem de dados e resolvendo bug de produção.',
   'Entrei em TI no fim de 2022 como QA na Testing Company, automatizando teste web e mobile com Cypress, Selenium e CodeceptJS. Cinco meses depois passei para o time de desenvolvimento e ajudei a migrar um sistema em PHP puro para Laravel com multitenancy.',
   'Na Fraga & Bitello entrei como júnior no fim de 2024 e virei Pleno em setembro de 2026. Além do ERP, fiz ferramentas internas em Python, como o Oráculo, que responde perguntas em cima dos PDFs das administradoras.',
   'Fora do trabalho, venho usando Node.js e React. A Agenda Eletricista, por exemplo, é um sistema de agenda e ordem de serviço que fiz para um eletricista autônomo.',
