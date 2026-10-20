@@ -486,32 +486,33 @@ export const projects: Project[] = [
     title: 'Tenancy Laravel',
     summary:
       'Aplicação multi-tenant com um banco de dados isolado por tenant, identificado pelo subdomínio e criado automaticamente quando o tenant é cadastrado.',
-    // Estrutura do README do repositório: o domínio central serve o painel admin e
-    // o banco central (tenants e domains); cadastrar um tenant dispara a criação do
-    // banco dele e as migrations de tenant; os domínios de tenant usam só o próprio banco.
+    // Toda requisição passa pelo stancl/tenancy, que decide pelo domínio se vai para
+    // as rotas centrais ou para as do tenant. O painel central cadastra o tenant, o
+    // que cria o banco dele; as rotas do tenant trabalham só nesse banco.
     diagrams: [
       {
-        caption: 'domínio central x domínio do tenant',
+        caption: 'cadastro e uso de um tenant',
         nodes: [
-          { id: 'central', label: 'domínio central', col: 0, row: 0 },
-          { id: 'tdom', label: 'domínio do tenant', col: 2, row: 0 },
-          { id: 'admin', label: 'painel central (admin)', col: 0, row: 1 },
-          { id: 'troutes', label: 'rotas do tenant', col: 2, row: 1 },
+          { id: 'req', label: 'requisição', col: 0.5, row: 0 },
+          { id: 'tenancy', label: 'stancl/tenancy', col: 0.5, row: 1 },
+          { id: 'admin', label: 'painel central (admin)', col: 0, row: 2 },
+          { id: 'troutes', label: 'rotas do tenant', col: 1, row: 2 },
           {
             id: 'cdb',
             label: 'banco central: tenants e domains',
             col: 0,
-            row: 2,
+            row: 3,
             kind: 'database',
           },
-          { id: 'tdb', label: 'banco do tenant', col: 2, row: 2, kind: 'database' },
+          { id: 'tdb', label: 'banco do tenant', col: 1, row: 3, kind: 'database' },
         ],
         edges: [
-          { from: 'central', to: 'admin' },
+          { from: 'req', to: 'tenancy', label: 'identifica pelo domínio' },
+          { from: 'tenancy', to: 'admin', label: 'domínio central' },
+          { from: 'tenancy', to: 'troutes', label: 'subdomínio do tenant' },
           { from: 'admin', to: 'cdb', label: 'cadastra tenant' },
-          { from: 'cdb', to: 'tdb', label: 'cria banco + migrations' },
-          { from: 'tdom', to: 'troutes', label: 'identifica o tenant' },
-          { from: 'troutes', to: 'tdb' },
+          { from: 'admin', to: 'tdb', label: 'cria banco + migrations' },
+          { from: 'troutes', to: 'tdb', label: 'lê e grava' },
         ],
       },
     ],
