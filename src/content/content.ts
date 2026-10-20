@@ -492,6 +492,8 @@ export const projects: Project[] = [
     diagrams: [
       {
         caption: 'cadastro e uso de um tenant',
+        colWidth: 300,
+        rowHeight: 150,
         nodes: [
           { id: 'req', label: 'requisição', col: 0.5, row: 0 },
           { id: 'tenancy', label: 'stancl/tenancy', col: 0.5, row: 1 },
