@@ -213,14 +213,6 @@
 }
 
 /* Cabeçalho do /sobre: nome, cargo e cidade. */
-.who {
-  margin-top: 16px;
-}
-
-.who p {
-  margin: 0;
-}
-
 .timeline {
   padding-left: 20px;
 }

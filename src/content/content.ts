@@ -209,13 +209,16 @@ export const howTo: {
 export const aboutNote =
   'Comecei como QA no fim de 2022. Cinco meses depois virei dev. Hoje sou Pleno num ERP de consórcios.'
 
-// "Sobre" do LinkedIn, versão final de 2026-10-07. Formação e contato têm painel próprio;
-// o parágrafo de Node.js/React (v6) fica porque a headline F mantém Node no perfil.
+// Texto do Luiz, sem edição (2026-10-20). Não reescrever.
 export const about: string[] = [
-  'Trabalho num ERP de consórcios em PHP, com Laravel e Livewire. Boa parte do dia é lendo regra de negócio, mexendo em modelagem de dados e resolvendo bug de produção.',
-  'Entrei em TI no fim de 2022 como QA na Testing Company, automatizando teste web e mobile com Cypress, Selenium e CodeceptJS. Cinco meses depois passei para o time de desenvolvimento e ajudei a migrar um sistema em PHP puro para Laravel com multitenancy.',
-  'Na Fraga & Bitello entrei como júnior no fim de 2024 e virei Pleno em setembro de 2026. Além do ERP, fiz ferramentas internas em Python, como o Oráculo, que responde perguntas em cima dos PDFs das administradoras.',
-  'Fora do trabalho, venho usando Node.js e React. A Agenda Eletricista, por exemplo, é um sistema de agenda e ordem de serviço que fiz para um eletricista autônomo.',
+  'Comecei na área em 2018, fazendo o curso técnico em Informática na IENH. Terminei em 2019.',
+  'Voltei para a TI no fim de 2022, como QA na Testing Company. Eu automatizava testes de sites, API e aplicativos com Cypress, Selenium e CodeceptJS.',
+  'Nessa época voltei a estudar também. Entrei em Análise e Desenvolvimento de Sistemas, na IENH, com formatura prevista para 2027.',
+  'Cinco meses depois de começar como QA, passei para o time de desenvolvimento. Lá ajudei a migrar um sistema interno de documentação, que era em PHP puro, para Laravel com uma arquitetura multitenancy.',
+  'Por volta dessa fase entrei no BarNout, um app de gamificação para um evento. Na primeira versão trabalhei como desenvolvedor e passei bastante tempo corrigindo bug em produção durante o evento.',
+  'No fim de 2024 mudei de empresa e entrei na Fraga & Bitello, como júnior. Trabalho num ERP para o setor de consórcios, em PHP com Laravel e Livewire. Em setembro de 2026 fui promovido a Pleno.',
+  'Continuei no BarNout depois da mudança. Criamos a v2, e dessa vez, além do back, fiz o front em Next.js, ajudei a organizar as tarefas, revisei PRs e cuidei das reuniões do time. O evento deste ano terminou sem nenhum incidente.',
+  'Hoje me interesso bastante por arquitetura de software e tento me organizar e planejar o máximo possível antes de começar a codar.',
 ]
 
 export const education: Education[] = [

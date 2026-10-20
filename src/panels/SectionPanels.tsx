@@ -8,15 +8,6 @@ import s from './panels.module.css'
 export function SobrePanel() {
   return (
     <>
-      <div className={s.who}>
-        <p>
-          <strong>{profile.name}</strong>
-          <br />
-          {profile.role} @ {profile.company}
-          <br />
-          {profile.location}
-        </p>
-      </div>
       {about.map((t) => (
         <p key={t}>{t}</p>
       ))}
