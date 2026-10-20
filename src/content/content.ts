@@ -486,9 +486,8 @@ export const projects: Project[] = [
     title: 'Tenancy Laravel',
     summary:
       'Aplicação multi-tenant com um banco de dados isolado por tenant, identificado pelo subdomínio e criado automaticamente quando o tenant é cadastrado.',
-    // Toda requisição passa pelo stancl/tenancy, que decide pelo domínio se vai para
-    // as rotas centrais ou para as do tenant. O painel central cadastra o tenant, o
-    // que cria o banco dele; as rotas do tenant trabalham só nesse banco.
+    // O domínio da requisição leva às rotas centrais ou às do tenant; as duas passam
+    // pelo stancl/tenancy, que decide qual banco usar (central ou o do tenant).
     diagrams: [
       {
         caption: 'cadastro e uso de um tenant',
@@ -496,9 +495,9 @@ export const projects: Project[] = [
         rowHeight: 150,
         nodes: [
           { id: 'req', label: 'requisição', col: 0.5, row: 0 },
-          { id: 'tenancy', label: 'stancl/tenancy', col: 0.5, row: 1 },
-          { id: 'admin', label: 'painel central (admin)', col: 0, row: 2 },
-          { id: 'troutes', label: 'rotas do tenant', col: 1, row: 2 },
+          { id: 'admin', label: 'painel central (admin)', col: 0, row: 1 },
+          { id: 'troutes', label: 'rotas do tenant', col: 1, row: 1 },
+          { id: 'tenancy', label: 'stancl/tenancy', col: 0.5, row: 2 },
           {
             id: 'cdb',
             label: 'banco central: tenants e domains',
@@ -509,12 +508,12 @@ export const projects: Project[] = [
           { id: 'tdb', label: 'banco do tenant', col: 1, row: 3, kind: 'database' },
         ],
         edges: [
-          { from: 'req', to: 'tenancy', label: 'identifica pelo domínio' },
-          { from: 'tenancy', to: 'admin', label: 'domínio central' },
-          { from: 'tenancy', to: 'troutes', label: 'subdomínio do tenant' },
-          { from: 'admin', to: 'cdb', label: 'cadastra tenant' },
-          { from: 'admin', to: 'tdb', label: 'cria banco + migrations' },
-          { from: 'troutes', to: 'tdb', label: 'lê e grava' },
+          { from: 'req', to: 'admin', label: 'domínio central' },
+          { from: 'req', to: 'troutes', label: 'subdomínio do tenant' },
+          { from: 'admin', to: 'tenancy', label: 'cadastra tenant' },
+          { from: 'troutes', to: 'tenancy' },
+          { from: 'tenancy', to: 'cdb', label: 'rota central' },
+          { from: 'tenancy', to: 'tdb', label: 'rota do tenant' },
         ],
       },
     ],
